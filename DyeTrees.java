@@ -29,6 +29,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 @Mod(modid = "DyeTrees", name="Dye Trees", version="beta", certificateFingerprint = "@GET_FINGERPRINT@", dependencies="after:DragonAPI")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true)
@@ -57,6 +58,7 @@ public class DyeTrees extends DragonAPIMod {
 	@Init
 	public void load(FMLInitializationEvent event) {
 		this.loadClasses();
+		GameRegistry.registerWorldGenerator(new ColorTreeGenerator());
 	}
 
 	@Override
