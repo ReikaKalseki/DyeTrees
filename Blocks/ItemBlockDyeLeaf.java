@@ -14,6 +14,7 @@ import java.util.List;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import Reika.DragonAPI.Libraries.Registry.ReikaDyeHelper;
 
 public class ItemBlockDyeLeaf extends ItemBlock {
 
@@ -33,6 +34,12 @@ public class ItemBlockDyeLeaf extends ItemBlock {
 	public int getMetadata(int dmg)
 	{
 		return dmg;
+	}
+
+	@Override
+	public String getItemDisplayName(ItemStack is)
+	{
+		return ReikaDyeHelper.getColorFromItem(is).getName()+" Leaves";
 	}
 
 }

@@ -21,6 +21,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import Reika.DragonAPI.Libraries.MathSci.ReikaMathLibrary;
 import Reika.DragonAPI.Libraries.Registry.ReikaDyeHelper;
 import Reika.DyeTrees.DyeTrees;
 import Reika.DyeTrees.Registry.DyeBlocks;
@@ -69,31 +70,21 @@ public class BlockDyeLeaf extends BlockLeaves {
 	@Override
 	public void dropBlockAsItemWithChance(World world, int x, int y, int z, int metadata, float chance, int fortune)
 	{
-		if (!world.isRemote)
-		{
-			int saplingChance = 20;
-			int appleChance = 200;
-			int dyeChance = 50;
+		if (!world.isRemote) {
 
-			if (fortune > 0) {
-				saplingChance -= 2 << fortune;
-				appleChance -= 10 << fortune;
-				dyeChance -= 15 << fortune;
-			}
-			if (saplingChance <= 0)
-				saplingChance = 1;
-			if (appleChance <= 0)
-				appleChance = 1;
-			if (dyeChance <= 0)
-				dyeChance = 1;
+			float saplingChance = 0.05F;
+			float appleChance = 0.005F;
+			float dyeChance = 0.1F;
 
-			if (world.rand.nextInt(saplingChance) == 0) {
-				int k1 = this.idDropped(metadata, world.rand, fortune);
-				this.dropBlockAsItem_do(world, x, y, z, new ItemStack(k1, 1, this.damageDropped(metadata)));
-			}
-			if (world.rand.nextInt(appleChance) == 0)
+			saplingChance *= (1+fortune);
+			appleChance *= (1+fortune*5);
+			dyeChance *= (1+fortune);
+
+			if (ReikaMathLibrary.doWithChance(saplingChance))
+				this.dropBlockAsItem_do(world, x, y, z, new ItemStack(DyeBlocks.SAPLING.getBlockID(), 1, metadata));
+			if (ReikaMathLibrary.doWithChance(appleChance))
 				this.dropBlockAsItem_do(world, x, y, z, new ItemStack(Item.appleRed, 1, 0));
-			if (world.rand.nextInt(dyeChance) == 0)
+			if (ReikaMathLibrary.doWithChance(dyeChance))
 				this.dropBlockAsItem_do(world, x, y, z, new ItemStack(Item.dyePowder.itemID, 1, metadata));
 		}
 	}
