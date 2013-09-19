@@ -34,7 +34,9 @@ public class ColorTreeGenerator implements IWorldGenerator {
 		int trees = dec.treesPerChunk;
 		if (biome == BiomeGenBase.plains)
 			trees += 1;
-		if (biome == BiomeGenBase.extremeHills)
+		if (biome == BiomeGenBase.extremeHills || biome == BiomeGenBase.extremeHillsEdge)
+			trees += 3;
+		if (biome == BiomeGenBase.iceMountains || biome == BiomeGenBase.icePlains)
 			trees += 3;
 		int x = chunkX+r.nextInt(16);
 		int z = chunkZ+r.nextInt(16);
@@ -44,11 +46,24 @@ public class ColorTreeGenerator implements IWorldGenerator {
 					int y = world.getTopSolidOrLiquidBlock(x, z);
 					int id = world.getBlockId(x, y, z);
 					Block b = Block.blocksList[id];
-					if (ReikaPlantHelper.SAPLING.canPlantAt(world, x, y, z) && ReikaWorldHelper.softBlocks(world, x, y, z) && !(b instanceof BlockFluid))
+					if (this.canGrowAt(world, x, y, z))
 						this.growTree(world, x, y, z, 5+r.nextInt(3), r);
 				}
 			}
 		}
+	}
+
+	private boolean canGrowAt(World world, int x, int y, int z) {
+		int id = world.getBlockId(x, y, z);
+		Block b = Block.blocksList[id];
+		if (!ReikaPlantHelper.SAPLING.canPlantAt(world, x, y, z))
+			return false;
+		if (!ReikaWorldHelper.softBlocks(world, x, y, z))
+			return false;
+		if (b instanceof BlockFluid)
+			return false;
+		add is blocked test!
+		return true;
 	}
 
 	public boolean canGenerateTree(World world, int x, int z) {
