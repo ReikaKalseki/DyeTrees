@@ -33,7 +33,7 @@ public class ColorTreeGenerator implements IWorldGenerator {
 		BiomeDecorator dec = biome.theBiomeDecorator;
 		int trees = dec.treesPerChunk;
 		if (biome == BiomeGenBase.plains)
-			trees += 1;
+			trees += 2;
 		if (biome == BiomeGenBase.extremeHills || biome == BiomeGenBase.extremeHillsEdge)
 			trees += 3;
 		if (biome == BiomeGenBase.iceMountains || biome == BiomeGenBase.icePlains)
@@ -42,7 +42,7 @@ public class ColorTreeGenerator implements IWorldGenerator {
 		int z = chunkZ+r.nextInt(16);
 		if (this.canGenerateTree(world, x, z)) {
 			for (int i = 0; i < trees; i++) {
-				if (r.nextInt(50) == 0) {
+				if (r.nextInt(24) == 0) {
 					int y = world.getTopSolidOrLiquidBlock(x, z);
 					int id = world.getBlockId(x, y, z);
 					Block b = Block.blocksList[id];
@@ -58,11 +58,12 @@ public class ColorTreeGenerator implements IWorldGenerator {
 		Block b = Block.blocksList[id];
 		if (!ReikaPlantHelper.SAPLING.canPlantAt(world, x, y, z))
 			return false;
-		if (!ReikaWorldHelper.softBlocks(world, x, y, z))
-			return false;
 		if (b instanceof BlockFluid)
 			return false;
-		add is blocked test!
+		for (int i = 0; i < 6; i++) {
+			if (!ReikaWorldHelper.softBlocks(world, x, y+i, z))
+				return false;
+		}
 		return true;
 	}
 

@@ -9,6 +9,7 @@
  ******************************************************************************/
 package Reika.DyeTrees.Blocks;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -131,6 +132,20 @@ public class BlockDyeLeaf extends BlockLeaves {
 	protected ItemStack createStackedBlock(int par1)
 	{
 		return new ItemStack(blockID, 1, par1);
+	}
+
+	@Override
+	public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
+		if (rand.nextInt(12) > 0)
+			return;
+		double offset = 0.125;
+		int meta = world.getBlockMetadata(x, y, z);
+		ReikaDyeHelper dye = ReikaDyeHelper.getColorFromDamage(meta);
+		Color color = dye.getJavaColor();
+		double r = color.getRed()/255D;
+		double g = color.getGreen()/255D;
+		double b = dye.getBlue()/255D;
+		world.spawnParticle("reddust", x-offset+rand.nextDouble()*(1+offset*2), y-offset+rand.nextDouble()*(1+offset*2), z-offset+rand.nextDouble()*(1+offset*2), r, g, b);
 	}
 
 }
