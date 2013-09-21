@@ -12,14 +12,13 @@ package Reika.DyeTrees;
 import java.util.Random;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFluid;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeDecorator;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.IChunkProvider;
-import Reika.DragonAPI.Libraries.Registry.ReikaPlantHelper;
 import Reika.DragonAPI.Libraries.World.ReikaWorldHelper;
 import Reika.DragonAPI.ModInteract.ReikaTwilightHelper;
+import Reika.DyeTrees.Blocks.BlockDyeSapling;
 import Reika.DyeTrees.Registry.DyeBlocks;
 import cpw.mods.fml.common.IWorldGenerator;
 
@@ -46,25 +45,11 @@ public class ColorTreeGenerator implements IWorldGenerator {
 					int y = world.getTopSolidOrLiquidBlock(x, z);
 					int id = world.getBlockId(x, y, z);
 					Block b = Block.blocksList[id];
-					if (this.canGrowAt(world, x, y, z))
+					if (BlockDyeSapling.canGrowAt(world, x, y, z))
 						this.growTree(world, x, y, z, 5+r.nextInt(3), r);
 				}
 			}
 		}
-	}
-
-	private boolean canGrowAt(World world, int x, int y, int z) {
-		int id = world.getBlockId(x, y, z);
-		Block b = Block.blocksList[id];
-		if (!ReikaPlantHelper.SAPLING.canPlantAt(world, x, y, z))
-			return false;
-		if (b instanceof BlockFluid)
-			return false;
-		for (int i = 0; i < 6; i++) {
-			if (!ReikaWorldHelper.softBlocks(world, x, y+i, z))
-				return false;
-		}
-		return true;
 	}
 
 	public boolean canGenerateTree(World world, int x, int z) {
