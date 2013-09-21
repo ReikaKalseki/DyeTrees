@@ -32,9 +32,9 @@ public class RainbowForestDecorator extends BiomeDecorator {
 
 	public RainbowForestDecorator(BiomeGenBase bi) {
 		super(bi);
-		grassPerChunk = 6;
-		flowersPerChunk = 5;
-		reedsPerChunk = 35;
+		grassPerChunk = 8;
+		flowersPerChunk = 6;
+		reedsPerChunk = 50;
 		treesPerChunk = -999;
 	}
 

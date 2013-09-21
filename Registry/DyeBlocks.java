@@ -133,4 +133,13 @@ public enum DyeBlocks implements RegistrationList, IDRegistry {
 	public Block getBlockInstance() {
 		return DyeTrees.blocks[this.ordinal()];
 	}
+
+	public int getID() {
+		return this.getBlockID();
+	}
+
+	@Override
+	public boolean overwritingItem() {
+		return false;
+	}
 }
