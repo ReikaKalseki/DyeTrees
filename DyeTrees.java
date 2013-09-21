@@ -14,13 +14,18 @@ import java.net.URL;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
+import Reika.DragonAPI.RetroGenController;
 import Reika.DragonAPI.Base.DragonAPIMod;
 import Reika.DragonAPI.Exception.RegistrationException;
 import Reika.DragonAPI.Instantiable.ControlledConfig;
 import Reika.DragonAPI.Instantiable.ModLogger;
 import Reika.DragonAPI.Libraries.ReikaRegistryHelper;
+import Reika.DragonAPI.Libraries.World.ReikaBiomeHelper;
 import Reika.DyeTrees.Registry.DyeBlocks;
 import Reika.DyeTrees.Registry.DyeOptions;
+import Reika.DyeTrees.World.BiomeRainbowForest;
+import Reika.DyeTrees.World.ColorTreeGenerator;
+import Reika.DyeTrees.World.RetroDyeTreeGen;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.PostInit;
@@ -59,6 +64,13 @@ public class DyeTrees extends DragonAPIMod {
 	public void load(FMLInitializationEvent event) {
 		this.loadClasses();
 		GameRegistry.registerWorldGenerator(new ColorTreeGenerator());
+		if (DyeOptions.RETROGEN.getState()) {
+			RetroGenController.getInstance().addRetroGenerator(new RetroDyeTreeGen());
+			//Set state back
+		}
+		if (DyeOptions.BIOME.getState()) {
+			GameRegistry.addBiome(new BiomeRainbowForest(ReikaBiomeHelper.getFirstEmptyBiomeIndex()));
+		}
 	}
 
 	@Override

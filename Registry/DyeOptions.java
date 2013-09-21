@@ -17,7 +17,9 @@ import Reika.DyeTrees.DyeTrees;
 public enum DyeOptions implements ConfigList {
 
 	LOGLOADING("Console Loading Info", true),
-	DEBUGMODE("Debug Mode", false);
+	DEBUGMODE("Debug Mode", false),
+	BIOME("Rainbow Forest Biome", false),
+	RETROGEN("Retrogen Trees", true);
 
 	private String label;
 	private boolean defaultState;

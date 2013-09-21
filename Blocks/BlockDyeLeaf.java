@@ -22,6 +22,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
 import Reika.DragonAPI.Libraries.MathSci.ReikaMathLibrary;
 import Reika.DragonAPI.Libraries.Registry.ReikaDyeHelper;
 import Reika.DyeTrees.DyeTrees;
@@ -146,6 +147,18 @@ public class BlockDyeLeaf extends BlockLeaves {
 		double g = color.getGreen()/255D;
 		double b = dye.getBlue()/255D;
 		world.spawnParticle("reddust", x-offset+rand.nextDouble()*(1+offset*2), y-offset+rand.nextDouble()*(1+offset*2), z-offset+rand.nextDouble()*(1+offset*2), r, g, b);
+	}
+
+	@Override
+	public int getFlammability(IBlockAccess world, int x, int y, int z, int metadata, ForgeDirection face)
+	{
+		return 30;
+	}
+
+	@Override
+	public int getFireSpreadSpeed(World world, int x, int y, int z, int metadata, ForgeDirection face)
+	{
+		return 60;
 	}
 
 }

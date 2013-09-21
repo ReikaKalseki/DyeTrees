@@ -7,7 +7,7 @@
  * Distribution of the software in any form is only allowed with
  * explicit, prior permission from the owner.
  ******************************************************************************/
-package Reika.DyeTrees;
+package Reika.DyeTrees.World;
 
 import java.util.Random;
 
@@ -16,6 +16,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeDecorator;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.IChunkProvider;
+import Reika.DragonAPI.Libraries.Registry.ReikaDyeHelper;
 import Reika.DragonAPI.Libraries.World.ReikaWorldHelper;
 import Reika.DragonAPI.ModInteract.ReikaTwilightHelper;
 import Reika.DyeTrees.Blocks.BlockDyeSapling;
@@ -24,24 +25,19 @@ import cpw.mods.fml.common.IWorldGenerator;
 
 public class ColorTreeGenerator implements IWorldGenerator {
 
+	public static final int CHANCE = 24;
+
 	@Override
 	public void generate(Random r, int chunkX, int chunkZ, World world, IChunkProvider cg, IChunkProvider cp) {
 		chunkX *= 16;
 		chunkZ *= 16;
 		BiomeGenBase biome = world.getBiomeGenForCoords(chunkX, chunkZ);
-		BiomeDecorator dec = biome.theBiomeDecorator;
-		int trees = dec.treesPerChunk;
-		if (biome == BiomeGenBase.plains)
-			trees += 2;
-		if (biome == BiomeGenBase.extremeHills || biome == BiomeGenBase.extremeHillsEdge)
-			trees += 3;
-		if (biome == BiomeGenBase.iceMountains || biome == BiomeGenBase.icePlains)
-			trees += 3;
+		int trees = this.getTreeCount(biome);
 		int x = chunkX+r.nextInt(16);
 		int z = chunkZ+r.nextInt(16);
 		if (this.canGenerateTree(world, x, z)) {
 			for (int i = 0; i < trees; i++) {
-				if (r.nextInt(24) == 0) {
+				if (r.nextInt(CHANCE) == 0) {
 					int y = world.getTopSolidOrLiquidBlock(x, z);
 					int id = world.getBlockId(x, y, z);
 					Block b = Block.blocksList[id];
@@ -52,7 +48,19 @@ public class ColorTreeGenerator implements IWorldGenerator {
 		}
 	}
 
-	public boolean canGenerateTree(World world, int x, int z) {
+	public static int getTreeCount(BiomeGenBase biome) {
+		BiomeDecorator dec = biome.theBiomeDecorator;
+		int trees = dec.treesPerChunk;
+		if (biome == BiomeGenBase.plains)
+			trees += 2;
+		if (biome == BiomeGenBase.extremeHills || biome == BiomeGenBase.extremeHillsEdge)
+			trees += 3;
+		if (biome == BiomeGenBase.iceMountains || biome == BiomeGenBase.icePlains)
+			trees += 3;
+		return trees;
+	}
+
+	public static boolean canGenerateTree(World world, int x, int z) {
 		int id = world.provider.dimensionId;
 		if (id != 0 && id != ReikaTwilightHelper.TWILIGHT_ID)
 			return false;
@@ -67,11 +75,47 @@ public class ColorTreeGenerator implements IWorldGenerator {
 		return true;
 	}
 
-	public void growTree(World world, int x, int y, int z, int h, Random r)
+	public static void growTree(World world, int x, int y, int z, int h, Random r)
 	{
 		if (world.isRemote)
 			return;
 		int meta = r.nextInt(16);
+		int log = r.nextInt(4);
+		int w = 2;
+		for (int i = 0; i < h; i++) {
+			world.setBlock(x, y+i, z, Block.wood.blockID, log, 3);
+		}
+		for (int i = -w; i <= w; i++) {
+			for (int j = -w; j <= w; j++) {
+				if (ReikaWorldHelper.softBlocks(world, x+i, y+h-3, z+j) || world.getBlockId(x+i, y+h-3, z+j) == Block.leaves.blockID)
+					world.setBlock(x+i, y+h-3, z+j, DyeBlocks.LEAF.getBlockID(), meta, 3);
+			}
+		}
+		for (int i = -w; i <= w; i++) {
+			for (int j = -w; j <= w; j++) {
+				if (ReikaWorldHelper.softBlocks(world, x+i, y+h-2, z+j) || world.getBlockId(x+i, y+h-2, z+j) == Block.leaves.blockID)
+					world.setBlock(x+i, y+h-2, z+j, DyeBlocks.LEAF.getBlockID(), meta, 3);
+			}
+		}
+		for (int i = -1; i <= 1; i++) {
+			for (int j = -1; j <= 1; j++) {
+				if (ReikaWorldHelper.softBlocks(world, x+i, y+h-1, z+j) || world.getBlockId(x+i, y+h-1, z+j) == Block.leaves.blockID)
+					world.setBlock(x+i, y+h-1, z+j, DyeBlocks.LEAF.getBlockID(), meta, 3);
+			}
+		}
+		for (int i = -1; i <= 1; i++) {
+			for (int j = -1; j <= 1; j++) {
+				if (i*j == 0 && ReikaWorldHelper.softBlocks(world, x+i, y+h, z+j) || world.getBlockId(x+i, y+h, z+j) == Block.leaves.blockID)
+					world.setBlock(x+i, y+h, z+j, DyeBlocks.LEAF.getBlockID(), meta, 3);
+			}
+		}
+	}
+
+	public static void growTree(World world, int x, int y, int z, int h, Random r, ReikaDyeHelper color)
+	{
+		if (world.isRemote)
+			return;
+		int meta = color.ordinal();
 		int log = r.nextInt(4);
 		int w = 2;
 		for (int i = 0; i < h; i++) {
