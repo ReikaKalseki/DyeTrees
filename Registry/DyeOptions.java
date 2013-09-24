@@ -18,8 +18,8 @@ public enum DyeOptions implements ConfigList {
 
 	LOGLOADING("Console Loading Info", true),
 	DEBUGMODE("Debug Mode", false),
-	BIOME("Rainbow Forest Biome", false),
-	RETROGEN("Retrogen Trees", true);
+	BIOME("Rainbow Forest Biome", true),
+	RETROGEN("Retrogen Trees", false);
 
 	private String label;
 	private boolean defaultState;

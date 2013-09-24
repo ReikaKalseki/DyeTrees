@@ -16,6 +16,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeDecorator;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraftforge.common.BiomeDictionary;
+import Reika.DragonAPI.Libraries.MathSci.ReikaMathLibrary;
 import Reika.DragonAPI.Libraries.Registry.ReikaDyeHelper;
 import Reika.DragonAPI.Libraries.World.ReikaWorldHelper;
 import Reika.DragonAPI.ModInteract.ReikaTwilightHelper;
@@ -57,6 +59,32 @@ public class ColorTreeGenerator implements IWorldGenerator {
 			trees += 3;
 		if (biome == BiomeGenBase.iceMountains || biome == BiomeGenBase.icePlains)
 			trees += 3;
+		if (trees == 0) { //For BoP, BXL, and RealBiomes compatibility
+			BiomeDictionary.Type[] types = BiomeDictionary.getTypesForBiome(biome);
+			for (int i = 0; i < types.length; i++) {
+				if (types[i] == BiomeDictionary.Type.FOREST) {
+					trees = ReikaMathLibrary.extrema(trees, getTreeCount(BiomeGenBase.forest), "max");
+				}
+				if (types[i] == BiomeDictionary.Type.MOUNTAIN) {
+					trees = ReikaMathLibrary.extrema(trees, getTreeCount(BiomeGenBase.extremeHills), "max");
+				}
+				if (types[i] == BiomeDictionary.Type.JUNGLE) {
+					trees = ReikaMathLibrary.extrema(trees, getTreeCount(BiomeGenBase.jungle), "max");
+				}
+				if (types[i] == BiomeDictionary.Type.HILLS) {
+					trees = ReikaMathLibrary.extrema(trees, getTreeCount(BiomeGenBase.forestHills), "max");
+				}
+				if (types[i] == BiomeDictionary.Type.FROZEN) {
+					trees = ReikaMathLibrary.extrema(trees, getTreeCount(BiomeGenBase.icePlains), "max");
+				}
+				if (types[i] == BiomeDictionary.Type.PLAINS) {
+					trees = ReikaMathLibrary.extrema(trees, getTreeCount(BiomeGenBase.plains), "max");
+				}
+				if (types[i] == BiomeDictionary.Type.SWAMP) {
+					trees = ReikaMathLibrary.extrema(trees, getTreeCount(BiomeGenBase.swampland), "max");
+				}
+			}
+		}
 		return trees;
 	}
 

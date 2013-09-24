@@ -9,11 +9,10 @@
  ******************************************************************************/
 package Reika.DyeTrees;
 
-import Reika.DragonAPI.Libraries.Registry.ReikaDyeHelper;
-import Reika.DyeTrees.Registry.DyeBlocks;
-import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
+import Reika.DragonAPI.Libraries.Registry.ReikaDyeHelper;
+import Reika.DyeTrees.Registry.DyeBlocks;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

@@ -14,6 +14,8 @@ import java.net.URL;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraftforge.common.BiomeDictionary;
 import Reika.DragonAPI.RetroGenController;
 import Reika.DragonAPI.Base.DragonAPIMod;
 import Reika.DragonAPI.Exception.RegistrationException;
@@ -69,7 +71,9 @@ public class DyeTrees extends DragonAPIMod {
 			//Set state back
 		}
 		if (DyeOptions.BIOME.getState()) {
-			GameRegistry.addBiome(new BiomeRainbowForest(ReikaBiomeHelper.getFirstEmptyBiomeIndex()));
+			BiomeGenBase forest = new BiomeRainbowForest(ReikaBiomeHelper.getFirstEmptyBiomeIndex());
+			GameRegistry.addBiome(forest);
+			BiomeDictionary.registerBiomeType(forest, BiomeDictionary.Type.FOREST, BiomeDictionary.Type.MAGICAL, BiomeDictionary.Type.HILLS);
 		}
 	}
 
