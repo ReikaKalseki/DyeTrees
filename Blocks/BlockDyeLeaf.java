@@ -25,6 +25,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import Reika.DragonAPI.Libraries.MathSci.ReikaMathLibrary;
 import Reika.DragonAPI.Libraries.Registry.ReikaDyeHelper;
+import Reika.DragonAPI.Libraries.Registry.ReikaParticleHelper;
 import Reika.DyeTrees.DyeTrees;
 import Reika.DyeTrees.Registry.DyeBlocks;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -146,7 +147,7 @@ public class BlockDyeLeaf extends BlockLeaves {
 		double r = color.getRed()/255D;
 		double g = color.getGreen()/255D;
 		double b = dye.getBlue()/255D;
-		world.spawnParticle("reddust", x-offset+rand.nextDouble()*(1+offset*2), y-offset+rand.nextDouble()*(1+offset*2), z-offset+rand.nextDouble()*(1+offset*2), r, g, b);
+		ReikaParticleHelper.spawnColoredParticlesWithOutset(world, x, y, z, r, g, b, 1, offset);
 	}
 
 	@Override

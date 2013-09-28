@@ -95,7 +95,8 @@ public class BlockDyeSapling extends BlockSapling {
 			this.growTree(world, x, y, z, ep.isSneaking() ? 7 : this.getGrowthHeight());
 		else
 			world.spawnParticle("happyVillager", x+r.nextDouble(), y+r.nextDouble(), z+r.nextDouble(), 0, 0, 0);
-		is.stackSize--;
+		if (!ep.capabilities.isCreativeMode)
+			is.stackSize--;
 		return true;
 	}
 
@@ -132,10 +133,16 @@ public class BlockDyeSapling extends BlockSapling {
 		if (b instanceof BlockFluid)
 			return false;
 		for (int i = 0; i < 6; i++) {
-			if (!ReikaWorldHelper.softBlocks(world, x, y+i, z))
+			if (!ReikaWorldHelper.softBlocks(world, x, y+i, z) && !(i == 0 && id == DyeBlocks.SAPLING.getBlockID()))
 				return false;
 		}
 		return true;
+	}
+
+	@Override
+	public void markOrGrowMarked(World par1World, int par2, int par3, int par4, Random par5Random)
+	{
+		this.growTree(par1World, par2, par3, par4, par5Random);
 	}
 
 }
