@@ -14,8 +14,13 @@ import java.net.URL;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.Event;
+import net.minecraftforge.event.ForgeSubscribe;
+import net.minecraftforge.event.entity.player.BonemealEvent;
 import Reika.DragonAPI.RetroGenController;
 import Reika.DragonAPI.Base.DragonAPIMod;
 import Reika.DragonAPI.Exception.RegistrationException;
@@ -56,6 +61,8 @@ public class DyeTrees extends DragonAPIMod {
 	@Override
 	@PreInit
 	public void preload(FMLPreInitializationEvent evt) {
+		MinecraftForge.EVENT_BUS.register(this);
+
 		config.loadSubfolderedConfigFile(evt);
 		config.initProps(evt);
 		logger = new ModLogger(instance, DyeOptions.LOGLOADING.getState(), DyeOptions.DEBUGMODE.getState(), false);
@@ -81,6 +88,20 @@ public class DyeTrees extends DragonAPIMod {
 	@PostInit
 	public void postload(FMLPostInitializationEvent evt) {
 
+	}
+
+	@ForgeSubscribe
+	public void bonemealEvent (BonemealEvent event)
+	{
+		if (!event.world.isRemote)  {
+			if (event.ID == DyeBlocks.SAPLING.getBlockID()) {
+				World world = event.world;
+				int x = event.X;
+				int y = event.Y;
+				int z = event.Z;
+				event.setResult(Event.Result.DENY);
+			}
+		}
 	}
 
 	public static void loadClasses() {
