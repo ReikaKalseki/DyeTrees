@@ -9,7 +9,6 @@
  ******************************************************************************/
 package Reika.DyeTrees;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import net.minecraft.block.Block;
@@ -21,9 +20,9 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.Event;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.player.BonemealEvent;
+import Reika.DragonAPI.DragonAPICore;
 import Reika.DragonAPI.RetroGenController;
 import Reika.DragonAPI.Base.DragonAPIMod;
-import Reika.DragonAPI.Exception.RegistrationException;
 import Reika.DragonAPI.Instantiable.ControlledConfig;
 import Reika.DragonAPI.Instantiable.ModLogger;
 import Reika.DragonAPI.Libraries.ReikaRegistryHelper;
@@ -120,12 +119,7 @@ public class DyeTrees extends DragonAPIMod {
 
 	@Override
 	public URL getDocumentationSite() {
-		try {
-			return new URL("http://www.minecraftforum.net/topic/1969694-");
-		}
-		catch (MalformedURLException e) {
-			throw new RegistrationException(instance, "The mod provided a malformed URL for its documentation site!");
-		}
+		return DragonAPICore.getReikaForumPage(instance);
 	}
 
 	@Override
