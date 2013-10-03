@@ -90,7 +90,7 @@ public class ColorTreeGenerator implements IWorldGenerator {
 
 	public static boolean canGenerateTree(World world, int x, int z) {
 		int id = world.provider.dimensionId;
-		if (id != 0 && id != ReikaTwilightHelper.TWILIGHT_ID)
+		if (id != 0 && id != ReikaTwilightHelper.getDimensionID())
 			return false;
 		BiomeGenBase biome = world.getBiomeGenForCoords(x, z);
 		BiomeDecorator dec = biome.theBiomeDecorator;
