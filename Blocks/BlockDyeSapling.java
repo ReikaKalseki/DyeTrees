@@ -145,4 +145,10 @@ public class BlockDyeSapling extends BlockSapling {
 		this.growTree(par1World, par2, par3, par4, par5Random);
 	}
 
+	@Override
+	public int damageDropped(int par1)
+	{
+		return par1;
+	}
+
 }
