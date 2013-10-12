@@ -33,9 +33,7 @@ import Reika.DyeTrees.World.BiomeRainbowForest;
 import Reika.DyeTrees.World.ColorTreeGenerator;
 import Reika.DyeTrees.World.RetroDyeTreeGen;
 import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.Init;
-import cpw.mods.fml.common.Mod.PostInit;
-import cpw.mods.fml.common.Mod.PreInit;
+import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -58,7 +56,7 @@ public class DyeTrees extends DragonAPIMod {
 	public static CreativeTabs dyeTreeTab = new DyeTreeTab(CreativeTabs.getNextID(), "Dye Trees");
 
 	@Override
-	@PreInit
+	@EventHandler
 	public void preload(FMLPreInitializationEvent evt) {
 		MinecraftForge.EVENT_BUS.register(this);
 
@@ -68,7 +66,7 @@ public class DyeTrees extends DragonAPIMod {
 	}
 
 	@Override
-	@Init
+	@EventHandler
 	public void load(FMLInitializationEvent event) {
 		this.loadClasses();
 		GameRegistry.registerWorldGenerator(new ColorTreeGenerator());
@@ -84,7 +82,7 @@ public class DyeTrees extends DragonAPIMod {
 	}
 
 	@Override
-	@PostInit
+	@EventHandler
 	public void postload(FMLPostInitializationEvent evt) {
 
 	}
