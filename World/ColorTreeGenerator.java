@@ -43,8 +43,10 @@ public class ColorTreeGenerator implements IWorldGenerator {
 					int y = world.getTopSolidOrLiquidBlock(x, z);
 					int id = world.getBlockId(x, y, z);
 					Block b = Block.blocksList[id];
-					if (BlockDyeSapling.canGrowAt(world, x, y, z))
-						this.growTree(world, x, y, z, 5+r.nextInt(3), r);
+					if (BlockDyeSapling.canGrowAt(world, x, y, z)) {
+						//this.growTree(world, x, y, z, 5+r.nextInt(3), r);
+						TreeShaper.getInstance().generateNormalTree(world, x, y, z);
+					}
 				}
 			}
 		}
@@ -116,25 +118,25 @@ public class ColorTreeGenerator implements IWorldGenerator {
 		for (int i = -w; i <= w; i++) {
 			for (int j = -w; j <= w; j++) {
 				if (ReikaWorldHelper.softBlocks(world, x+i, y+h-3, z+j) || world.getBlockId(x+i, y+h-3, z+j) == Block.leaves.blockID)
-					world.setBlock(x+i, y+h-3, z+j, DyeBlocks.LEAF.getBlockID(), meta, 3);
+					world.setBlock(x+i, y+h-3, z+j, DyeBlocks.DECAY.getBlockID(), meta, 3);
 			}
 		}
 		for (int i = -w; i <= w; i++) {
 			for (int j = -w; j <= w; j++) {
 				if (ReikaWorldHelper.softBlocks(world, x+i, y+h-2, z+j) || world.getBlockId(x+i, y+h-2, z+j) == Block.leaves.blockID)
-					world.setBlock(x+i, y+h-2, z+j, DyeBlocks.LEAF.getBlockID(), meta, 3);
+					world.setBlock(x+i, y+h-2, z+j, DyeBlocks.DECAY.getBlockID(), meta, 3);
 			}
 		}
 		for (int i = -1; i <= 1; i++) {
 			for (int j = -1; j <= 1; j++) {
 				if (ReikaWorldHelper.softBlocks(world, x+i, y+h-1, z+j) || world.getBlockId(x+i, y+h-1, z+j) == Block.leaves.blockID)
-					world.setBlock(x+i, y+h-1, z+j, DyeBlocks.LEAF.getBlockID(), meta, 3);
+					world.setBlock(x+i, y+h-1, z+j, DyeBlocks.DECAY.getBlockID(), meta, 3);
 			}
 		}
 		for (int i = -1; i <= 1; i++) {
 			for (int j = -1; j <= 1; j++) {
 				if (i*j == 0 && ReikaWorldHelper.softBlocks(world, x+i, y+h, z+j) || world.getBlockId(x+i, y+h, z+j) == Block.leaves.blockID)
-					world.setBlock(x+i, y+h, z+j, DyeBlocks.LEAF.getBlockID(), meta, 3);
+					world.setBlock(x+i, y+h, z+j, DyeBlocks.DECAY.getBlockID(), meta, 3);
 			}
 		}
 	}
@@ -152,25 +154,25 @@ public class ColorTreeGenerator implements IWorldGenerator {
 		for (int i = -w; i <= w; i++) {
 			for (int j = -w; j <= w; j++) {
 				if (ReikaWorldHelper.softBlocks(world, x+i, y+h-3, z+j) || world.getBlockId(x+i, y+h-3, z+j) == Block.leaves.blockID)
-					world.setBlock(x+i, y+h-3, z+j, DyeBlocks.LEAF.getBlockID(), meta, 3);
+					world.setBlock(x+i, y+h-3, z+j, DyeBlocks.DECAY.getBlockID(), meta, 3);
 			}
 		}
 		for (int i = -w; i <= w; i++) {
 			for (int j = -w; j <= w; j++) {
 				if (ReikaWorldHelper.softBlocks(world, x+i, y+h-2, z+j) || world.getBlockId(x+i, y+h-2, z+j) == Block.leaves.blockID)
-					world.setBlock(x+i, y+h-2, z+j, DyeBlocks.LEAF.getBlockID(), meta, 3);
+					world.setBlock(x+i, y+h-2, z+j, DyeBlocks.DECAY.getBlockID(), meta, 3);
 			}
 		}
 		for (int i = -1; i <= 1; i++) {
 			for (int j = -1; j <= 1; j++) {
 				if (ReikaWorldHelper.softBlocks(world, x+i, y+h-1, z+j) || world.getBlockId(x+i, y+h-1, z+j) == Block.leaves.blockID)
-					world.setBlock(x+i, y+h-1, z+j, DyeBlocks.LEAF.getBlockID(), meta, 3);
+					world.setBlock(x+i, y+h-1, z+j, DyeBlocks.DECAY.getBlockID(), meta, 3);
 			}
 		}
 		for (int i = -1; i <= 1; i++) {
 			for (int j = -1; j <= 1; j++) {
 				if (i*j == 0 && ReikaWorldHelper.softBlocks(world, x+i, y+h, z+j) || world.getBlockId(x+i, y+h, z+j) == Block.leaves.blockID)
-					world.setBlock(x+i, y+h, z+j, DyeBlocks.LEAF.getBlockID(), meta, 3);
+					world.setBlock(x+i, y+h, z+j, DyeBlocks.DECAY.getBlockID(), meta, 3);
 			}
 		}
 	}

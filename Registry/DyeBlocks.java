@@ -17,6 +17,7 @@ import Reika.DragonAPI.Libraries.Java.ReikaStringParser;
 import Reika.DragonAPI.Libraries.Registry.ReikaDyeHelper;
 import Reika.DyeTrees.DyeTrees;
 import Reika.DyeTrees.Blocks.BlockDyeLeaf;
+import Reika.DyeTrees.Blocks.BlockDyeLeafDecay;
 import Reika.DyeTrees.Blocks.BlockDyeSapling;
 import Reika.DyeTrees.Blocks.ItemBlockDyeLeaf;
 import Reika.DyeTrees.Blocks.ItemBlockDyeSapling;
@@ -24,7 +25,8 @@ import Reika.DyeTrees.Blocks.ItemBlockDyeSapling;
 public enum DyeBlocks implements RegistrationList, IDRegistry {
 
 	LEAF(BlockDyeLeaf.class, ItemBlockDyeLeaf.class, "Leaves"),
-	SAPLING(BlockDyeSapling.class, ItemBlockDyeSapling.class, "Sapling");
+	SAPLING(BlockDyeSapling.class, ItemBlockDyeSapling.class, "Sapling"),
+	DECAY(BlockDyeLeafDecay.class, ItemBlockDyeLeaf.class, "Decaying Leaves");
 
 	private Class blockClass;
 	private String blockName;

@@ -43,6 +43,7 @@ public class BlockDyeLeaf extends BlockLeaves {
 			this.setGraphicsLevel(Minecraft.getMinecraft().gameSettings.fancyGraphics);
 		this.setHardness(0.2F);
 		this.setLightOpacity(1);
+		this.setTickRandomly(false);
 	}
 
 	@Override
@@ -111,29 +112,17 @@ public class BlockDyeLeaf extends BlockLeaves {
 	}
 
 	@Override
-	public void updateTick(World world, int x, int y, int z, Random par5Random)
-	{
-		//no decay for technical reasons
-	}
-
-	@Override
 	public ArrayList<ItemStack> onSheared(ItemStack item, World world, int x, int y, int z, int fortune)
 	{
 		ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
-		ret.add(new ItemStack(this, 1, world.getBlockMetadata(x, y, z)));
+		ret.add(new ItemStack(DyeBlocks.LEAF.getBlockID(), 1, world.getBlockMetadata(x, y, z)));
 		return ret;
-	}
-
-	@Override
-	public void beginLeavesDecay(World world, int x, int y, int z)
-	{
-		//no decay for technical reasons
 	}
 
 	@Override
 	protected ItemStack createStackedBlock(int par1)
 	{
-		return new ItemStack(blockID, 1, par1);
+		return new ItemStack(DyeBlocks.LEAF.getBlockID(), 1, par1);
 	}
 
 	@Override

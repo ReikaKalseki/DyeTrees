@@ -26,6 +26,7 @@ import Reika.DragonAPI.Libraries.Registry.ReikaPlantHelper;
 import Reika.DragonAPI.Libraries.World.ReikaWorldHelper;
 import Reika.DyeTrees.DyeTrees;
 import Reika.DyeTrees.Registry.DyeBlocks;
+import Reika.DyeTrees.World.ColorTreeGenerator;
 
 public class BlockDyeSapling extends BlockSapling {
 
@@ -54,6 +55,7 @@ public class BlockDyeSapling extends BlockSapling {
 			return;
 		int meta = world.getBlockMetadata(x, y, z);
 		int log = r.nextInt(4);
+		ColorTreeGenerator.growTree(world, x, y, z, h, r, ReikaDyeHelper.dyes[r.nextInt(16)]);/*
 		int w = 2;
 		for (int i = 0; i < h; i++) {
 			world.setBlock(x, y+i, z, Block.wood.blockID, log, 3);
@@ -81,7 +83,7 @@ public class BlockDyeSapling extends BlockSapling {
 				if (i*j == 0 && ReikaWorldHelper.softBlocks(world, x+i, y+h, z+j))
 					world.setBlock(x+i, y+h, z+j, DyeBlocks.LEAF.getBlockID(), meta, 3);
 			}
-		}
+		}*/
 	}
 
 	@Override

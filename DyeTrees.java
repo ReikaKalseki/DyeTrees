@@ -10,15 +10,19 @@
 package Reika.DyeTrees;
 
 import java.net.URL;
+import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.Event;
 import net.minecraftforge.event.ForgeSubscribe;
+import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.BonemealEvent;
 import Reika.DragonAPI.DragonAPICore;
 import Reika.DragonAPI.RetroGenController;
@@ -54,6 +58,8 @@ public class DyeTrees extends DragonAPIMod {
 	public static Block[] blocks = new Block[DyeBlocks.blockList.length];
 
 	public static CreativeTabs dyeTreeTab = new DyeTreeTab(CreativeTabs.getNextID(), "Dye Trees");
+
+	protected static final Random rand = new Random();
 
 	@Override
 	@EventHandler
@@ -97,6 +103,22 @@ public class DyeTrees extends DragonAPIMod {
 				int y = event.Y;
 				int z = event.Z;
 				event.setResult(Event.Result.DENY);
+			}
+		}
+	}
+
+	@ForgeSubscribe
+	public void colorSheep(LivingSpawnEvent ev) {
+		World world = ev.world;
+		int x = (int)Math.floor(ev.x);
+		int y = (int)Math.floor(ev.y);
+		int z = (int)Math.floor(ev.z);
+		EntityLivingBase e = ev.entityLiving;
+		BiomeGenBase b = world.getBiomeGenForCoords(x, z);
+		if (b instanceof BiomeRainbowForest) {
+			if (e instanceof EntitySheep) {
+				EntitySheep es = (EntitySheep)e;
+				es.setFleeceColor(rand.nextInt(16));
 			}
 		}
 	}
