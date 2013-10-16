@@ -15,7 +15,7 @@ import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import Reika.DragonAPI.Interfaces.RetroactiveGenerator;
-import Reika.DyeTrees.Blocks.BlockDyeSapling;
+import Reika.DragonAPI.Libraries.Registry.ReikaDyeHelper;
 
 public class RetroDyeTreeGen implements RetroactiveGenerator {
 
@@ -31,8 +31,7 @@ public class RetroDyeTreeGen implements RetroactiveGenerator {
 					int y = world.getTopSolidOrLiquidBlock(x, z);
 					int id = world.getBlockId(x, y, z);
 					Block b = Block.blocksList[id];
-					if (BlockDyeSapling.canGrowAt(world, x, y, z))
-						ColorTreeGenerator.growTree(world, x, y, z, 5+r.nextInt(3), r);
+					TreeShaper.getInstance().generateRandomWeightedTree(world, x, y, z, ReikaDyeHelper.dyes[r.nextInt(16)]);
 				}
 			}
 		}

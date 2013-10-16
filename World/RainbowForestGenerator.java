@@ -21,7 +21,9 @@ public class RainbowForestGenerator extends WorldGenerator {
 	@Override
 	public boolean generate(World world, Random random, int x, int y, int z) {
 		if (ColorTreeGenerator.canGenerateTree(world, x, z) && BlockDyeSapling.canGrowAt(world, x, y, z)) {
-			ColorTreeGenerator.growTree(world, x, y, z, 5+random.nextInt(3), random, this.getColor(x, y, z));
+			//ColorTreeGenerator.growTree(world, x, y, z, 5+random.nextInt(3), random, this.getColor(x, y, z));
+			//TreeShaper.getInstance().generateTallTree(world, x, y, z);
+			TreeShaper.getInstance().generateRandomWeightedTree(world, x, y, z, this.getColor(x, y, z));
 			return true;
 		}
 		return false;

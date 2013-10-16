@@ -12,11 +12,8 @@ package Reika.DyeTrees.World;
 import java.awt.Color;
 import java.util.Random;
 
-import net.minecraft.entity.monster.EntityEnderman;
-import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.world.biome.BiomeDecorator;
 import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.biome.SpawnListEntry;
 import Reika.DragonAPI.Libraries.IO.ReikaColorAPI;
 import Reika.DragonAPI.Libraries.Registry.ReikaDyeHelper;
 import cpw.mods.fml.relauncher.Side;
@@ -34,8 +31,8 @@ public class BiomeRainbowForest extends BiomeGenBase {
 		this.setTemperatureRainfall(0.7F, 0.8F);
 		//spawnableWaterCreatureList.clear();
 		spawnableMonsterList.clear();
-		spawnableMonsterList.add(new SpawnListEntry(EntityEnderman.class, 10, 4, 4));
-		spawnableMonsterList.add(new SpawnListEntry(EntitySlime.class, 10, 4, 4));
+		//spawnableMonsterList.add(new SpawnListEntry(EntityEnderman.class, 10, 4, 4));
+		//spawnableMonsterList.add(new SpawnListEntry(EntitySlime.class, 10, 4, 4));
 	}
 
 	@Override
@@ -48,8 +45,8 @@ public class BiomeRainbowForest extends BiomeGenBase {
 	@SideOnly(Side.CLIENT)
 	public int getModdedBiomeGrassColor(int original)
 	{
-		Color c = ReikaDyeHelper.dyes[rand.nextInt(16)].getJavaColor().brighter().brighter().brighter();
-		double bias = 0.02;
+		Color c = ReikaDyeHelper.dyes[rand.nextInt(16)].getJavaColor();
+		double bias = 0.15;
 		double d = 1D-bias;
 		int r = c.getRed();
 		int g = c.getGreen();

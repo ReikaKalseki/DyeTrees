@@ -26,7 +26,7 @@ import Reika.DragonAPI.Libraries.Registry.ReikaPlantHelper;
 import Reika.DragonAPI.Libraries.World.ReikaWorldHelper;
 import Reika.DyeTrees.DyeTrees;
 import Reika.DyeTrees.Registry.DyeBlocks;
-import Reika.DyeTrees.World.ColorTreeGenerator;
+import Reika.DyeTrees.World.TreeShaper;
 
 public class BlockDyeSapling extends BlockSapling {
 
@@ -54,36 +54,7 @@ public class BlockDyeSapling extends BlockSapling {
 		if (world.isRemote)
 			return;
 		int meta = world.getBlockMetadata(x, y, z);
-		int log = r.nextInt(4);
-		ColorTreeGenerator.growTree(world, x, y, z, h, r, ReikaDyeHelper.dyes[r.nextInt(16)]);/*
-		int w = 2;
-		for (int i = 0; i < h; i++) {
-			world.setBlock(x, y+i, z, Block.wood.blockID, log, 3);
-		}
-		for (int i = -w; i <= w; i++) {
-			for (int j = -w; j <= w; j++) {
-				if (ReikaWorldHelper.softBlocks(world, x+i, y+h-3, z+j))
-					world.setBlock(x+i, y+h-3, z+j, DyeBlocks.LEAF.getBlockID(), meta, 3);
-			}
-		}
-		for (int i = -w; i <= w; i++) {
-			for (int j = -w; j <= w; j++) {
-				if (ReikaWorldHelper.softBlocks(world, x+i, y+h-2, z+j))
-					world.setBlock(x+i, y+h-2, z+j, DyeBlocks.LEAF.getBlockID(), meta, 3);
-			}
-		}
-		for (int i = -1; i <= 1; i++) {
-			for (int j = -1; j <= 1; j++) {
-				if (ReikaWorldHelper.softBlocks(world, x+i, y+h-1, z+j))
-					world.setBlock(x+i, y+h-1, z+j, DyeBlocks.LEAF.getBlockID(), meta, 3);
-			}
-		}
-		for (int i = -1; i <= 1; i++) {
-			for (int j = -1; j <= 1; j++) {
-				if (i*j == 0 && ReikaWorldHelper.softBlocks(world, x+i, y+h, z+j))
-					world.setBlock(x+i, y+h, z+j, DyeBlocks.LEAF.getBlockID(), meta, 3);
-			}
-		}*/
+		TreeShaper.getInstance().generateRandomWeightedTree(world, x, y, z, ReikaDyeHelper.dyes[meta]);
 	}
 
 	@Override

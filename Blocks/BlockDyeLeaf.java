@@ -151,4 +151,44 @@ public class BlockDyeLeaf extends BlockLeaves {
 		return 60;
 	}
 
+	@Override
+	public void updateTick(World world, int x, int y, int z, Random par5Random)
+	{
+		if (blockID == DyeBlocks.DECAY.getBlockID()) {
+			int r = 4;
+			boolean decay = true;
+			for (int i = -r; i <= r; i++) {
+				for (int j = -r; j <= r; j++) {
+					for (int k = -r; k <= r; k++) {
+						int id = world.getBlockId(x+i, y+j, z+k);
+						if (id == Block.wood.blockID) {
+							decay = false;
+							i = j = k = r+1;
+						}
+					}
+				}
+			}
+			int meta = world.getBlockMetadata(x, y, z);
+			if (decay) {
+				this.dropBlockAsItemWithChance(world, x, y, z, meta, 1, 0);
+				world.setBlock(x, y, z, 0);
+				//ReikaJavaLibrary.pConsole(x+", "+y+", "+z);
+			}
+		}
+	}
+
+	@Override
+	public void beginLeavesDecay(World world, int x, int y, int z)
+	{
+		if (blockID == DyeBlocks.DECAY.getBlockID()) {
+			//ReikaJavaLibrary.pConsole(x+", "+y+", "+z);
+		}
+	}
+
+	@Override
+	public int idPicked(World par1World, int par2, int par3, int par4)
+	{
+		return DyeBlocks.LEAF.getBlockID();
+	}
+
 }
