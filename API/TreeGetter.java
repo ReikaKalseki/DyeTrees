@@ -29,8 +29,24 @@ public class TreeGetter {
 		return new ItemStack(dyeBlocks[1].blockID, 1, dyeMeta);
 	}
 
-	public static ItemStack getDyeLeaf(int dyeMeta) {
-		return new ItemStack(dyeBlocks[0].blockID, 1, dyeMeta);
+	public static ItemStack getHeldDyeLeaf(int dyeMeta) {
+		return new ItemStack(getHeldDyeLeafID(), 1, dyeMeta);
+	}
+
+	public static ItemStack getNaturalDyeLeaf(int dyeMeta) {
+		return new ItemStack(getNaturalDyeLeafID(), 1, dyeMeta);
+	}
+
+	public static int getHeldDyeLeafID() {
+		return dyeBlocks[0].blockID;
+	}
+
+	public static int getNaturalDyeLeafID() {
+		return dyeBlocks[2].blockID;
+	}
+
+	public static int getSaplingID() {
+		return dyeBlocks[1].blockID;
 	}
 
 	static {
