@@ -50,6 +50,21 @@ public class RainbowForestDecorator extends BiomeDecorator {
 			int y = currentWorld.getTopSolidOrLiquidBlock(x, z);
 			gen.generate(currentWorld, randomGenerator, x, y, z);
 		}
+
+		boolean dyeGrass = false;
+		if (dyeGrass) {
+			for (int i = 0; i < 16; i++) {
+				for (int j = 0; j < 16; j++) {
+					int x = chunk_X + i + 8;
+					int z = chunk_Z + j + 8;
+					int y = currentWorld.getTopSolidOrLiquidBlock(x, z);
+					int id = currentWorld.getBlockId(x, y-1, z);
+					if (id == Block.grass.blockID) {
+						//currentWorld.setBlock(x, y-1, z, DyeBlocks.GRASS.getBlockID(), gen.getColor(x, y, z).ordinal(), 3);
+					}
+				}
+			}
+		}
 	}
 
 	private void auxDeco() {

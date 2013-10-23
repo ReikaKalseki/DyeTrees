@@ -29,7 +29,7 @@ public class RainbowForestGenerator extends WorldGenerator {
 		return false;
 	}
 
-	private ReikaDyeHelper getColor(int x, int y, int z) {
+	public static ReikaDyeHelper getColor(int x, int y, int z) {
 		double[] color = new double[3];
 		int sc = 32;
 		int vsc = 64;
