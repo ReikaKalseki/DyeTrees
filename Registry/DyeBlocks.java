@@ -27,6 +27,7 @@ public enum DyeBlocks implements RegistrationList, IDRegistry {
 	LEAF(BlockDyeLeaf.class, ItemBlockDyeLeaf.class, "Leaves"),
 	SAPLING(BlockDyeSapling.class, ItemBlockDyeSapling.class, "Sapling"),
 	DECAY(BlockDyeLeafDecay.class, ItemBlockDyeLeaf.class, "Decaying Leaves");
+	//GRASS(BlockDyeGrass.class, null, "Dye Grass");
 
 	private Class blockClass;
 	private String blockName;
@@ -80,6 +81,8 @@ public enum DyeBlocks implements RegistrationList, IDRegistry {
 	@Override
 	public boolean hasMultiValuedName() {
 		switch(this) {
+		//case GRASS:
+		//	return false;
 		default:
 			return true;
 		}
@@ -88,6 +91,8 @@ public enum DyeBlocks implements RegistrationList, IDRegistry {
 	@Override
 	public int getNumberMetadatas() {
 		switch(this) {
+		//case GRASS:
+		//	return 1;
 		default:
 			return 16;
 		}
