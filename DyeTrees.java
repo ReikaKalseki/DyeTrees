@@ -124,7 +124,7 @@ public class DyeTrees extends DragonAPIMod {
 	}
 
 	public static void loadClasses() {
-		ReikaRegistryHelper.instantiateAndRegisterBlocks(instance, DyeBlocks.blockList, blocks, logger.shouldLog());
+		ReikaRegistryHelper.instantiateAndRegisterBlocks(instance, DyeBlocks.blockList, blocks);
 	}
 
 	@Override
