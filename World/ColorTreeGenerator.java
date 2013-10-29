@@ -20,7 +20,9 @@ import net.minecraftforge.common.BiomeDictionary;
 import Reika.DragonAPI.Libraries.MathSci.ReikaMathLibrary;
 import Reika.DragonAPI.Libraries.Registry.ReikaDyeHelper;
 import Reika.DragonAPI.ModInteract.ReikaTwilightHelper;
+import Reika.DyeTrees.DyeTrees;
 import Reika.DyeTrees.Blocks.BlockDyeSapling;
+import Reika.DyeTrees.Registry.DyeOptions;
 import cpw.mods.fml.common.IWorldGenerator;
 
 public class ColorTreeGenerator implements IWorldGenerator {
@@ -32,6 +34,8 @@ public class ColorTreeGenerator implements IWorldGenerator {
 		chunkX *= 16;
 		chunkZ *= 16;
 		BiomeGenBase biome = world.getBiomeGenForCoords(chunkX, chunkZ);
+		if (biome != DyeTrees.forest && !DyeOptions.NORMAL.getState())
+			return;
 		int trees = this.getTreeCount(biome);
 		int x = chunkX+r.nextInt(16);
 		int z = chunkZ+r.nextInt(16);

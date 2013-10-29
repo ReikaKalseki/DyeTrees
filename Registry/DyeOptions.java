@@ -19,7 +19,9 @@ public enum DyeOptions implements ConfigList {
 	LOGLOADING("Console Loading Info", true),
 	DEBUGMODE("Debug Mode", false),
 	BIOME("Rainbow Forest Biome", true),
-	RETROGEN("Retrogen Trees", false);
+	NORMAL("Generate Dye Trees in Normal Biomes", true),
+	RETROGEN("Retrogen Trees", false),
+	BIOMEID("Rainbow Forest Biome ID", 74);
 
 	private String label;
 	private boolean defaultState;

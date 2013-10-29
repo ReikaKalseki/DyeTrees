@@ -16,6 +16,7 @@ import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntitySheep;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.BiomeDictionary;
@@ -30,7 +31,7 @@ import Reika.DragonAPI.Base.DragonAPIMod;
 import Reika.DragonAPI.Instantiable.ControlledConfig;
 import Reika.DragonAPI.Instantiable.ModLogger;
 import Reika.DragonAPI.Libraries.ReikaRegistryHelper;
-import Reika.DragonAPI.Libraries.World.ReikaBiomeHelper;
+import Reika.DragonAPI.Libraries.Registry.ReikaDyeHelper;
 import Reika.DyeTrees.Registry.DyeBlocks;
 import Reika.DyeTrees.Registry.DyeOptions;
 import Reika.DyeTrees.World.BiomeRainbowForest;
@@ -61,6 +62,8 @@ public class DyeTrees extends DragonAPIMod {
 
 	protected static final Random rand = new Random();
 
+	public static BiomeGenBase forest;
+
 	@Override
 	@EventHandler
 	public void preload(FMLPreInitializationEvent evt) {
@@ -81,9 +84,17 @@ public class DyeTrees extends DragonAPIMod {
 			//Set state back
 		}
 		if (DyeOptions.BIOME.getState()) {
-			BiomeGenBase forest = new BiomeRainbowForest(ReikaBiomeHelper.getFirstEmptyBiomeIndex());
+			forest = new BiomeRainbowForest(DyeOptions.BIOMEID.getValue());
 			GameRegistry.addBiome(forest);
 			BiomeDictionary.registerBiomeType(forest, BiomeDictionary.Type.FOREST, BiomeDictionary.Type.MAGICAL, BiomeDictionary.Type.HILLS);
+		}
+
+		if (!DyeOptions.BIOME.getState() && !DyeOptions.NORMAL.getState()) {
+			logger.log("Both rainbow forest biomes and normal dye tree generation disabled.");
+			logger.log("To ensure sapling and tree obtainability, dye saplings are now craftable.");
+			for (int i = 0; i < 16; i++) {
+				GameRegistry.addShapelessRecipe(new ItemStack(DyeBlocks.SAPLING.getBlockID(), 1, i), Block.sapling, ReikaDyeHelper.dyes[i].getStackOf());
+			}
 		}
 	}
 
