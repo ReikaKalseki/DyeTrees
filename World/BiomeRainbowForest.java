@@ -13,6 +13,12 @@ import java.awt.Color;
 import java.util.Random;
 
 import net.minecraft.entity.monster.EntitySlime;
+import net.minecraft.entity.passive.EntityChicken;
+import net.minecraft.entity.passive.EntityCow;
+import net.minecraft.entity.passive.EntityPig;
+import net.minecraft.entity.passive.EntitySheep;
+import net.minecraft.entity.passive.EntitySquid;
+import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.world.biome.BiomeDecorator;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.SpawnListEntry;
@@ -31,11 +37,29 @@ public class BiomeRainbowForest extends BiomeGenBase {
 		this.setBiomeName("Rainbow Forest");
 		this.func_76733_a(5159473); //not used in 1.5.2
 		this.setTemperatureRainfall(0.7F, 0.8F);
-		//spawnableWaterCreatureList.clear();
-		spawnableMonsterList.clear();
-		spawnableMonsterList.add(new SpawnListEntry(EntitySlime.class, 1, 4, 4));
+
+		this.initSpawnRules();
 
 		//topBlock = (byte)DyeBlocks.GRASS.getBlockID();
+	}
+
+	private void initSpawnRules() {
+		spawnableMonsterList.clear();
+		spawnableCreatureList.clear();
+		spawnableCaveCreatureList.clear();
+		spawnableWaterCreatureList.clear();
+
+		spawnableMonsterList.add(new SpawnListEntry(EntitySlime.class, 1, 4, 4));
+
+		spawnableCreatureList.add(new SpawnListEntry(EntityWolf.class, 5, 4, 4));
+		spawnableCreatureList.add(new SpawnListEntry(EntitySheep.class, 12, 4, 4));
+		spawnableCreatureList.add(new SpawnListEntry(EntityPig.class, 10, 4, 4));
+		spawnableCreatureList.add(new SpawnListEntry(EntityChicken.class, 10, 4, 4));
+		spawnableCreatureList.add(new SpawnListEntry(EntityCow.class, 8, 4, 4));
+
+		spawnableWaterCreatureList.add(new SpawnListEntry(EntitySquid.class, 10, 4, 4));
+
+		//spawnableCaveCreatureList.add(new SpawnListEntry(EntityBat.class, 10, 8, 8));
 	}
 
 	@Override
