@@ -10,6 +10,7 @@
 package Reika.DyeTrees;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Random;
 
 import net.minecraft.block.Block;
@@ -25,12 +26,16 @@ import net.minecraftforge.event.Event;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.BonemealEvent;
+import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
 import Reika.DragonAPI.DragonAPICore;
+import Reika.DragonAPI.ModList;
 import Reika.DragonAPI.Auxiliary.RetroGenController;
 import Reika.DragonAPI.Base.DragonAPIMod;
+import Reika.DragonAPI.Instantiable.BiomeCollisionTracker;
 import Reika.DragonAPI.Instantiable.ControlledConfig;
 import Reika.DragonAPI.Instantiable.ModLogger;
 import Reika.DragonAPI.Libraries.ReikaRegistryHelper;
+import Reika.DragonAPI.Libraries.MathSci.ReikaMathLibrary;
 import Reika.DragonAPI.Libraries.Registry.ReikaDyeHelper;
 import Reika.DyeTrees.Registry.DyeBlocks;
 import Reika.DyeTrees.Registry.DyeOptions;
@@ -76,6 +81,8 @@ public class DyeTrees extends DragonAPIMod {
 
 		ReikaRegistryHelper.setupModData(instance, evt);
 		ReikaRegistryHelper.setupVersionChecking(evt);
+
+		BiomeCollisionTracker.instance.addBiomeID(ModList.DYETREES, DyeOptions.BIOMEID.getValue(), BiomeRainbowForest.class);
 	}
 
 	@Override
@@ -125,6 +132,8 @@ public class DyeTrees extends DragonAPIMod {
 	@ForgeSubscribe
 	public void colorSheep(LivingSpawnEvent ev) {
 		World world = ev.world;
+		if (world.isRemote)
+			return;
 		int x = (int)Math.floor(ev.x);
 		int y = (int)Math.floor(ev.y);
 		int z = (int)Math.floor(ev.z);
@@ -134,6 +143,25 @@ public class DyeTrees extends DragonAPIMod {
 			if (e instanceof EntitySheep) {
 				EntitySheep es = (EntitySheep)e;
 				es.setFleeceColor(rand.nextInt(16));
+			}
+		}
+	}
+	/** Not functional due to BlockLeaves being the <i>only</i> block not to fire the event */
+	@ForgeSubscribe
+	public void addLeafColors(HarvestDropsEvent evt) {
+		World world = evt.world;
+		if (DyeOptions.BIOME.getState() || DyeOptions.NORMAL.getState())
+			return;
+		int x = evt.x;
+		int y = evt.y;
+		int z = evt.z;
+		ArrayList<ItemStack> li = evt.drops;
+		int id = world.getBlockId(x, y, z);
+		if (id == Block.leaves.blockID) {
+			int meta = rand.nextInt(16);
+			ItemStack sapling = new ItemStack(DyeBlocks.SAPLING.getBlockID(), 1, meta);
+			if (ReikaMathLibrary.doWithChance(0.04)) { //4% chance per leaf block
+				li.add(sapling);
 			}
 		}
 	}
