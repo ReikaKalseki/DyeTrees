@@ -23,7 +23,7 @@ import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
-import Reika.DragonAPI.Libraries.MathSci.ReikaMathLibrary;
+import Reika.DragonAPI.Libraries.Java.ReikaRandomHelper;
 import Reika.DragonAPI.Libraries.Registry.ReikaDyeHelper;
 import Reika.DragonAPI.Libraries.Registry.ReikaParticleHelper;
 import Reika.DyeTrees.DyeTrees;
@@ -84,11 +84,11 @@ public class BlockDyeLeaf extends BlockLeaves {
 			appleChance *= (1+fortune*5);
 			dyeChance *= (1+fortune);
 
-			if (ReikaMathLibrary.doWithChance(saplingChance))
+			if (ReikaRandomHelper.doWithChance(saplingChance))
 				this.dropBlockAsItem_do(world, x, y, z, new ItemStack(DyeBlocks.SAPLING.getBlockID(), 1, metadata));
-			if (ReikaMathLibrary.doWithChance(appleChance))
+			if (ReikaRandomHelper.doWithChance(appleChance))
 				this.dropBlockAsItem_do(world, x, y, z, new ItemStack(Item.appleRed, 1, 0));
-			if (ReikaMathLibrary.doWithChance(dyeChance))
+			if (ReikaRandomHelper.doWithChance(dyeChance))
 				this.dropBlockAsItem_do(world, x, y, z, new ItemStack(Item.dyePowder.itemID, 1, metadata));
 		}
 	}

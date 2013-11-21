@@ -35,7 +35,7 @@ import Reika.DragonAPI.Base.DragonAPIMod;
 import Reika.DragonAPI.Instantiable.ControlledConfig;
 import Reika.DragonAPI.Instantiable.ModLogger;
 import Reika.DragonAPI.Libraries.ReikaRegistryHelper;
-import Reika.DragonAPI.Libraries.MathSci.ReikaMathLibrary;
+import Reika.DragonAPI.Libraries.Java.ReikaRandomHelper;
 import Reika.DragonAPI.Libraries.Registry.ReikaDyeHelper;
 import Reika.DyeTrees.Registry.DyeBlocks;
 import Reika.DyeTrees.Registry.DyeOptions;
@@ -160,7 +160,7 @@ public class DyeTrees extends DragonAPIMod {
 		if (id == Block.leaves.blockID) {
 			int meta = rand.nextInt(16);
 			ItemStack sapling = new ItemStack(DyeBlocks.SAPLING.getBlockID(), 1, meta);
-			if (ReikaMathLibrary.doWithChance(0.04)) { //4% chance per leaf block
+			if (ReikaRandomHelper.doWithChance(0.04)) { //4% chance per leaf block
 				li.add(sapling);
 			}
 		}
