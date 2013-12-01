@@ -51,7 +51,7 @@ public class BiomeRainbowForest extends BiomeGenBase {
 
 		spawnableMonsterList.add(new SpawnListEntry(EntitySlime.class, 1, 4, 4));
 
-		spawnableCreatureList.add(new SpawnListEntry(EntityWolf.class, 5, 4, 4));
+		spawnableCreatureList.add(new SpawnListEntry(EntityWolf.class, 1, 4, 4));
 		spawnableCreatureList.add(new SpawnListEntry(EntitySheep.class, 12, 4, 4));
 		spawnableCreatureList.add(new SpawnListEntry(EntityPig.class, 10, 4, 4));
 		spawnableCreatureList.add(new SpawnListEntry(EntityChicken.class, 10, 4, 4));
