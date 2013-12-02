@@ -31,6 +31,7 @@ import Reika.DragonAPI.Base.DragonAPIMod;
 import Reika.DragonAPI.Instantiable.IO.ControlledConfig;
 import Reika.DragonAPI.Instantiable.IO.ModLogger;
 import Reika.DragonAPI.Libraries.ReikaRegistryHelper;
+import Reika.DragonAPI.Libraries.Java.ReikaObfuscationHelper;
 import Reika.DragonAPI.Libraries.Registry.ReikaDyeHelper;
 import Reika.DyeTrees.Registry.DyeBlocks;
 import Reika.DyeTrees.Registry.DyeOptions;
@@ -133,8 +134,9 @@ public class DyeTrees extends DragonAPIMod {
 			slimeRenderer = (RenderSlime)RenderManager.instance.entityRenderMap.get(EntitySlime.class);
 			Field f;
 			try {
-				f = slimeRenderer.getClass().getDeclaredField("scaleAmount");
-				f.setAccessible(true);
+				//f = slimeRenderer.getClass().getDeclaredField("scaleAmount");
+				f = ReikaObfuscationHelper.getField("scaleAmount");
+				//f.setAccessible(true);
 				f.set(slimeRenderer, new ColorizableSlimeModel(0));
 				logger.log("Overriding Slime Renderer Edge Model.");
 			}

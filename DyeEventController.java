@@ -33,6 +33,7 @@ import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent.CheckSpawn;
 import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
+import Reika.DragonAPI.Libraries.Java.ReikaObfuscationHelper;
 import Reika.DragonAPI.Libraries.Java.ReikaRandomHelper;
 import Reika.DragonAPI.Libraries.Registry.ReikaItemHelper;
 import Reika.DyeTrees.Registry.DyeBlocks;
@@ -128,8 +129,8 @@ public class DyeEventController {
 			RendererLivingEntity r = ev.renderer;
 			if (e.getClass() == EntitySlime.class && !editedSlimeModel) {
 				try {
-					Field f = RendererLivingEntity.class.getDeclaredField("mainModel");
-					f.setAccessible(true);
+					Field f = ReikaObfuscationHelper.getField("mainModel");
+					//f.setAccessible(true);
 					ModelSlime mainModel = (ModelSlime)f.get(r);
 					f.set(r, new ColorizableSlimeModel(16));
 					editedSlimeModel = true;
