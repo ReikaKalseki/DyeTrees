@@ -94,11 +94,12 @@ public class DyeTrees extends DragonAPIMod {
 		}
 		if (DyeOptions.BIOME.getState()) {
 			forest = new BiomeRainbowForest(DyeOptions.BIOMEID.getValue());
-			GameRegistry.addBiome(forest);
+			if (DyeOptions.OVERWORLD.getState())
+				GameRegistry.addBiome(forest);
 			BiomeDictionary.registerBiomeType(forest, BiomeDictionary.Type.FOREST, BiomeDictionary.Type.MAGICAL, BiomeDictionary.Type.HILLS);
 		}
 
-		if (!DyeOptions.BIOME.getState() && !DyeOptions.NORMAL.getState()) {
+		if ((!DyeOptions.BIOME.getState() || !DyeOptions.OVERWORLD.getState()) && !DyeOptions.NORMAL.getState()) {
 			logger.log("Both rainbow forest biomes and normal dye tree generation disabled.");
 			logger.log("To ensure sapling and tree obtainability, dye saplings are now craftable.");
 			for (int i = 0; i < 16; i++) {
