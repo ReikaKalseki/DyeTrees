@@ -66,7 +66,6 @@ public class DyeTrees extends DragonAPIMod {
 	public static CreativeTabs dyeTreeTab = new DyeTreeTab(CreativeTabs.getNextID(), "Dye Trees");
 
 	public static BiomeGenBase forest;
-	private static RenderSlime slimeRenderer;
 
 	@Override
 	@EventHandler
@@ -132,7 +131,7 @@ public class DyeTrees extends DragonAPIMod {
 	@EventHandler
 	public void postload(FMLPostInitializationEvent evt) {
 		if (DyeOptions.COLORSLIMES.getState() && FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
-			slimeRenderer = (RenderSlime)RenderManager.instance.entityRenderMap.get(EntitySlime.class);
+			RenderSlime slimeRenderer = (RenderSlime)RenderManager.instance.entityRenderMap.get(EntitySlime.class);
 			Field f;
 			try {
 				//f = slimeRenderer.getClass().getDeclaredField("scaleAmount");
