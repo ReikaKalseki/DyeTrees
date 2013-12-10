@@ -9,13 +9,10 @@
  ******************************************************************************/
 package Reika.DyeTrees;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Random;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.model.ModelSlime;
-import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntitySlime;
@@ -24,7 +21,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.event.Event;
 import net.minecraftforge.event.Event.Result;
 import net.minecraftforge.event.ForgeSubscribe;
@@ -33,7 +29,6 @@ import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent.CheckSpawn;
 import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
-import Reika.DragonAPI.Libraries.Java.ReikaObfuscationHelper;
 import Reika.DragonAPI.Libraries.Java.ReikaRandomHelper;
 import Reika.DragonAPI.Libraries.Registry.ReikaItemHelper;
 import Reika.DyeTrees.Registry.DyeBlocks;
@@ -45,8 +40,6 @@ public class DyeEventController {
 	public static final DyeEventController instance = new DyeEventController();
 
 	protected static final Random rand = new Random();
-
-	private boolean editedSlimeModel = false;
 
 	private DyeEventController() {
 
@@ -118,27 +111,6 @@ public class DyeEventController {
 			if (e instanceof EntitySlime) {
 				EntitySlime es = (EntitySlime)e;
 				ev.setResult(es.getSlimeSize() > 1 ? Result.DENY : Result.DEFAULT);
-			}
-		}
-	}
-
-	@ForgeSubscribe
-	public void slimeColorizer(RenderLivingEvent.Pre ev) {
-		if (DyeOptions.COLORSLIMES.getState()) {
-			EntityLivingBase e = ev.entity;
-			RendererLivingEntity r = ev.renderer;
-			if (e.getClass() == EntitySlime.class && !editedSlimeModel) {
-				try {
-					Field f = ReikaObfuscationHelper.getField("mainModel");
-					//f.setAccessible(true);
-					ModelSlime mainModel = (ModelSlime)f.get(r);
-					f.set(r, new ColorizableSlimeModel(16));
-					editedSlimeModel = true;
-					DyeTrees.instance.logger.log("Overriding Slime Renderer Core Model.");
-				}
-				catch (Exception ex) {
-					ex.printStackTrace();
-				}
 			}
 		}
 	}

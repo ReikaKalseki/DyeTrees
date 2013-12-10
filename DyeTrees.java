@@ -71,6 +71,8 @@ public class DyeTrees extends DragonAPIMod {
 	@EventHandler
 	public void preload(FMLPreInitializationEvent evt) {
 		MinecraftForge.EVENT_BUS.register(DyeEventController.instance);
+		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
+			MinecraftForge.EVENT_BUS.register(DyeClientEventController.instance);
 
 		config.loadSubfolderedConfigFile(evt);
 		config.initProps(evt);
