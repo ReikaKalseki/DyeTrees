@@ -11,8 +11,7 @@ package Reika.DyeTrees.Registry;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
-import Reika.DragonAPI.Interfaces.IDRegistry;
-import Reika.DragonAPI.Interfaces.RegistrationList;
+import Reika.DragonAPI.Interfaces.RegistryEnum;
 import Reika.DragonAPI.Libraries.Java.ReikaStringParser;
 import Reika.DragonAPI.Libraries.Registry.ReikaDyeHelper;
 import Reika.DyeTrees.DyeTrees;
@@ -22,7 +21,7 @@ import Reika.DyeTrees.Blocks.BlockDyeSapling;
 import Reika.DyeTrees.Blocks.ItemBlockDyeLeaf;
 import Reika.DyeTrees.Blocks.ItemBlockDyeSapling;
 
-public enum DyeBlocks implements RegistrationList, IDRegistry {
+public enum DyeBlocks implements RegistryEnum {
 
 	LEAF(BlockDyeLeaf.class, ItemBlockDyeLeaf.class, "Leaves"),
 	SAPLING(BlockDyeSapling.class, ItemBlockDyeSapling.class, "Sapling"),

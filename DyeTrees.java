@@ -113,19 +113,31 @@ public class DyeTrees extends DragonAPIMod {
 
 	private void addCompat() {
 		if (ModList.TREECAPITATOR.isLoaded()) {
-			NBTTagCompound nbt = new NBTTagCompound();
-			nbt.setString("modID", "DyeTrees");
-			NBTTagList treeList = new NBTTagList();
-			NBTTagCompound tree = new NBTTagCompound();
-			tree.setString("treeName", "DyeTree");
-			tree.setString("logs", String.format("%d", Block.wood.blockID));
-			tree.setString("leaves", String.format("%d; %d", DyeBlocks.LEAF.getID(), DyeBlocks.DECAY.getID()));
-			tree.setInteger("maxHorLeafBreakDist", 8);
-			tree.setBoolean("requireLeafDecayCheck", false);
-			treeList.appendTag(tree);
-			nbt.setTag("trees", treeList);
-			FMLInterModComms.sendMessage("TreeCapitator", "ThirdPartyModConfig", nbt);
-			logger.log("Adding TreeCapitator support");
+			try {
+				Class c = Class.forName("bspkrs.treecapitator.Strings");
+				String[] fields = {"OAK", "SPRUCE", "BIRCH" , "JUNGLE"};
+				NBTTagCompound nbt = new NBTTagCompound();
+				nbt.setString("modID", "DyeTrees");
+				NBTTagList treeList = new NBTTagList();
+				for (int i = 0; i < fields.length; i++) {
+					NBTTagCompound tree = new NBTTagCompound();
+					Field f = c.getField(fields[i]);
+					String sg = (String)f.get(null);
+					tree.setString("treeName", sg);
+					//tree.setString("logs", String.format("%d", Block.wood.blockID));
+					tree.setString("leaves", String.format("%d; %d", DyeBlocks.LEAF.getID(), DyeBlocks.DECAY.getID()));
+					tree.setInteger("maxHorLeafBreakDist", 5);
+					tree.setBoolean("requireLeafDecayCheck", false);
+					treeList.appendTag(tree);
+				}
+				nbt.setTag("trees", treeList);
+				FMLInterModComms.sendMessage("TreeCapitator", "ThirdPartyModConfig", nbt);
+				logger.log("Adding "+ModList.TREECAPITATOR.getDisplayName()+" support");
+			}
+			catch (Exception e) {
+				logger.logError("Could not interface with "+ModList.TREECAPITATOR.getDisplayName()+"!");
+				e.printStackTrace();
+			}
 		}
 	}
 
