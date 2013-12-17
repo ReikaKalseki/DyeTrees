@@ -15,9 +15,11 @@ import Reika.DragonAPI.Interfaces.RegistryEnum;
 import Reika.DragonAPI.Libraries.Java.ReikaStringParser;
 import Reika.DragonAPI.Libraries.Registry.ReikaDyeHelper;
 import Reika.DyeTrees.DyeTrees;
+import Reika.DyeTrees.Blocks.BlockDye;
 import Reika.DyeTrees.Blocks.BlockDyeLeaf;
 import Reika.DyeTrees.Blocks.BlockDyeLeafDecay;
 import Reika.DyeTrees.Blocks.BlockDyeSapling;
+import Reika.DyeTrees.Blocks.ItemBlockDyeBlock;
 import Reika.DyeTrees.Blocks.ItemBlockDyeLeaf;
 import Reika.DyeTrees.Blocks.ItemBlockDyeSapling;
 
@@ -25,7 +27,8 @@ public enum DyeBlocks implements RegistryEnum {
 
 	LEAF(BlockDyeLeaf.class, ItemBlockDyeLeaf.class, "Leaves"),
 	SAPLING(BlockDyeSapling.class, ItemBlockDyeSapling.class, "Sapling"),
-	DECAY(BlockDyeLeafDecay.class, ItemBlockDyeLeaf.class, "Decaying Leaves");
+	DECAY(BlockDyeLeafDecay.class, ItemBlockDyeLeaf.class, "Decaying Leaves"),
+	DYE(BlockDye.class, ItemBlockDyeBlock.class, "Dye Block");
 	//GRASS(BlockDyeGrass.class, null, "Dye Grass");
 
 	private Class blockClass;
@@ -73,7 +76,7 @@ public enum DyeBlocks implements RegistryEnum {
 	public String getMultiValuedName(int meta) {
 		switch(this) {
 		default:
-			return ReikaDyeHelper.dyes[meta].getName()+" "+this.getBasicName();
+			return ReikaDyeHelper.dyes[meta].colorName+" "+this.getBasicName();
 		}
 	}
 

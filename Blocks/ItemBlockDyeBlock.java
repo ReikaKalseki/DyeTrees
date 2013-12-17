@@ -16,9 +16,9 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import Reika.DragonAPI.Libraries.Registry.ReikaDyeHelper;
 
-public class ItemBlockDyeLeaf extends ItemBlock {
+public class ItemBlockDyeBlock extends ItemBlock {
 
-	public ItemBlockDyeLeaf(int id) {
+	public ItemBlockDyeBlock(int id) {
 		super(id);
 		hasSubtypes = true;
 	}
@@ -39,7 +39,7 @@ public class ItemBlockDyeLeaf extends ItemBlock {
 	@Override
 	public String getItemDisplayName(ItemStack is)
 	{
-		return ReikaDyeHelper.getColorFromItem(is).colorName+" Leaves";
+		return ReikaDyeHelper.getColorFromItem(is).colorName+" Dye Block";
 	}
 
 }

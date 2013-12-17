@@ -48,7 +48,7 @@ public class ItemBlockDyeSapling extends ItemBlock {
 	@Override
 	public String getItemDisplayName(ItemStack is)
 	{
-		return ReikaDyeHelper.getColorFromItem(is).getName()+" Sapling";
+		return ReikaDyeHelper.getColorFromItem(is).colorName+" Sapling";
 	}
 
 }

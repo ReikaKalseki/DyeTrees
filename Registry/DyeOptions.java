@@ -23,7 +23,8 @@ public enum DyeOptions implements ConfigList {
 	RETROGEN("Retrogen Trees", false),
 	BIOMEID("Rainbow Forest Biome ID", 48),
 	COLORSLIMES("Rainbow Slimes", true),
-	OVERWORLD("Overworld Rainbow Forest", true);
+	OVERWORLD("Overworld Rainbow Forest", true),
+	BLOCKPARTICLES("Dye Block Particles", true);
 
 	private String label;
 	private boolean defaultState;

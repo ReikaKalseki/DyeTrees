@@ -107,6 +107,9 @@ public class DyeTrees extends DragonAPIMod {
 				GameRegistry.addShapelessRecipe(new ItemStack(DyeBlocks.SAPLING.getBlockID(), 1, i), Block.sapling, ReikaDyeHelper.dyes[i].getStackOf());
 			}
 		}
+		for (int i = 0; i < 16; i++) {
+			GameRegistry.addRecipe(new ItemStack(DyeBlocks.DYE.getBlockID(), 1, i), "ddd", "ddd", "ddd", 'd', ReikaDyeHelper.dyes[i].getStackOf());
+		}
 
 		this.addCompat();
 	}
