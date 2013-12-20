@@ -109,4 +109,13 @@ public class BiomeRainbowForest extends BiomeGenBase {
 		return 0.6F;
 	}
 
+	@Override
+	public int getSkyColorByTemp(float par1)
+	{
+		//return new Color(130, 170, 255).getRGB(); //original
+		//return new Color(160, 130, 205).getRGB();
+		//return new Color(0, 0, 0).getRGB();
+		return new Color(100, 140, 255).getRGB(); //original
+	}
+
 }

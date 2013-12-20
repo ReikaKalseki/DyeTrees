@@ -12,10 +12,15 @@ package Reika.DyeTrees.World;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import Reika.DragonAPI.Libraries.Java.ReikaRandomHelper;
 import Reika.DragonAPI.Libraries.Registry.ReikaDyeHelper;
+import Reika.DragonAPI.Libraries.Registry.ReikaTreeHelper;
 import Reika.DragonAPI.Libraries.World.ReikaWorldHelper;
+import Reika.DragonAPI.ModRegistry.ModWoodList;
 import Reika.DyeTrees.Registry.DyeBlocks;
+import Reika.DyeTrees.Registry.DyeOptions;
 
 public class TreeShaper {
 
@@ -56,15 +61,29 @@ public class TreeShaper {
 		this.generateNormalTree(world, x, y, z, color);
 	}
 
+	public ItemStack getLogType() {
+		float chance = ModWoodList.woodList.length/(float)(ModWoodList.woodList.length+ReikaTreeHelper.treeList.length);
+		if (DyeOptions.MODLOGS.getState() && ReikaRandomHelper.doWithChance(chance)) {
+			ModWoodList wood = ModWoodList.getRandomWood(rand);
+			while (wood == ModWoodList.BAMBOO)
+				wood = ModWoodList.getRandomWood(rand);
+			return wood.getItem();
+		}
+		else {
+			ReikaTreeHelper tree = ReikaTreeHelper.treeList[rand.nextInt(ReikaTreeHelper.treeList.length)];
+			return tree.getLog();
+		}
+	}
+
 	public void generateNormalTree(World world, int x, int y, int z, ReikaDyeHelper color) {
 		if (ColorTreeGenerator.canGenerateTree(world, x, z)) {
 			int meta = color.ordinal();
-			int log = rand.nextInt(4);
+			ItemStack log = this.getLogType();
 			int w = 2;
 			int h = 5+rand.nextInt(3);
 
 			for (int i = 0; i < h; i++) {
-				world.setBlock(x, y+i, z, Block.wood.blockID, log, 3);
+				world.setBlock(x, y+i, z, log.itemID, log.getItemDamage(), 3);
 			}
 			for (int i = -w; i <= w; i++) {
 				for (int j = -w; j <= w; j++) {
@@ -102,12 +121,12 @@ public class TreeShaper {
 	public void generateTallTree(World world, int x, int y, int z, ReikaDyeHelper color) {
 		if (ColorTreeGenerator.canGenerateTree(world, x, z)) {
 			int h = 10+rand.nextInt(3);
-			int log = rand.nextInt(4);
+			ItemStack log = this.getLogType();
 			int meta = color.ordinal();
 			int w = 2;
 
 			for (int i = 0; i < h; i++) {
-				world.setBlock(x, y+i, z, Block.wood.blockID, log, 3);
+				world.setBlock(x, y+i, z, log.itemID, log.getItemDamage(), 3);
 			}
 			for (int i = -1; i <= 1; i++) {
 				for (int j = -1; j <= 1; j++) {
@@ -185,18 +204,18 @@ public class TreeShaper {
 	public void generateLumpyTree(World world, int x, int y, int z, ReikaDyeHelper color) {
 		if (ColorTreeGenerator.canGenerateTree(world, x, z)) {
 			int h = 8+rand.nextInt(4);
-			int log = rand.nextInt(4);
+			ItemStack log = this.getLogType();
 			int meta = color.ordinal();
 
 			for (int i = 0; i < h; i++) {
-				world.setBlock(x, y+i, z, Block.wood.blockID, log, 3);
+				world.setBlock(x, y+i, z, log.itemID, log.getItemDamage(), 3);
 			}
 
 			for (int i = 1; i < 2; i++) {
 				int dx = x+i;
 				int dy = y+h-2;
 				int dz = z;
-				world.setBlock(dx, dy, dz, Block.wood.blockID, log, 3);
+				world.setBlock(dx, dy, dz, log.itemID, log.getItemDamage(), 3);
 				for (int j = -1; j <= 1; j++) {
 					for (int k = -1; k <= 1; k++) {
 						for (int m = -1; m <= 1; m++) {
@@ -209,7 +228,7 @@ public class TreeShaper {
 
 				dx = x-i;
 				dz = z;
-				world.setBlock(dx, dy, dz, Block.wood.blockID, log, 3);
+				world.setBlock(dx, dy, dz, log.itemID, log.getItemDamage(), 3);
 				for (int j = -1; j <= 1; j++) {
 					for (int k = -1; k <= 1; k++) {
 						for (int m = -1; m <= 1; m++) {
@@ -222,7 +241,7 @@ public class TreeShaper {
 
 				dx = x;
 				dz = z-i;
-				world.setBlock(dx, dy, dz, Block.wood.blockID, log, 3);
+				world.setBlock(dx, dy, dz, log.itemID, log.getItemDamage(), 3);
 				for (int j = -1; j <= 1; j++) {
 					for (int k = -1; k <= 1; k++) {
 						for (int m = -1; m <= 1; m++) {
@@ -235,7 +254,7 @@ public class TreeShaper {
 
 				dx = x;
 				dz = z+i;
-				world.setBlock(dx, dy, dz, Block.wood.blockID, log, 3);
+				world.setBlock(dx, dy, dz, log.itemID, log.getItemDamage(), 3);
 				for (int j = -1; j <= 1; j++) {
 					for (int k = -1; k <= 1; k++) {
 						for (int m = -1; m <= 1; m++) {
@@ -249,7 +268,7 @@ public class TreeShaper {
 				dx = x+i;
 				dy = y+h-6;
 				dz = z;
-				world.setBlock(dx, dy, dz, Block.wood.blockID, log, 3);
+				world.setBlock(dx, dy, dz, log.itemID, log.getItemDamage(), 3);
 				for (int j = -1; j <= 1; j++) {
 					for (int k = -1; k <= 1; k++) {
 						for (int m = -1; m <= 1; m++) {
@@ -262,7 +281,7 @@ public class TreeShaper {
 
 				dx = x-i;
 				dz = z;
-				world.setBlock(dx, dy, dz, Block.wood.blockID, log, 3);
+				world.setBlock(dx, dy, dz, log.itemID, log.getItemDamage(), 3);
 				for (int j = -1; j <= 1; j++) {
 					for (int k = -1; k <= 1; k++) {
 						for (int m = -1; m <= 1; m++) {
@@ -275,7 +294,7 @@ public class TreeShaper {
 
 				dx = x;
 				dz = z-i;
-				world.setBlock(dx, dy, dz, Block.wood.blockID, log, 3);
+				world.setBlock(dx, dy, dz, log.itemID, log.getItemDamage(), 3);
 				for (int j = -1; j <= 1; j++) {
 					for (int k = -1; k <= 1; k++) {
 						for (int m = -1; m <= 1; m++) {
@@ -288,7 +307,7 @@ public class TreeShaper {
 
 				dx = x;
 				dz = z+i;
-				world.setBlock(dx, dy, dz, Block.wood.blockID, log, 3);
+				world.setBlock(dx, dy, dz, log.itemID, log.getItemDamage(), 3);
 				for (int j = -1; j <= 1; j++) {
 					for (int k = -1; k <= 1; k++) {
 						for (int m = -1; m <= 1; m++) {

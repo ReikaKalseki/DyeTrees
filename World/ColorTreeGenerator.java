@@ -19,6 +19,7 @@ import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraftforge.common.BiomeDictionary;
 import Reika.DragonAPI.Libraries.MathSci.ReikaMathLibrary;
 import Reika.DragonAPI.Libraries.Registry.ReikaDyeHelper;
+import Reika.DragonAPI.ModInteract.ReikaTwilightHelper;
 import Reika.DyeTrees.DyeTrees;
 import Reika.DyeTrees.Blocks.BlockDyeSapling;
 import Reika.DyeTrees.Registry.DyeOptions;
@@ -92,6 +93,8 @@ public class ColorTreeGenerator implements IWorldGenerator {
 		if (world.isRemote)
 			return false;
 		if (Math.abs(world.provider.dimensionId) == 1)
+			return false;
+		if (Math.abs(world.provider.dimensionId) == ReikaTwilightHelper.getDimensionID())
 			return false;
 		BiomeGenBase biome = world.getBiomeGenForCoords(x, z);
 		BiomeDecorator dec = biome.theBiomeDecorator;

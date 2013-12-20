@@ -24,7 +24,8 @@ public enum DyeOptions implements ConfigList {
 	BIOMEID("Rainbow Forest Biome ID", 48),
 	COLORSLIMES("Rainbow Slimes", true),
 	OVERWORLD("Overworld Rainbow Forest", true),
-	BLOCKPARTICLES("Dye Block Particles", true);
+	BLOCKPARTICLES("Dye Block Particles", true),
+	MODLOGS("Allow mod logs in Dye Trees", true);
 
 	private String label;
 	private boolean defaultState;

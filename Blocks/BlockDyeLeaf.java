@@ -26,6 +26,7 @@ import net.minecraftforge.common.ForgeDirection;
 import Reika.DragonAPI.Libraries.Java.ReikaRandomHelper;
 import Reika.DragonAPI.Libraries.Registry.ReikaDyeHelper;
 import Reika.DragonAPI.Libraries.Registry.ReikaParticleHelper;
+import Reika.DragonAPI.ModRegistry.ModWoodList;
 import Reika.DyeTrees.DyeTrees;
 import Reika.DyeTrees.Registry.DyeBlocks;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -161,7 +162,8 @@ public class BlockDyeLeaf extends BlockLeaves {
 				for (int j = -r; j <= r; j++) {
 					for (int k = -r; k <= r; k++) {
 						int id = world.getBlockId(x+i, y+j, z+k);
-						if (id == Block.wood.blockID) {
+						int meta = world.getBlockMetadata(x+i, y+j, z+k);
+						if (id == Block.wood.blockID || ModWoodList.isModWood(id, meta)) {
 							decay = false;
 							i = j = k = r+1;
 						}
