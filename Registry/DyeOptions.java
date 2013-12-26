@@ -25,7 +25,8 @@ public enum DyeOptions implements ConfigList {
 	COLORSLIMES("Rainbow Slimes", true),
 	OVERWORLD("Overworld Rainbow Forest", true),
 	BLOCKPARTICLES("Dye Block Particles", true),
-	MODLOGS("Allow mod logs in Dye Trees", true);
+	MODLOGS("Allow mod logs in Dye Trees", true),
+	WHITEMEAL("Allow bonemeal on White Trees", true);
 
 	private String label;
 	private boolean defaultState;

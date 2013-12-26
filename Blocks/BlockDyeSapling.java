@@ -26,6 +26,7 @@ import Reika.DragonAPI.Libraries.Registry.ReikaPlantHelper;
 import Reika.DragonAPI.Libraries.World.ReikaWorldHelper;
 import Reika.DyeTrees.DyeTrees;
 import Reika.DyeTrees.Registry.DyeBlocks;
+import Reika.DyeTrees.Registry.DyeOptions;
 import Reika.DyeTrees.World.TreeShaper;
 
 public class BlockDyeSapling extends BlockSapling {
@@ -63,6 +64,9 @@ public class BlockDyeSapling extends BlockSapling {
 		if (is == null)
 			return false;
 		if (!ReikaItemHelper.matchStacks(is, ReikaDyeHelper.WHITE.getStackOf()))
+			return false;
+		int color = world.getBlockMetadata(x, y, z);
+		if (color == ReikaDyeHelper.WHITE.ordinal() && !DyeOptions.WHITEMEAL.getState())
 			return false;
 		if (this.canGrowAt(world, x, y, z))
 			this.growTree(world, x, y, z, ep.isSneaking() ? 7 : this.getGrowthHeight());
