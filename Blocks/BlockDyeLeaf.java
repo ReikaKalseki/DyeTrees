@@ -29,6 +29,8 @@ import Reika.DragonAPI.Libraries.Registry.ReikaParticleHelper;
 import Reika.DragonAPI.ModRegistry.ModWoodList;
 import Reika.DyeTrees.DyeTrees;
 import Reika.DyeTrees.Registry.DyeBlocks;
+import Reika.DyeTrees.Registry.DyeItems;
+import Reika.DyeTrees.Registry.DyeOptions;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 
@@ -90,7 +92,16 @@ public class BlockDyeLeaf extends BlockLeaves {
 			if (ReikaRandomHelper.doWithChance(appleChance))
 				this.dropBlockAsItem_do(world, x, y, z, new ItemStack(Item.appleRed, 1, 0));
 			if (ReikaRandomHelper.doWithChance(dyeChance))
-				this.dropBlockAsItem_do(world, x, y, z, new ItemStack(Item.dyePowder.itemID, 1, metadata));
+				this.dropDye(world, x, y, z, metadata);
+		}
+	}
+
+	private void dropDye(World world, int x, int y, int z, int metadata) {
+		if (DyeOptions.VANILLADYES.getState()) {
+			this.dropBlockAsItem_do(world, x, y, z, new ItemStack(Item.dyePowder.itemID, 1, metadata));
+		}
+		else {
+			this.dropBlockAsItem_do(world, x, y, z, DyeItems.DYE.getStackOfMetadata(metadata));
 		}
 	}
 

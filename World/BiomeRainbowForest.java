@@ -35,7 +35,7 @@ public class BiomeRainbowForest extends BiomeGenBase {
 		super(id);
 		this.setColor(16711935);
 		this.setBiomeName("Rainbow Forest");
-		this.func_76733_a(5159473); //not used in 1.5.2
+		this.func_76733_a(5159473); //not used in 1.6.4
 		this.setTemperatureRainfall(0.7F, 0.8F);
 
 		this.initSpawnRules();

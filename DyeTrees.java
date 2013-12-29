@@ -17,12 +17,16 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderSlime;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.monster.EntitySlime;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.oredict.OreDictionary;
+import ttftcuts.atg.api.ATGBiomes;
+import ttftcuts.atg.api.ATGBiomes.BiomeType;
 import Reika.DragonAPI.DragonAPICore;
 import Reika.DragonAPI.ModList;
 import Reika.DragonAPI.Auxiliary.BiomeCollisionTracker;
@@ -34,10 +38,12 @@ import Reika.DragonAPI.Libraries.ReikaRegistryHelper;
 import Reika.DragonAPI.Libraries.Java.ReikaObfuscationHelper;
 import Reika.DragonAPI.Libraries.Registry.ReikaDyeHelper;
 import Reika.DyeTrees.Registry.DyeBlocks;
+import Reika.DyeTrees.Registry.DyeItems;
 import Reika.DyeTrees.Registry.DyeOptions;
 import Reika.DyeTrees.World.BiomeRainbowForest;
 import Reika.DyeTrees.World.ColorTreeGenerator;
 import Reika.DyeTrees.World.RetroDyeTreeGen;
+import Reika.RotaryCraft.API.BlockColorInterface;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -57,11 +63,12 @@ public class DyeTrees extends DragonAPIMod {
 	@Instance("DyeTrees")
 	public static DyeTrees instance = new DyeTrees();
 
-	public static final ControlledConfig config = new ControlledConfig(instance, DyeOptions.optionList, DyeBlocks.blockList, null, null, 0);
+	public static final ControlledConfig config = new ControlledConfig(instance, DyeOptions.optionList, DyeBlocks.blockList, DyeItems.itemList, null, 0);
 
 	public static ModLogger logger;
 
 	public static Block[] blocks = new Block[DyeBlocks.blockList.length];
+	public static Item[] items = new Item[DyeItems.itemList.length];
 
 	public static CreativeTabs dyeTreeTab = new DyeTreeTab(CreativeTabs.getNextID(), "Dye Trees");
 
@@ -107,11 +114,54 @@ public class DyeTrees extends DragonAPIMod {
 				GameRegistry.addShapelessRecipe(new ItemStack(DyeBlocks.SAPLING.getBlockID(), 1, i), Block.sapling, ReikaDyeHelper.dyes[i].getStackOf());
 			}
 		}
+
 		for (int i = 0; i < 16; i++) {
-			GameRegistry.addRecipe(new ItemStack(DyeBlocks.DYE.getBlockID(), 1, i), "ddd", "ddd", "ddd", 'd', ReikaDyeHelper.dyes[i].getStackOf());
+			ReikaDyeHelper dye = ReikaDyeHelper.dyes[i];
+			ItemStack used = DyeOptions.VANILLADYES.getState() ? dye.getStackOf() : DyeItems.DYE.getStackOfMetadata(i);
+			GameRegistry.addRecipe(new ItemStack(DyeBlocks.DYE.getBlockID(), 1, i), "ddd", "ddd", "ddd", 'd', used);
+			OreDictionary.registerOre(dye.getOreDictName(), used);
+		}
+
+		if (DyeOptions.VANILLADYES.getState()) {
+
+		}
+		else {
+			logger.log("Configs were set such that trees do not drop vanilla dyes! Loading interface recipes to ensure farmability!");
+			for (int i = 0; i < 16; i++) {
+				ReikaDyeHelper dye = ReikaDyeHelper.dyes[i];
+				Object[] in = this.getIntercraft(dye);
+				Object[] sub = new Object[in.length-1];
+				System.arraycopy(in, 1, sub, 0, sub.length);
+				boolean shaped = (Boolean)in[0];
+				if (shaped) {
+					GameRegistry.addRecipe(dye.getStackOf(), sub);
+				}
+				else {
+					GameRegistry.addShapelessRecipe(dye.getStackOf(), sub);
+				}
+			}
 		}
 
 		this.addCompat();
+
+		ATGBiomes.addBiome(BiomeType.LAND, "Forest", forest, 1.0);
+	}
+
+	private Object[] getIntercraft(ReikaDyeHelper dye) {
+		switch(dye) {
+		//case BLACK:
+		//	break;
+		case BLUE:
+			return new Object[]{true, "DDD", "DSD", "DDD", 'D', DyeItems.DYE.getStackOfMetadata(ReikaDyeHelper.BLUE.ordinal()), 'S', Block.stone};
+		case BROWN:
+			return new Object[]{false, Item.seeds, DyeItems.DYE.getStackOfMetadata(dye.ordinal())};
+			//case GREEN:
+			//	return new Object[]{false, Item.paper, DyeItems.DYE.getStackOfMetadata(dye.ordinal())};
+		case WHITE:
+			return new Object[]{false, Item.sugar, DyeItems.DYE.getStackOfMetadata(ReikaDyeHelper.WHITE.ordinal()), Item.wheat};
+		default:
+			return new Object[]{false, DyeItems.DYE.getStackOfMetadata(dye.ordinal())};
+		}
 	}
 
 	private void addCompat() {
@@ -142,6 +192,16 @@ public class DyeTrees extends DragonAPIMod {
 				e.printStackTrace();
 			}
 		}
+
+		if (ModList.ROTARYCRAFT.isLoaded()) {
+			for (int i = 0; i < ReikaDyeHelper.dyes.length; i++) {
+				ReikaDyeHelper dye = ReikaDyeHelper.dyes[i];
+				BlockColorInterface.addGPRBlockColor(DyeBlocks.DECAY.getBlockID(), i, dye.color);
+				BlockColorInterface.addGPRBlockColor(DyeBlocks.LEAF.getBlockID(), i, dye.color);
+				BlockColorInterface.addGPRBlockColor(DyeBlocks.DYE.getBlockID(), i, dye.color);
+				BlockColorInterface.addGPRBlockColor(DyeBlocks.SAPLING.getBlockID(), i, dye.color);
+			}
+		}
 	}
 
 	@Override
@@ -165,6 +225,7 @@ public class DyeTrees extends DragonAPIMod {
 
 	public static void loadClasses() {
 		ReikaRegistryHelper.instantiateAndRegisterBlocks(instance, DyeBlocks.blockList, blocks);
+		ReikaRegistryHelper.instantiateAndRegisterItems(instance, DyeItems.itemList, items);
 	}
 
 	@Override
