@@ -24,6 +24,10 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
 import net.minecraftforge.event.terraingen.TerrainGen;
+import Reika.DragonAPI.ModList;
+import Reika.DragonAPI.Libraries.World.ReikaWorldHelper;
+import Reika.DragonAPI.ModInteract.ThaumBlockHandler;
+import Reika.DyeTrees.Registry.DyeOptions;
 
 public class RainbowForestDecorator extends BiomeDecorator {
 
@@ -42,6 +46,9 @@ public class RainbowForestDecorator extends BiomeDecorator {
 	{
 		this.generateOres();
 
+		if (ModList.THAUMCRAFT.isLoaded() && DyeOptions.ETHEREAL.getState() && randomGenerator.nextInt(4) == 0)
+			this.generateEtherealPlants();
+
 		this.auxDeco();
 
 		for (int i = 0; i < 9; i++) {
@@ -51,6 +58,7 @@ public class RainbowForestDecorator extends BiomeDecorator {
 			gen.generate(currentWorld, randomGenerator, x, y, z);
 		}
 
+		/*
 		boolean dyeGrass = false;
 		if (dyeGrass) {
 			for (int i = 0; i < 16; i++) {
@@ -64,6 +72,19 @@ public class RainbowForestDecorator extends BiomeDecorator {
 					}
 				}
 			}
+		}*/
+	}
+
+	private void generateEtherealPlants() {
+		int x = chunk_X + randomGenerator.nextInt(16)+8;
+		int z = chunk_Z + randomGenerator.nextInt(16)+8;
+		int y = currentWorld.getTopSolidOrLiquidBlock(x, z);
+		if (ReikaWorldHelper.softBlocks(currentWorld, x, y, z)) {
+			int id = ThaumBlockHandler.getInstance().plantID;
+			int meta = ThaumBlockHandler.getInstance().etherealMeta;
+			currentWorld.setBlock(x, y, z, id, meta, 3);
+			currentWorld.updateAllLightTypes(x, y, z);
+			currentWorld.markBlockForRenderUpdate(x, y, z);
 		}
 	}
 

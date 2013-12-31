@@ -26,7 +26,8 @@ public enum DyeOptions implements ConfigList {
 	OVERWORLD("Overworld Rainbow Forest", true),
 	BLOCKPARTICLES("Dye Block Particles", true),
 	MODLOGS("Allow mod logs in Dye Trees", true),
-	VANILLADYES("Use vanilla dye items", true);
+	VANILLADYES("Use vanilla dye items", true),
+	ETHEREAL("Generate Anti-Taint plants in Rainbow Forest", true);
 
 	private String label;
 	private boolean defaultState;
