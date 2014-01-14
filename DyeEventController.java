@@ -15,6 +15,7 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.item.Item;
@@ -111,6 +112,9 @@ public class DyeEventController {
 			if (e instanceof EntitySlime) {
 				EntitySlime es = (EntitySlime)e;
 				ev.setResult(es.getSlimeSize() > 1 ? Result.DENY : Result.DEFAULT);
+			}
+			else if (e instanceof EntityMob) {
+				ev.setResult(Result.DENY);
 			}
 		}
 	}
