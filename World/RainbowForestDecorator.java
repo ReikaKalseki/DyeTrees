@@ -46,7 +46,7 @@ public class RainbowForestDecorator extends BiomeDecorator {
 	{
 		this.generateOres();
 
-		if (ModList.THAUMCRAFT.isLoaded() && DyeOptions.ETHEREAL.getState() && randomGenerator.nextInt(4) == 0)
+		if (ModList.THAUMCRAFT.isLoaded() && DyeOptions.ETHEREAL.getState() && randomGenerator.nextInt(3) == 0)
 			this.generateEtherealPlants();
 
 		this.auxDeco();
