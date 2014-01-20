@@ -32,7 +32,6 @@ import Reika.DragonAPI.ModList;
 import Reika.DragonAPI.Auxiliary.BiomeCollisionTracker;
 import Reika.DragonAPI.Auxiliary.RetroGenController;
 import Reika.DragonAPI.Base.DragonAPIMod;
-import Reika.DragonAPI.Instantiable.IO.ControlledConfig;
 import Reika.DragonAPI.Instantiable.IO.ModLogger;
 import Reika.DragonAPI.Libraries.ReikaRegistryHelper;
 import Reika.DragonAPI.Libraries.Java.ReikaObfuscationHelper;
@@ -63,7 +62,7 @@ public class DyeTrees extends DragonAPIMod {
 	@Instance("DyeTrees")
 	public static DyeTrees instance = new DyeTrees();
 
-	public static final ControlledConfig config = new ControlledConfig(instance, DyeOptions.optionList, DyeBlocks.blockList, DyeItems.itemList, null, 0);
+	public static final DyeConfig config = new DyeConfig(instance, DyeOptions.optionList, DyeBlocks.blockList, DyeItems.itemList, null, 0);
 
 	public static ModLogger logger;
 

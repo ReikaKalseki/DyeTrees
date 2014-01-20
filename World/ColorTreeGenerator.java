@@ -41,7 +41,7 @@ public class ColorTreeGenerator implements IWorldGenerator {
 		int z = chunkZ+r.nextInt(16);
 		if (this.canGenerateTree(world, x, z)) {
 			for (int i = 0; i < trees; i++) {
-				if (r.nextInt(CHANCE) == 0) {
+				if (r.nextInt(this.getTreeChance()) == 0) {
 					int y = world.getTopSolidOrLiquidBlock(x, z);
 					int id = world.getBlockId(x, y, z);
 					Block b = Block.blocksList[id];
@@ -49,6 +49,16 @@ public class ColorTreeGenerator implements IWorldGenerator {
 				}
 			}
 		}
+	}
+
+	private int getTreeChance() {
+		return (int)(CHANCE/this.getScaledTreeCount());
+	}
+
+	private float getScaledTreeCount() {
+		int scale = Math.max(1, Math.min(3, DyeOptions.DENSITY.getValue()));
+		float factor = scale/2F;
+		return factor;
 	}
 
 	public static int getTreeCount(BiomeGenBase biome) {

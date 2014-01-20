@@ -9,18 +9,19 @@
  ******************************************************************************/
 package Reika.DyeTrees.World;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import Reika.DragonAPI.Libraries.Java.ReikaRandomHelper;
+import Reika.DragonAPI.Exception.InstallationException;
 import Reika.DragonAPI.Libraries.Registry.ReikaDyeHelper;
 import Reika.DragonAPI.Libraries.Registry.ReikaTreeHelper;
 import Reika.DragonAPI.Libraries.World.ReikaWorldHelper;
 import Reika.DragonAPI.ModRegistry.ModWoodList;
+import Reika.DyeTrees.DyeTrees;
 import Reika.DyeTrees.Registry.DyeBlocks;
-import Reika.DyeTrees.Registry.DyeOptions;
 
 public class TreeShaper {
 
@@ -34,16 +35,52 @@ public class TreeShaper {
 
 	private final Random rand = new Random();
 
+	private final ArrayList<ItemStack> validLogs = new ArrayList();
+
+	public boolean isLogTypeEverAllowed(ModWoodList wood) {
+		return wood != ModWoodList.BAMBOO;
+	}
+
 	private TreeShaper() {
-		this.initialize();
+		for (int i = 0; i < ReikaTreeHelper.treeList.length; i++) {
+			ReikaTreeHelper tree = ReikaTreeHelper.treeList[i];
+			if (DyeTrees.config.shouldGenerateLogType(tree)) {
+				validLogs.add(tree.getLog());
+				DyeTrees.logger.log("Dye Tree Generation with Log Type "+tree.getName()+" logs: Enabled");
+			}
+			else {
+				DyeTrees.logger.log("Dye Tree Generation with Log Type "+tree.getName()+" logs: Disabled");
+			}
+		}
+
+		for (int i = 0; i < ModWoodList.woodList.length; i++) {
+			ModWoodList tree = ModWoodList.woodList[i];
+			if (this.isLogTypeEverAllowed(tree)) {
+				if (tree.exists()) {
+					if (DyeTrees.config.shouldGenerateLogType(tree)) {
+						validLogs.add(tree.getItem());
+						DyeTrees.logger.log("Dye Tree Generation with Log Type "+tree.getBasicInfo()+": Enabled");
+					}
+					else {
+						DyeTrees.logger.log("Dye Tree Generation with Log Type "+tree.getBasicInfo()+": Disabled (Config Option)");
+					}
+				}
+				else {
+					DyeTrees.logger.log("Dye Tree Generation with Log Type "+tree.getBasicInfo()+": Disabled (Not Loaded)");
+				}
+			}
+			else {
+				DyeTrees.logger.log("Dye Tree Generation with Log Type "+tree.getBasicInfo()+": Disabled (Disallowed)");
+			}
+		}
+
+		if (validLogs.isEmpty()) {
+			throw new InstallationException(DyeTrees.instance, "You must enable at least one log type!");
+		}
 	}
 
 	public static TreeShaper getInstance() {
 		return instance;
-	}
-
-	public void initialize() {
-
 	}
 
 	public void generateRandomWeightedTree(World world, int x, int y, int z, ReikaDyeHelper color) {
@@ -62,17 +99,7 @@ public class TreeShaper {
 	}
 
 	public ItemStack getLogType() {
-		float chance = ModWoodList.woodList.length/(float)(ModWoodList.woodList.length+ReikaTreeHelper.treeList.length);
-		if (DyeOptions.MODLOGS.getState() && ReikaRandomHelper.doWithChance(chance)) {
-			ModWoodList wood = ModWoodList.getRandomWood(rand);
-			while (wood == ModWoodList.BAMBOO)
-				wood = ModWoodList.getRandomWood(rand);
-			return wood.getItem();
-		}
-		else {
-			ReikaTreeHelper tree = ReikaTreeHelper.treeList[rand.nextInt(ReikaTreeHelper.treeList.length)];
-			return tree.getLog();
-		}
+		return validLogs.get(rand.nextInt(validLogs.size()));
 	}
 
 	public void generateNormalTree(World world, int x, int y, int z, ReikaDyeHelper color) {
