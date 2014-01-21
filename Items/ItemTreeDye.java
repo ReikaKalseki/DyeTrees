@@ -7,48 +7,56 @@
  * Distribution of the software in any form is only allowed with
  * explicit, prior permission from the owner.
  ******************************************************************************/
-package Reika.DyeTrees.Blocks;
+package Reika.DyeTrees.Items;
 
 import java.util.List;
 
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Icon;
 import Reika.DragonAPI.Libraries.Registry.ReikaDyeHelper;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import Reika.DyeTrees.DyeTrees;
 
-public class ItemBlockDyeSapling extends ItemBlock {
+public class ItemTreeDye extends Item {
 
-	public ItemBlockDyeSapling(int par1) {
+	public ItemTreeDye(int par1) {
 		super(par1);
+		this.setCreativeTab(DyeTrees.dyeTreeTab);
 		hasSubtypes = true;
 	}
 
 	@Override
-	public void getSubItems(int id, CreativeTabs par2CreativeTabs, List par3List)
-	{
-		for (int i = 0; i < 16; i++)
-			par3List.add(new ItemStack(id, 1, i));
+	public void registerIcons(IconRegister ico) {
+		itemIcon = ico.registerIcon("dyetrees:dye");
 	}
 
 	@Override
-	public int getMetadata(int dmg)
+	public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
 	{
-		return dmg;
+		for (int i = 0; i < 16; i++) {
+			ReikaDyeHelper dye = ReikaDyeHelper.dyes[i];
+			par3List.add(new ItemStack(par1, 1, i));
+		}
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
 	public int getColorFromItemStack(ItemStack is, int par2)
 	{
 		return ReikaDyeHelper.getColorFromItem(is).getJavaColor().brighter().getRGB();
 	}
 
 	@Override
+	public Icon getIconFromDamage(int par1)
+	{
+		return itemIcon;
+	}
+
+	@Override
 	public String getItemDisplayName(ItemStack is)
 	{
-		return ReikaDyeHelper.getColorFromItem(is).colorName+" Sapling";
+		return ReikaDyeHelper.getColorFromItem(is).colorName+" Tree Dye";
 	}
 
 }

@@ -7,7 +7,7 @@
  * Distribution of the software in any form is only allowed with
  * explicit, prior permission from the owner.
  ******************************************************************************/
-package Reika.DyeTrees.Blocks;
+package Reika.DyeTrees.Items;
 
 import java.util.List;
 
@@ -16,9 +16,9 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import Reika.DragonAPI.Libraries.Registry.ReikaDyeHelper;
 
-public class ItemBlockDyeGrass extends ItemBlock {
+public class ItemBlockDyeBlock extends ItemBlock {
 
-	public ItemBlockDyeGrass(int id) {
+	public ItemBlockDyeBlock(int id) {
 		super(id);
 		hasSubtypes = true;
 	}
@@ -39,7 +39,7 @@ public class ItemBlockDyeGrass extends ItemBlock {
 	@Override
 	public String getItemDisplayName(ItemStack is)
 	{
-		return ReikaDyeHelper.getColorFromItem(is).colorName+" Grass";
+		return ReikaDyeHelper.getColorFromItem(is).colorName+" Dye Block";
 	}
 
 }

@@ -16,7 +16,7 @@ import Reika.DragonAPI.Interfaces.RegistryEnum;
 import Reika.DragonAPI.Libraries.Java.ReikaStringParser;
 import Reika.DragonAPI.Libraries.Registry.ReikaDyeHelper;
 import Reika.DyeTrees.DyeTrees;
-import Reika.DyeTrees.ItemTreeDye;
+import Reika.DyeTrees.Items.ItemTreeDye;
 
 public enum DyeItems implements RegistryEnum {
 

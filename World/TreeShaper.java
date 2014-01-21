@@ -380,4 +380,8 @@ public class TreeShaper {
 		return soft || leaves;
 	}
 
+	public void generateRainbowTree(World world, int x, int y, int z) {
+
+	}
+
 }
