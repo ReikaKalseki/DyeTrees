@@ -23,10 +23,9 @@ import net.minecraft.world.World;
 import Reika.DragonAPI.Libraries.Registry.ReikaDyeHelper;
 import Reika.DragonAPI.Libraries.Registry.ReikaItemHelper;
 import Reika.DragonAPI.Libraries.Registry.ReikaPlantHelper;
-import Reika.DragonAPI.Libraries.World.ReikaWorldHelper;
 import Reika.DyeTrees.DyeTrees;
 import Reika.DyeTrees.Registry.DyeBlocks;
-import Reika.DyeTrees.World.TreeShaper;
+import Reika.DyeTrees.World.RainbowTreeGenerator;
 
 public class BlockRainbowSapling extends BlockSapling {
 
@@ -53,8 +52,15 @@ public class BlockRainbowSapling extends BlockSapling {
 	{
 		if (world.isRemote)
 			return;
-		int meta = world.getBlockMetadata(x, y, z);
-		TreeShaper.getInstance().generateRainbowTree(world, x, y, z);
+
+		int id = world.getBlockId(x+1, y, z);
+		if (id == blockID)
+			x++;
+		id = world.getBlockId(x, y, z+1);
+		if (id == blockID)
+			z++;
+
+		RainbowTreeGenerator.getInstance().generateRainbowTree(world, x, y, z);
 	}
 
 	@Override
@@ -75,7 +81,7 @@ public class BlockRainbowSapling extends BlockSapling {
 	}
 
 	@Override
-	public Icon getIcon(int par1, int par2)
+	public Icon getIcon(int par1, int x)
 	{
 		return icon;
 	}
@@ -93,23 +99,49 @@ public class BlockRainbowSapling extends BlockSapling {
 	}
 
 	public static boolean canGrowAt(World world, int x, int y, int z) {
+		if (y < 4)
+			return false;
+
 		int id = world.getBlockId(x, y, z);
+		if (id != DyeBlocks.RAINBOWSAPLING.getBlockID())
+			return false;
+
+		boolean flag = false;
+		for (int dx = 0; dx >= -1; dx--) {
+			for (int dz = 0; dz >= -1; dz--)  {
+				if (id == world.getBlockId(x + dx, y, z + dz) && id == world.getBlockId(x + dx + 1, y, z + dz) && id == world.getBlockId(x + dx, y, z + dz + 1) && id == world.getBlockId(x + dx + 1, y, z + dz + 1)) {
+					flag = true;
+					break;
+				}
+			}
+
+			if (flag)
+				break;
+		}
+		if (!flag)
+			return false;
+
 		Block b = Block.blocksList[id];
 		if (!ReikaPlantHelper.SAPLING.canPlantAt(world, x, y, z))
 			return false;
 		if (b instanceof BlockFluid)
 			return false;
-		for (int i = 0; i < 20; i++) {
-			if (!ReikaWorldHelper.softBlocks(world, x, y+i, z) && !(i == 0 && id == DyeBlocks.RAINBOWSAPLING.getBlockID()))
-				return false;
-		}
-		return true;
+
+		id = world.getBlockId(x+1, y, z);
+		if (id == DyeBlocks.RAINBOWSAPLING.getBlockID())
+			x++;
+		id = world.getBlockId(x, y, z+1);
+		if (id == DyeBlocks.RAINBOWSAPLING.getBlockID())
+			z++;
+		return RainbowTreeGenerator.getInstance().checkRainbowTreeSpace(world, x, y, z);
 	}
 
 	@Override
-	public void markOrGrowMarked(World par1World, int par2, int par3, int par4, Random par5Random)
+	public void markOrGrowMarked(World world, int x, int y, int z, Random par5Random)
 	{
-		this.growTree(par1World, par2, par3, par4, par5Random);
+		if (r.nextInt(20) > 0)
+			return;
+		this.growTree(world, x, y, z, par5Random);
 	}
 
 	@Override

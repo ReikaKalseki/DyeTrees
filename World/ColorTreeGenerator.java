@@ -45,10 +45,24 @@ public class ColorTreeGenerator implements IWorldGenerator {
 					int y = world.getTopSolidOrLiquidBlock(x, z);
 					int id = world.getBlockId(x, y, z);
 					Block b = Block.blocksList[id];
-					TreeShaper.getInstance().generateRandomWeightedTree(world, x, y, z, ReikaDyeHelper.dyes[r.nextInt(16)]);
+					if (DyeOptions.GENRAINBOW.getState() && r.nextInt(this.getRainbowChance(world)) == 0) {
+						if (RainbowTreeGenerator.getInstance().checkRainbowTreeSpace(world, x, y, z)) {
+							RainbowTreeGenerator.getInstance().generateRainbowTree(world, x, y, z);
+						}
+						else {
+							TreeShaper.getInstance().generateRandomWeightedTree(world, x, y, z, ReikaDyeHelper.dyes[r.nextInt(16)]);
+						}
+					}
+					else {
+						TreeShaper.getInstance().generateRandomWeightedTree(world, x, y, z, ReikaDyeHelper.dyes[r.nextInt(16)]);
+					}
 				}
 			}
 		}
+	}
+
+	private int getRainbowChance(World world) {
+		return world.provider.dimensionId == ReikaTwilightHelper.getDimensionID() ? 5 : 10;
 	}
 
 	private int getTreeChance() {

@@ -27,7 +27,8 @@ public enum DyeOptions implements ConfigList {
 	BLOCKPARTICLES("Dye Block Particles", true),
 	VANILLADYES("Use vanilla dye items", true),
 	ETHEREAL("Generate Anti-Taint plants in Rainbow Forest", true),
-	DENSITY("Dye Tree Density in Normal Biomes", 2);
+	DENSITY("Dye Tree Density in Normal Biomes", 2),
+	GENRAINBOW("Generate Rainbow Trees", true);
 
 	private String label;
 	private boolean defaultState;
