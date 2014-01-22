@@ -9,6 +9,9 @@
  ******************************************************************************/
 package Reika.DyeTrees.Items;
 
+import java.util.List;
+
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import cpw.mods.fml.relauncher.Side;
@@ -25,6 +28,12 @@ public class ItemBlockRainbowSapling extends ItemBlock {
 	public int getColorFromItemStack(ItemStack is, int par2)
 	{
 		return 0xffffff;
+	}
+
+	@Override
+	public void getSubItems(int id, CreativeTabs par2CreativeTabs, List par3List)
+	{
+		par3List.add(new ItemStack(id, 1, 0));
 	}
 
 }

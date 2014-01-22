@@ -66,10 +66,12 @@ public class BlockDyeLeaf extends BlockCustomLeaf {
 			float saplingChance = 0.05F;
 			float appleChance = 0.005F;
 			float dyeChance = 0.1F;
+			float rainbowChance = 0.0001F;
 
 			saplingChance *= (1+fortune);
 			appleChance *= (1+fortune*5);
 			dyeChance *= (1+fortune);
+			rainbowChance *= (1+fortune)*(1+fortune);
 
 			if (ReikaRandomHelper.doWithChance(saplingChance))
 				this.dropBlockAsItem_do(world, x, y, z, new ItemStack(DyeBlocks.SAPLING.getBlockID(), 1, metadata));
@@ -77,6 +79,8 @@ public class BlockDyeLeaf extends BlockCustomLeaf {
 				this.dropBlockAsItem_do(world, x, y, z, new ItemStack(Item.appleRed, 1, 0));
 			if (ReikaRandomHelper.doWithChance(dyeChance))
 				this.dropDye(world, x, y, z, metadata);
+			if (ReikaRandomHelper.doWithChance(rainbowChance))
+				this.dropBlockAsItem_do(world, x, y, z, new ItemStack(DyeBlocks.RAINBOWSAPLING.getBlockID(), 1, 0));
 		}
 	}
 

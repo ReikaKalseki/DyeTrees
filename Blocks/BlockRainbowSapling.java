@@ -99,7 +99,7 @@ public class BlockRainbowSapling extends BlockSapling {
 			return false;
 		if (b instanceof BlockFluid)
 			return false;
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < 20; i++) {
 			if (!ReikaWorldHelper.softBlocks(world, x, y+i, z) && !(i == 0 && id == DyeBlocks.RAINBOWSAPLING.getBlockID()))
 				return false;
 		}

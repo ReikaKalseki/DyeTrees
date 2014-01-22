@@ -13,11 +13,15 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
 import Reika.DragonAPI.Base.BlockCustomLeaf;
 import Reika.DragonAPI.Libraries.Java.ReikaRandomHelper;
 import Reika.DragonAPI.Libraries.MathSci.ReikaMathLibrary;
@@ -50,15 +54,21 @@ public class BlockRainbowLeaf extends BlockCustomLeaf {
 	@Override
 	public final int getRenderColor(int dmg)
 	{
-		return 0xffffff;
+		//return Color.HSBtoRGB(((System.currentTimeMillis()/60)%360)/360F, 0.8F, 1);
+		World world = Minecraft.getMinecraft().theWorld;
+		EntityPlayer ep = Minecraft.getMinecraft().thePlayer;
+		int x = MathHelper.floor_double(ep.posX);
+		int y = MathHelper.floor_double(ep.posY+ep.getEyeHeight());
+		int z = MathHelper.floor_double(ep.posZ);
+		return this.colorMultiplier(world, x, y, z);
 	}
 
 	@Override
 	public final int colorMultiplier(IBlockAccess iba, int x, int y, int z)
 	{
-		int sc = 16;
-		float hue = (float)(ReikaMathLibrary.py3d(x, y*4, z+x)%sc)/sc;
-		return Color.HSBtoRGB(hue, 0.4F, 1F);
+		int sc = 32;
+		float hue = (float)(ReikaMathLibrary.py3d(x, y*3, z+x)%sc)/sc;
+		return Color.HSBtoRGB(hue, 0.7F, 1F);
 	}
 
 	@Override
@@ -87,21 +97,24 @@ public class BlockRainbowLeaf extends BlockCustomLeaf {
 				this.dropBlockAsItem_do(world, x, y, z, new ItemStack(DyeBlocks.RAINBOWSAPLING.getBlockID(), 1, metadata));
 			if (ReikaRandomHelper.doWithChance(appleChance))
 				this.dropBlockAsItem_do(world, x, y, z, new ItemStack(Item.appleRed, 1, 0));
-			this.dropDye(world, x, y, z, metadata, fortune);
+			this.dropDye(world, x, y, z, fortune);
 		}
 	}
 
-	private final void dropDye(World world, int x, int y, int z, int metadata, int fortune) {
-		if (DyeOptions.VANILLADYES.getState()) {
-			this.dropBlockAsItem_do(world, x, y, z, new ItemStack(Item.dyePowder.itemID, this.getDyeDropCount(fortune), metadata));
-		}
-		else {
-			this.dropBlockAsItem_do(world, x, y, z, new ItemStack(DyeItems.DYE.getShiftedItemID(), this.getDyeDropCount(fortune), metadata));
+	private final void dropDye(World world, int x, int y, int z, int fortune) {
+		int drop = this.getDyeDropCount(fortune);
+		for (int i = 0; i < drop; i++) {
+			if (DyeOptions.VANILLADYES.getState()) {
+				this.dropBlockAsItem_do(world, x, y, z, new ItemStack(Item.dyePowder.itemID, 1, rand.nextInt(16)));
+			}
+			else {
+				this.dropBlockAsItem_do(world, x, y, z, new ItemStack(DyeItems.DYE.getShiftedItemID(), 1, rand.nextInt(16)));
+			}
 		}
 	}
 
 	private int getDyeDropCount(int fortune) {
-		return 1+fortune+rand.nextInt(1+fortune*fortune);
+		return 1+rand.nextInt(3*(1+fortune))+fortune+rand.nextInt(1+fortune*fortune);
 	}
 
 	@Override
@@ -120,7 +133,12 @@ public class BlockRainbowLeaf extends BlockCustomLeaf {
 
 	@Override
 	public final void randomDisplayTick(World world, int x, int y, int z, Random rand) {
-
+		int color = this.colorMultiplier(world, x, y, z);
+		Color c = new Color(color);
+		float r = c.getRed()/255F;
+		float g = c.getGreen()/255F;
+		float b = c.getBlue()/255F;
+		world.spawnParticle("reddust", x+rand.nextDouble(), y, z+rand.nextDouble(), r, g, b);
 	}
 
 	@Override
@@ -142,6 +160,18 @@ public class BlockRainbowLeaf extends BlockCustomLeaf {
 	@Override
 	public boolean shouldTryDecay(World world, int x, int y, int z, int meta) {
 		return meta%2 == 0;
+	}
+
+	@Override
+	public int getFlammability(IBlockAccess world, int x, int y, int z, int metadata, ForgeDirection face)
+	{
+		return 90;
+	}
+
+	@Override
+	public int getFireSpreadSpeed(World world, int x, int y, int z, int metadata, ForgeDirection face)
+	{
+		return 180;
 	}
 
 
