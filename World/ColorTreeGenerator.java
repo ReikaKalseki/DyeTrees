@@ -62,7 +62,7 @@ public class ColorTreeGenerator implements IWorldGenerator {
 	}
 
 	private int getRainbowChance(World world) {
-		return world.provider.dimensionId == ReikaTwilightHelper.getDimensionID() ? 5 : 10;
+		return world.provider.dimensionId == ReikaTwilightHelper.getDimensionID() ? 8 : 16;
 	}
 
 	private int getTreeChance() {

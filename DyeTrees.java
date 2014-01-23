@@ -87,7 +87,7 @@ public class DyeTrees extends DragonAPIMod {
 		ReikaRegistryHelper.setupModData(instance, evt);
 		ReikaRegistryHelper.setupVersionChecking(evt);
 
-		BiomeCollisionTracker.instance.addBiomeID(ModList.DYETREES, DyeOptions.BIOMEID.getValue(), BiomeRainbowForest.class);
+		BiomeCollisionTracker.instance.addBiomeID(instance, DyeOptions.BIOMEID.getValue(), BiomeRainbowForest.class);
 	}
 
 	@Override

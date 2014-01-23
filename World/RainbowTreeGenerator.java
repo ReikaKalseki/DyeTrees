@@ -592,6 +592,8 @@ public class RainbowTreeGenerator {
 		blocks.addBlockCoordinate(x+4, y+28, z+5);
 		blocks.addBlockCoordinate(x+4, y+29, z+4);
 		blocks.addBlockCoordinate(x+4, y+29, z+5);
+		blocks.addBlockCoordinate(x+4, y+30, z+4);
+		blocks.addBlockCoordinate(x+4, y+30, z+5);
 
 		blocks.addBlockCoordinate(x+5, y+2, z+2);
 		blocks.addBlockCoordinate(x+5, y+2, z+3);
@@ -779,6 +781,8 @@ public class RainbowTreeGenerator {
 		blocks.addBlockCoordinate(x+5, y+28, z+5);
 		blocks.addBlockCoordinate(x+5, y+29, z+4);
 		blocks.addBlockCoordinate(x+5, y+29, z+5);
+		blocks.addBlockCoordinate(x+5, y+30, z+4);
+		blocks.addBlockCoordinate(x+5, y+30, z+5);
 
 		blocks.addBlockCoordinate(x+6, y+2, z+3);
 		blocks.addBlockCoordinate(x+6, y+2, z+4);
@@ -1133,6 +1137,15 @@ public class RainbowTreeGenerator {
 				int block = world.getBlockId(dx, y+2, dz);
 				if (block == DyeBlocks.RAINBOWSAPLING.getBlockID())
 					world.setBlock(dx, y+2, dz, 0);
+			}
+		}
+
+		for (int dx = x+2; dx <= x+7; dx++) {
+			for (int dz = z+2; dz <= z+7; dz++) {
+				for (int dy = y+1; dy > y-3; dy--) {
+					if (ReikaWorldHelper.softBlocks(world, dx, dy, dz))
+						world.setBlock(dx, dy, dz, dy == y+1 ? Block.grass.blockID : Block.dirt.blockID);
+				}
 			}
 		}
 
@@ -1652,6 +1665,8 @@ public class RainbowTreeGenerator {
 		world.setBlock(x+4, y+28, z+5, id, 0, 3);
 		world.setBlock(x+4, y+29, z+4, id, 0, 3);
 		world.setBlock(x+4, y+29, z+5, id, 0, 3);
+		world.setBlock(x+4, y+30, z+4, id, 2, 3);
+		world.setBlock(x+4, y+30, z+5, id, 0, 3);
 
 		world.setBlock(x+5, y - 1, z+4, log, meta+0, 3);
 		world.setBlock(x+5, y - 1, z+5, log, meta+0, 3);
@@ -1850,6 +1865,8 @@ public class RainbowTreeGenerator {
 		world.setBlock(x+5, y+28, z+5, id, 0, 3);
 		world.setBlock(x+5, y+29, z+4, id, 0, 3);
 		world.setBlock(x+5, y+29, z+5, id, 0, 3);
+		world.setBlock(x+5, y+30, z+4, id, 0, 3);
+		world.setBlock(x+5, y+30, z+5, id, 0, 3);
 
 		world.setBlock(x+6, y+1, z+3, log, meta+0, 3);
 		world.setBlock(x+6, y+1, z+4, log, meta+0, 3);

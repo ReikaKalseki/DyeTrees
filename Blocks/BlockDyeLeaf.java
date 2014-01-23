@@ -143,18 +143,23 @@ public class BlockDyeLeaf extends BlockCustomLeaf {
 	}
 
 	@Override
-	public String getFastGraphicsIcon() {
+	public String getFastGraphicsIcon(int meta) {
 		return "DyeTrees:leaves_opaque";
 	}
 
 	@Override
-	public String getFancyGraphicsIcon() {
+	public String getFancyGraphicsIcon(int meta) {
 		return "DyeTrees:leaves";
 	}
 
 	@Override
 	public boolean shouldTryDecay(World world, int x, int y, int z, int meta) {
 		return this.decays();
+	}
+
+	@Override
+	public boolean shouldRandomTick() {
+		return false;
 	}
 
 }

@@ -18,11 +18,13 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import Reika.DragonAPI.Base.BlockCustomLeaf;
+import Reika.DragonAPI.Libraries.Java.ReikaJavaLibrary;
 import Reika.DragonAPI.Libraries.Java.ReikaRandomHelper;
 import Reika.DragonAPI.Libraries.MathSci.ReikaMathLibrary;
 import Reika.DyeTrees.DyeTrees;
@@ -80,7 +82,7 @@ public class BlockRainbowLeaf extends BlockCustomLeaf {
 	@Override
 	public int damageDropped(int dmg)
 	{
-		return dmg%2 == 1 ? dmg : dmg+1;
+		return 0;
 	}
 
 	@Override
@@ -88,15 +90,23 @@ public class BlockRainbowLeaf extends BlockCustomLeaf {
 	{
 		if (!world.isRemote) {
 			float saplingChance = 0.0125F;
-			float appleChance = 0.05F;
+			float appleChance = 0.1F;
+			float goldAppleChance = 0.025F;
+			float rareGoldAppleChance = 0.0025F;
 
 			saplingChance *= (1+fortune);
 			appleChance *= (1+fortune*5);
+			goldAppleChance *= (1+fortune*3);
+			rareGoldAppleChance *= (1+fortune*3);
 
 			if (ReikaRandomHelper.doWithChance(saplingChance))
 				this.dropBlockAsItem_do(world, x, y, z, new ItemStack(DyeBlocks.RAINBOWSAPLING.getBlockID(), 1, metadata));
 			if (ReikaRandomHelper.doWithChance(appleChance))
 				this.dropBlockAsItem_do(world, x, y, z, new ItemStack(Item.appleRed, 1, 0));
+			if (ReikaRandomHelper.doWithChance(goldAppleChance))
+				this.dropBlockAsItem_do(world, x, y, z, new ItemStack(Item.appleGold, 1, 0));
+			if (ReikaRandomHelper.doWithChance(rareGoldAppleChance))
+				this.dropBlockAsItem_do(world, x, y, z, new ItemStack(Item.appleGold, 1, 1));
 			this.dropDye(world, x, y, z, fortune);
 		}
 	}
@@ -121,14 +131,14 @@ public class BlockRainbowLeaf extends BlockCustomLeaf {
 	public final ArrayList<ItemStack> onSheared(ItemStack item, World world, int x, int y, int z, int fortune)
 	{
 		ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
-		ret.add(new ItemStack(DyeBlocks.RAINBOW.getBlockID(), 1, world.getBlockMetadata(x, y, z)));
+		ret.add(new ItemStack(DyeBlocks.RAINBOW.getBlockID(), 1, 1));
 		return ret;
 	}
 
 	@Override
 	protected final ItemStack createStackedBlock(int par1)
 	{
-		return new ItemStack(DyeBlocks.RAINBOW.getBlockID(), 1, par1);
+		return new ItemStack(DyeBlocks.RAINBOW.getBlockID(), 1, 1);
 	}
 
 	@Override
@@ -148,12 +158,12 @@ public class BlockRainbowLeaf extends BlockCustomLeaf {
 	}
 
 	@Override
-	public String getFastGraphicsIcon() {
+	public String getFastGraphicsIcon(int meta) {
 		return "DyeTrees:leaves_opaque";
 	}
 
 	@Override
-	public String getFancyGraphicsIcon() {
+	public String getFancyGraphicsIcon(int meta) {
 		return "DyeTrees:leaves";
 	}
 
@@ -172,6 +182,30 @@ public class BlockRainbowLeaf extends BlockCustomLeaf {
 	public int getFireSpreadSpeed(World world, int x, int y, int z, int metadata, ForgeDirection face)
 	{
 		return 180;
+	}
+
+	@Override
+	public boolean hasTileEntity(int meta) {
+		return false;//meta == 2 || meta == 3;
+	}
+
+	@Override
+	public TileEntity createTileEntity(World world, int meta) {/*
+		if (meta == 2 || meta == 3) {
+			return new TileEntityRainbowBeacon();
+		}*/
+		return null;
+	}
+
+	@Override
+	protected void onRandomUpdate(World world, int x, int y, int z, Random r) {
+		this.dropDye(world, x, y, z, 0);
+		ReikaJavaLibrary.pConsole(x+", "+y+", "+z);
+	}
+
+	@Override
+	public boolean shouldRandomTick() {
+		return true;
 	}
 
 
