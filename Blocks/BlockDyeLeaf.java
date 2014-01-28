@@ -85,7 +85,7 @@ public class BlockDyeLeaf extends BlockCustomLeaf {
 	}
 
 	private final void dropDye(World world, int x, int y, int z, int metadata) {
-		if (DyeOptions.VANILLADYES.getState()) {
+		if (ReikaRandomHelper.doWithChance(DyeOptions.DYEFRAC.getValue())) {
 			this.dropBlockAsItem_do(world, x, y, z, new ItemStack(Item.dyePowder.itemID, 1, metadata));
 		}
 		else {

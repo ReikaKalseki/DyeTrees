@@ -50,7 +50,7 @@ public class BlockDye extends Block {
 	@Override
 	public int idDropped(int id, Random r, int fortune)
 	{
-		return DyeOptions.VANILLADYES.getState() ? Item.dyePowder.itemID : DyeItems.DYE.getShiftedItemID();
+		return DyeOptions.isVanillaDyeMoreCommon() ? Item.dyePowder.itemID : DyeItems.DYE.getShiftedItemID();
 	}
 
 	@Override

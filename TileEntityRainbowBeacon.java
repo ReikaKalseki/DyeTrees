@@ -12,6 +12,8 @@ package Reika.DyeTrees;
 import java.awt.Color;
 import java.util.List;
 
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
@@ -32,7 +34,7 @@ public class TileEntityRainbowBeacon extends TileEntityBase {
 
 	@Override
 	public void updateEntity(World world, int x, int y, int z, int meta) {
-		if (rand.nextInt(120) == 0) {
+		if (world.getWorldTime()%200 == 0) {
 			AxisAlignedBB box = ReikaAABBHelper.getBlockAABB(x, this.getTreeBaseY(), z).expand(48, 48, 48);
 			List<EntityPlayer> inbox = world.getEntitiesWithinAABB(EntityPlayer.class, box);
 			for (int i = 0; i < inbox.size(); i++) {
@@ -52,8 +54,20 @@ public class TileEntityRainbowBeacon extends TileEntityBase {
 					float b = c.getBlue()/255F;
 					ReikaParticleHelper.REDSTONE.spawnAt(world, ex, ey, ez, r, g, b);
 				}
+				if (ep.getMaxHealth() > ep.getHealth()) {
+					ep.setHealth(ep.getHealth()+2);
+					//ReikaJavaLibrary.pConsole(0+":"+ep.getHealth()+":"+ep.getMaxHealth());
+				}
+				else if (ep.getMaxHealth() < 60) {
+					ep.getEntityAttribute(SharedMonsterAttributes.maxHealth).applyModifier(this.modifier());
+					//ReikaJavaLibrary.pConsole(1+":"+ep.getHealth()+":"+ep.getMaxHealth());
+				}
 			}
 		}
+	}
+
+	private AttributeModifier modifier() {
+		return new AttributeModifier("Rainbow Tree @ "+System.currentTimeMillis(), 2D, 0);
 	}
 
 	@Override

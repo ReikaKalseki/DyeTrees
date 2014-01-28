@@ -22,17 +22,26 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.ForgeDirection;
 import Reika.DragonAPI.Base.BlockCustomLeaf;
-import Reika.DragonAPI.Libraries.Java.ReikaJavaLibrary;
 import Reika.DragonAPI.Libraries.Java.ReikaRandomHelper;
 import Reika.DragonAPI.Libraries.MathSci.ReikaMathLibrary;
+import Reika.DragonAPI.Libraries.World.ReikaWorldHelper;
+import Reika.DragonAPI.ModInteract.ReikaMystcraftHelper;
+import Reika.DragonAPI.ModInteract.ReikaMystcraftHelper.InstabilityInterface;
+import Reika.DragonAPI.ModInteract.ThaumBlockHandler;
 import Reika.DyeTrees.DyeTrees;
+import Reika.DyeTrees.TileEntityRainbowBeacon;
 import Reika.DyeTrees.Registry.DyeBlocks;
 import Reika.DyeTrees.Registry.DyeItems;
 import Reika.DyeTrees.Registry.DyeOptions;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockRainbowLeaf extends BlockCustomLeaf {
+
+	private static final boolean TILE = false;
 
 	public BlockRainbowLeaf(int par1) {
 		super(par1);
@@ -54,6 +63,7 @@ public class BlockRainbowLeaf extends BlockCustomLeaf {
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public final int getRenderColor(int dmg)
 	{
 		//return Color.HSBtoRGB(((System.currentTimeMillis()/60)%360)/360F, 0.8F, 1);
@@ -114,7 +124,7 @@ public class BlockRainbowLeaf extends BlockCustomLeaf {
 	private final void dropDye(World world, int x, int y, int z, int fortune) {
 		int drop = this.getDyeDropCount(fortune);
 		for (int i = 0; i < drop; i++) {
-			if (DyeOptions.VANILLADYES.getState()) {
+			if (ReikaRandomHelper.doWithChance(DyeOptions.DYEFRAC.getValue())) {
 				this.dropBlockAsItem_do(world, x, y, z, new ItemStack(Item.dyePowder.itemID, 1, rand.nextInt(16)));
 			}
 			else {
@@ -186,21 +196,81 @@ public class BlockRainbowLeaf extends BlockCustomLeaf {
 
 	@Override
 	public boolean hasTileEntity(int meta) {
-		return false;//meta == 2 || meta == 3;
+		return TILE ? meta == 2 || meta == 3 : false;
 	}
 
 	@Override
-	public TileEntity createTileEntity(World world, int meta) {/*
-		if (meta == 2 || meta == 3) {
-			return new TileEntityRainbowBeacon();
-		}*/
+	public TileEntity createTileEntity(World world, int meta) {
+		if (TILE) {
+			if (meta == 2 || meta == 3) {
+				return new TileEntityRainbowBeacon();
+			}
+		}
 		return null;
 	}
 
 	@Override
-	protected void onRandomUpdate(World world, int x, int y, int z, Random r) {
-		this.dropDye(world, x, y, z, 0);
-		ReikaJavaLibrary.pConsole(x+", "+y+", "+z);
+	protected void onRandomUpdate(World world, int x, int y, int z, Random r) {/*
+		if (r.nextInt(20) == 0)
+			this.dropDye(world, x, y, z, 0);
+
+		if (!world.isRemote && r.nextInt(400) == 0 && DyeOptions.RAINBOWSPREAD.getState()) {
+			int rx = ReikaRandomHelper.getRandomPlusMinus(x, 32);
+			int rz = ReikaRandomHelper.getRandomPlusMinus(z, 32);
+			ReikaWorldHelper.setBiomeForXZ(world, rx, rz, DyeTrees.forest);
+			ReikaJavaLibrary.pConsole(rx+", "+rz);
+			for (int i = 0; i < 256; i++) {
+				ReikaWorldHelper.temperatureEnvironment(world, rx, i, rz, ReikaWorldHelper.getBiomeTemp(DyeTrees.forest));
+				world.markBlockForRenderUpdate(rx, i, rz);
+				world.markBlockForUpdate(rx, i, rz);
+			}
+		}*/
+
+		if (!world.isRemote) {
+			if (rand.nextInt(50) == 0)
+				this.fightTaint(world, x, y, z);
+			if (rand.nextInt(20) == 0)
+				this.fightInstability(world, x, y, z);
+		}
+	}
+
+	private void fightInstability(World world, int x, int y, int z) {
+		if (ReikaMystcraftHelper.loadedCorrectly && ReikaMystcraftHelper.isMystAge(world)) {
+			InstabilityInterface ii = ReikaMystcraftHelper.getOrCreateInterface(world);
+			if (ii != null) {
+				int added = ii.getBonusInstability();
+				int base = ii.getBaseInstability();
+				if (added > 0) {
+					ii.addBonusInstability(-1);
+				}
+				else if (base > 0) {
+					ii.addBaseInstability((short)-1);
+				}
+			}
+		}
+	}
+
+	private void fightTaint(World world, int x, int y, int z) {
+		int rx = ReikaRandomHelper.getRandomPlusMinus(x, 32);
+		int rz = ReikaRandomHelper.getRandomPlusMinus(z, 32);
+
+		int r = 3;
+		for (int i = -r; i <= r; i++) {
+			for (int k = -r; k <= r; k++) {
+				int dx = rx+i;
+				int dz = rz+k;
+				BiomeGenBase biome = world.getBiomeGenForCoords(dx, dz);
+				int id = biome.biomeID;
+				if (id == ThaumBlockHandler.getInstance().taintBiomeID) {
+					BiomeGenBase[] biomes = new BiomeGenBase[1];
+					biomes = world.getWorldChunkManager().loadBlockGeneratorData(biomes, dx, dz, 1, 1);
+					BiomeGenBase natural = biomes != null && biomes.length > 0 ? biomes[0] : null;
+					if (natural != null) {
+						ReikaWorldHelper.setBiomeForXZ(world, dx, dz, natural);
+					}
+				}
+			}
+		}
 	}
 
 	@Override

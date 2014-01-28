@@ -9,6 +9,7 @@
  ******************************************************************************/
 package Reika.DyeTrees.Registry;
 
+import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.Configuration;
 import Reika.DragonAPI.Exception.RegistrationException;
 import Reika.DragonAPI.Interfaces.ConfigList;
@@ -25,10 +26,10 @@ public enum DyeOptions implements ConfigList {
 	COLORSLIMES("Rainbow Slimes", true),
 	OVERWORLD("Overworld Rainbow Forest", true),
 	BLOCKPARTICLES("Dye Block Particles", true),
-	VANILLADYES("Use vanilla dye items", true),
 	ETHEREAL("Generate Anti-Taint plants in Rainbow Forest", true),
 	DENSITY("Dye Tree Density in Normal Biomes", 2),
-	GENRAINBOW("Generate Rainbow Trees", true);
+	GENRAINBOW("Generate Rainbow Trees", true),
+	DYEFRAC("Vanilla Dye Drop Percentage", 100);
 
 	private String label;
 	private boolean defaultState;
@@ -97,11 +98,27 @@ public enum DyeOptions implements ConfigList {
 	}
 
 	public int getValue() {
-		return (Integer)DyeTrees.config.getControl(this.ordinal());
+		int num = (Integer)DyeTrees.config.getControl(this.ordinal());
+		if (this == DYEFRAC) {
+			MathHelper.clamp_int(num, 0, 100);
+		}
+		return num;
 	}
 
 	public boolean isDummiedOut() {
 		return type == null;
+	}
+
+	public static boolean doesVanillaDyeDrop() {
+		return DYEFRAC.getValue() > 0;
+	}
+
+	public static boolean doesTreeDyeDrop() {
+		return DYEFRAC.getValue() < 100;
+	}
+
+	public static boolean isVanillaDyeMoreCommon() {
+		return DYEFRAC.getValue() > 50;
 	}
 
 }

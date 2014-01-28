@@ -41,14 +41,10 @@ public class BlockRainbowSapling extends BlockSapling {
 
 	@Override
 	public void growTree(World world, int x, int y, int z, Random r) {
-		this.growTree(world, x, y, z, this.getGrowthHeight());
+		this.growTree(world, x, y, z);
 	}
 
-	private int getGrowthHeight() {
-		return 5+r.nextInt(3);
-	}
-
-	public void growTree(World world, int x, int y, int z, int h)
+	public void growTree(World world, int x, int y, int z)
 	{
 		if (world.isRemote)
 			return;
@@ -72,7 +68,7 @@ public class BlockRainbowSapling extends BlockSapling {
 			return false;
 		int color = world.getBlockMetadata(x, y, z);
 		if (this.canGrowAt(world, x, y, z))
-			this.growTree(world, x, y, z, ep.isSneaking() ? 7 : this.getGrowthHeight());
+			this.growTree(world, x, y, z);
 		else
 			world.spawnParticle("happyVillager", x+r.nextDouble(), y+r.nextDouble(), z+r.nextDouble(), 0, 0, 0);
 		if (!ep.capabilities.isCreativeMode)
