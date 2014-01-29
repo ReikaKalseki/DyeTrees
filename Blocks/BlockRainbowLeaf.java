@@ -24,6 +24,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.ForgeDirection;
+import Reika.DragonAPI.ModList;
 import Reika.DragonAPI.Base.BlockCustomLeaf;
 import Reika.DragonAPI.Libraries.Java.ReikaRandomHelper;
 import Reika.DragonAPI.Libraries.MathSci.ReikaMathLibrary;
@@ -227,9 +228,9 @@ public class BlockRainbowLeaf extends BlockCustomLeaf {
 		}*/
 
 		if (!world.isRemote) {
-			if (rand.nextInt(50) == 0)
+			if (ModList.THAUMCRAFT.isLoaded() && rand.nextInt(50) == 0)
 				this.fightTaint(world, x, y, z);
-			if (rand.nextInt(20) == 0)
+			if (ModList.MYSTCRAFT.isLoaded() && rand.nextInt(20) == 0)
 				this.fightInstability(world, x, y, z);
 		}
 	}
