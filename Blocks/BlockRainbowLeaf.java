@@ -28,15 +28,18 @@ import Reika.DragonAPI.ModList;
 import Reika.DragonAPI.Base.BlockCustomLeaf;
 import Reika.DragonAPI.Libraries.Java.ReikaRandomHelper;
 import Reika.DragonAPI.Libraries.MathSci.ReikaMathLibrary;
+import Reika.DragonAPI.Libraries.World.ReikaChunkHelper;
 import Reika.DragonAPI.Libraries.World.ReikaWorldHelper;
 import Reika.DragonAPI.ModInteract.ReikaMystcraftHelper;
-import Reika.DragonAPI.ModInteract.ReikaMystcraftHelper.InstabilityInterface;
 import Reika.DragonAPI.ModInteract.ThaumBlockHandler;
 import Reika.DyeTrees.DyeTrees;
 import Reika.DyeTrees.TileEntityRainbowBeacon;
 import Reika.DyeTrees.Registry.DyeBlocks;
 import Reika.DyeTrees.Registry.DyeItems;
 import Reika.DyeTrees.Registry.DyeOptions;
+
+import com.xcompwiz.mystcraft.api.MystObjects;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -228,24 +231,64 @@ public class BlockRainbowLeaf extends BlockCustomLeaf {
 		}*/
 
 		if (!world.isRemote) {
-			if (ModList.THAUMCRAFT.isLoaded() && rand.nextInt(50) == 0)
-				this.fightTaint(world, x, y, z);
-			if (ModList.MYSTCRAFT.isLoaded() && rand.nextInt(20) == 0)
-				this.fightInstability(world, x, y, z);
+			if (ModList.THAUMCRAFT.isLoaded()) {
+				if (rand.nextInt(25) == 0)
+					this.fightTaint(world, x, y, z);
+				if (rand.nextInt(50) == 0)
+					this.fightEerie(world, x, y, z);
+			}
+			if (ModList.MYSTCRAFT.isLoaded() && ReikaMystcraftHelper.isMystAge(world)) {
+				if (rand.nextInt(20) == 0)
+					this.fightInstability(world, x, y, z);
+				if (rand.nextInt(10) == 0)
+					this.fightDecay(world, x, y, z);
+			}
+		}
+	}
+
+	private void fightDecay(World world, int x, int y, int z) {
+		if (MystObjects.decay != null) {
+			int rx = ReikaRandomHelper.getRandomPlusMinus(x, 64);
+			int rz = ReikaRandomHelper.getRandomPlusMinus(z, 64);
+			ReikaChunkHelper.removeBlocksFromChunk(world, rx, rz, MystObjects.decay.blockID, -1);
 		}
 	}
 
 	private void fightInstability(World world, int x, int y, int z) {
-		if (ReikaMystcraftHelper.loadedCorrectly && ReikaMystcraftHelper.isMystAge(world)) {
-			InstabilityInterface ii = ReikaMystcraftHelper.getOrCreateInterface(world);
-			if (ii != null) {
-				int added = ii.getBonusInstability();
-				int base = ii.getBaseInstability();
-				if (added > 0) {
-					ii.addBonusInstability(-1);
-				}
-				else if (base > 0) {
-					ii.addBaseInstability((short)-1);
+		if (ReikaMystcraftHelper.loadedCorrectly) {
+			if (ReikaMystcraftHelper.getBonusInstabilityForAge(world) > 0) {
+				ReikaMystcraftHelper.addBonusInstabilityForAge(world, -1);
+				//ReikaJavaLibrary.pConsole("bon: "+ReikaMystcraftHelper.getBonusInstabilityForAge(world));
+			}
+			else if (ReikaMystcraftHelper.getBaseInstabilityForAge(world) > 0) {
+				ReikaMystcraftHelper.addBaseInstabilityForAge(world, (short)-1);
+				//ReikaJavaLibrary.pConsole("base: "+ReikaMystcraftHelper.getBaseInstabilityForAge(world));
+			}
+			else {
+				ReikaMystcraftHelper.addStabilityForAge(world, 1);
+				//ReikaJavaLibrary.pConsole("sta: "+ReikaMystcraftHelper.getStabilityForAge(world));
+			}
+		}
+	}
+
+	private void fightEerie(World world, int x, int y, int z) {
+		int rx = ReikaRandomHelper.getRandomPlusMinus(x, 32);
+		int rz = ReikaRandomHelper.getRandomPlusMinus(z, 32);
+
+		int r = 3;
+		for (int i = -r; i <= r; i++) {
+			for (int k = -r; k <= r; k++) {
+				int dx = rx+i;
+				int dz = rz+k;
+				BiomeGenBase biome = world.getBiomeGenForCoords(dx, dz);
+				int id = biome.biomeID;
+				if (id == ThaumBlockHandler.getInstance().eerieBiomeID) {
+					BiomeGenBase[] biomes = new BiomeGenBase[1];
+					biomes = world.getWorldChunkManager().loadBlockGeneratorData(biomes, dx, dz, 1, 1);
+					BiomeGenBase natural = biomes != null && biomes.length > 0 ? biomes[0] : null;
+					if (natural != null) {
+						ReikaWorldHelper.setBiomeForXZ(world, dx, dz, natural);
+					}
 				}
 			}
 		}
