@@ -32,6 +32,8 @@ import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
 import Reika.DragonAPI.Libraries.Java.ReikaRandomHelper;
 import Reika.DragonAPI.Libraries.Registry.ReikaItemHelper;
+import Reika.DyeTrees.Blocks.BlockDyeSapling;
+import Reika.DyeTrees.Blocks.BlockRainbowSapling;
 import Reika.DyeTrees.Registry.DyeBlocks;
 import Reika.DyeTrees.Registry.DyeOptions;
 import Reika.DyeTrees.World.BiomeRainbowForest;
@@ -51,11 +53,26 @@ public class DyeEventController {
 	{
 		if (!event.world.isRemote)  {
 			if (event.ID == DyeBlocks.SAPLING.getBlockID()) {
+				BlockDyeSapling sap = (BlockDyeSapling)Block.blocksList[event.ID];
 				World world = event.world;
 				int x = event.X;
 				int y = event.Y;
 				int z = event.Z;
-				event.setResult(Event.Result.DENY);
+				if (sap.canGrowAt(world, x, y, z)) {
+					sap.growTree(world, x, y, z, rand);
+					event.setResult(Event.Result.ALLOW);
+				}
+			}
+			else if (event.ID == DyeBlocks.RAINBOWSAPLING.getBlockID()) {
+				BlockRainbowSapling sap = (BlockRainbowSapling)Block.blocksList[event.ID];
+				World world = event.world;
+				int x = event.X;
+				int y = event.Y;
+				int z = event.Z;
+				if (sap.canGrowAt(world, x, y, z)) {
+					sap.growTree(world, x, y, z, rand);
+					event.setResult(Event.Result.ALLOW);
+				}
 			}
 		}
 	}

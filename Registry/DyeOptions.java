@@ -121,4 +121,24 @@ public enum DyeOptions implements ConfigList {
 		return DYEFRAC.getValue() > 50;
 	}
 
+	@Override
+	public boolean getDefaultState() {
+		return defaultState;
+	}
+
+	@Override
+	public int getDefaultValue() {
+		return defaultValue;
+	}
+
+	@Override
+	public float getDefaultFloat() {
+		return defaultFloat;
+	}
+
+	@Override
+	public boolean isEnforcingDefaults() {
+		return false;
+	}
+
 }
