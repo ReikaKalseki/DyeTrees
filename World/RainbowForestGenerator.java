@@ -48,11 +48,11 @@ public class RainbowForestGenerator extends WorldGenerator {
 					}
 				}
 				else {
-					TreeShaper.getInstance().generateRandomWeightedTree(world, x, y, z, color);
+					TreeShaper.getInstance().generateRandomWeightedTree(world, x, y, z, color, false);
 				}
 			}
 			else {
-				TreeShaper.getInstance().generateRandomWeightedTree(world, x, y, z, color);
+				TreeShaper.getInstance().generateRandomWeightedTree(world, x, y, z, color, false);
 			}
 			return true;
 		}

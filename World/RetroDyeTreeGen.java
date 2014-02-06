@@ -31,7 +31,7 @@ public class RetroDyeTreeGen implements RetroactiveGenerator {
 					int y = world.getTopSolidOrLiquidBlock(x, z);
 					int id = world.getBlockId(x, y, z);
 					Block b = Block.blocksList[id];
-					TreeShaper.getInstance().generateRandomWeightedTree(world, x, y, z, ReikaDyeHelper.dyes[r.nextInt(16)]);
+					TreeShaper.getInstance().generateRandomWeightedTree(world, x, y, z, ReikaDyeHelper.dyes[r.nextInt(16)], false);
 				}
 			}
 		}

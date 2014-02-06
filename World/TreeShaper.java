@@ -83,27 +83,27 @@ public class TreeShaper {
 		return instance;
 	}
 
-	public void generateRandomWeightedTree(World world, int x, int y, int z, ReikaDyeHelper color) {
+	public void generateRandomWeightedTree(World world, int x, int y, int z, ReikaDyeHelper color, boolean forceGen) {
 		int val = rand.nextInt(100);
 		int chance = LUMPY_CHANCE;
 		if (val < chance) {
-			this.generateLumpyTree(world, x, y, z, color);
+			this.generateLumpyTree(world, x, y, z, color, forceGen);
 			return;
 		}
 		chance += TALL_CHANCE;
 		if (val < chance) {
-			this.generateTallTree(world, x, y, z, color);
+			this.generateTallTree(world, x, y, z, color, forceGen);
 			return;
 		}
-		this.generateNormalTree(world, x, y, z, color);
+		this.generateNormalTree(world, x, y, z, color, forceGen);
 	}
 
 	public ItemStack getLogType() {
 		return validLogs.get(rand.nextInt(validLogs.size()));
 	}
 
-	public void generateNormalTree(World world, int x, int y, int z, ReikaDyeHelper color) {
-		if (ColorTreeGenerator.canGenerateTree(world, x, z)) {
+	public void generateNormalTree(World world, int x, int y, int z, ReikaDyeHelper color, boolean force) {
+		if (force || ColorTreeGenerator.canGenerateTree(world, x, z)) {
 			int meta = color.ordinal();
 			ItemStack log = this.getLogType();
 			int w = 2;
@@ -145,8 +145,8 @@ public class TreeShaper {
 		}
 	}
 
-	public void generateTallTree(World world, int x, int y, int z, ReikaDyeHelper color) {
-		if (ColorTreeGenerator.canGenerateTree(world, x, z)) {
+	public void generateTallTree(World world, int x, int y, int z, ReikaDyeHelper color, boolean force) {
+		if (force || ColorTreeGenerator.canGenerateTree(world, x, z)) {
 			int h = 10+rand.nextInt(3);
 			ItemStack log = this.getLogType();
 			int meta = color.ordinal();
@@ -228,8 +228,8 @@ public class TreeShaper {
 		}
 	}
 
-	public void generateLumpyTree(World world, int x, int y, int z, ReikaDyeHelper color) {
-		if (ColorTreeGenerator.canGenerateTree(world, x, z)) {
+	public void generateLumpyTree(World world, int x, int y, int z, ReikaDyeHelper color, boolean force) {
+		if (force || ColorTreeGenerator.canGenerateTree(world, x, z)) {
 			int h = 8+rand.nextInt(4);
 			ItemStack log = this.getLogType();
 			int meta = color.ordinal();

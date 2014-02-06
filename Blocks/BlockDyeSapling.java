@@ -42,7 +42,8 @@ public class BlockDyeSapling extends BlockSapling {
 
 	@Override
 	public void growTree(World world, int x, int y, int z, Random r) {
-		this.growTree(world, x, y, z, this.getGrowthHeight());
+		if (this.canGrowAt(world, x, y, z))
+			this.growTree(world, x, y, z, this.getGrowthHeight());
 	}
 
 	private int getGrowthHeight() {
@@ -54,7 +55,7 @@ public class BlockDyeSapling extends BlockSapling {
 		if (world.isRemote)
 			return;
 		int meta = world.getBlockMetadata(x, y, z);
-		TreeShaper.getInstance().generateRandomWeightedTree(world, x, y, z, ReikaDyeHelper.dyes[meta]);
+		TreeShaper.getInstance().generateRandomWeightedTree(world, x, y, z, ReikaDyeHelper.dyes[meta], true);
 	}
 
 	@Override
@@ -110,7 +111,7 @@ public class BlockDyeSapling extends BlockSapling {
 			if (!ReikaWorldHelper.softBlocks(world, x, y+i, z) && !(i == 0 && id == DyeBlocks.SAPLING.getBlockID()))
 				return false;
 		}
-		return true;
+		return world.getBlockLightValue(x, y, z) >= 9;
 	}
 
 	@Override

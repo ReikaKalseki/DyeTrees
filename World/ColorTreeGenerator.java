@@ -50,11 +50,11 @@ public class ColorTreeGenerator implements IWorldGenerator {
 							RainbowTreeGenerator.getInstance().generateRainbowTree(world, x, y, z);
 						}
 						else {
-							TreeShaper.getInstance().generateRandomWeightedTree(world, x, y, z, ReikaDyeHelper.dyes[r.nextInt(16)]);
+							TreeShaper.getInstance().generateRandomWeightedTree(world, x, y, z, ReikaDyeHelper.dyes[r.nextInt(16)], false);
 						}
 					}
 					else {
-						TreeShaper.getInstance().generateRandomWeightedTree(world, x, y, z, ReikaDyeHelper.dyes[r.nextInt(16)]);
+						TreeShaper.getInstance().generateRandomWeightedTree(world, x, y, z, ReikaDyeHelper.dyes[r.nextInt(16)], false);
 					}
 				}
 			}

@@ -129,7 +129,7 @@ public class BlockRainbowSapling extends BlockSapling {
 		id = world.getBlockId(x, y, z+1);
 		if (id == DyeBlocks.RAINBOWSAPLING.getBlockID())
 			z++;
-		return RainbowTreeGenerator.getInstance().checkRainbowTreeSpace(world, x, y, z);
+		return world.getBlockLightValue(x, y, z) >= 9 && RainbowTreeGenerator.getInstance().checkRainbowTreeSpace(world, x, y, z);
 	}
 
 	@Override
