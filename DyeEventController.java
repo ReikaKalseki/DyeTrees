@@ -99,7 +99,7 @@ public class DyeEventController {
 	@ForgeSubscribe
 	public void addLeafColors(HarvestDropsEvent evt) {
 		World world = evt.world;
-		if (DyeOptions.BIOME.getState() || DyeOptions.NORMAL.getState())
+		if (DyeOptions.NORMAL.getState())
 			return;
 		int x = evt.x;
 		int y = evt.y;
