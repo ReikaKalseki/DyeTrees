@@ -31,6 +31,9 @@ public class BiomeRainbowForest extends BiomeGenBase {
 
 	Random rand = new Random();
 
+	private final int waterColor = new Color(0, 255, 255).getRGB();
+	private final int skyColor = new Color(100, 140, 255).getRGB();
+
 	public BiomeRainbowForest(int id) {
 		super(id);
 		this.setColor(16711935);
@@ -115,7 +118,13 @@ public class BiomeRainbowForest extends BiomeGenBase {
 		//return new Color(130, 170, 255).getRGB(); //original
 		//return new Color(160, 130, 205).getRGB();
 		//return new Color(0, 0, 0).getRGB();
-		return new Color(100, 140, 255).getRGB(); //original
+		return skyColor; //original
+	}
+
+	@Override
+	public int getWaterColorMultiplier()
+	{
+		return waterColor;
 	}
 
 }
