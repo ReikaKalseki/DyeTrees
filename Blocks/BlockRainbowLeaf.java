@@ -26,7 +26,6 @@ import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.ForgeDirection;
 import Reika.DragonAPI.ModList;
 import Reika.DragonAPI.Base.BlockCustomLeaf;
-import Reika.DragonAPI.Libraries.Java.ReikaJavaLibrary;
 import Reika.DragonAPI.Libraries.Java.ReikaRandomHelper;
 import Reika.DragonAPI.Libraries.MathSci.ReikaMathLibrary;
 import Reika.DragonAPI.Libraries.World.ReikaChunkHelper;
@@ -307,7 +306,7 @@ public class BlockRainbowLeaf extends BlockCustomLeaf {
 				BiomeGenBase biome = world.getBiomeGenForCoords(dx, dz);
 				int id = biome.biomeID;
 				if (id == ThaumBlockHandler.getInstance().taintBiomeID) {
-					ReikaJavaLibrary.pConsole(dx+", "+dz, Side.CLIENT);
+					//ReikaJavaLibrary.pConsole(dx+", "+dz, Side.CLIENT);
 					BiomeGenBase[] biomes = new BiomeGenBase[1];
 					biomes = world.getWorldChunkManager().loadBlockGeneratorData(biomes, dx, dz, 1, 1);
 					BiomeGenBase natural = biomes != null && biomes.length > 0 ? biomes[0] : null;
