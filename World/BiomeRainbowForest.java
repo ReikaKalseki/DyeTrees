@@ -24,6 +24,7 @@ import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.SpawnListEntry;
 import Reika.DragonAPI.Libraries.IO.ReikaColorAPI;
 import Reika.DragonAPI.Libraries.Registry.ReikaDyeHelper;
+import Reika.DyeTrees.Registry.DyeOptions;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -109,7 +110,7 @@ public class BiomeRainbowForest extends BiomeGenBase {
 	@Override
 	public float getSpawningChance()
 	{
-		return 0.6F;
+		return 0.1F*(Math.max(1, DyeOptions.ANIMALSPAWN.getValue()));
 	}
 
 	@Override

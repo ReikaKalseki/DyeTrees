@@ -28,7 +28,8 @@ public enum DyeOptions implements ConfigList {
 	ETHEREAL("Generate Anti-Taint plants in Rainbow Forest", true),
 	DENSITY("Dye Tree Density in Normal Biomes", 2),
 	GENRAINBOW("Generate Rainbow Trees", true),
-	DYEFRAC("Vanilla Dye Drop Percentage", 100);
+	DYEFRAC("Vanilla Dye Drop Percentage", 100),
+	ANIMALSPAWN("Rainbow Forest Animal Density", 6);
 
 	private String label;
 	private boolean defaultState;

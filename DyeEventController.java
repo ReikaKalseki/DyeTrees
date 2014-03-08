@@ -17,6 +17,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntitySlime;
+import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -137,21 +138,34 @@ public class DyeEventController {
 	}
 
 	@ForgeSubscribe
-	public void dyeSlimes(LivingDropsEvent ev) {
-		if (DyeOptions.COLORSLIMES.getState()) {
-			EntityLivingBase e = ev.entityLiving;
-			ArrayList<EntityItem> drops = ev.drops;
-			if (e instanceof EntitySlime) {
-				int x = (int)Math.floor(e.posX);
-				int y = (int)Math.floor(e.posY);
-				int z = (int)Math.floor(e.posZ);
-				World world = e.worldObj;
-				BiomeGenBase b = world.getBiomeGenForCoords(x, z);
-				if (b instanceof BiomeRainbowForest) {
+	public void biomeDrops(LivingDropsEvent ev) {
+		EntityLivingBase e = ev.entityLiving;
+		ArrayList<EntityItem> drops = ev.drops;
+		int x = (int)Math.floor(e.posX);
+		int y = (int)Math.floor(e.posY);
+		int z = (int)Math.floor(e.posZ);
+		World world = e.worldObj;
+		BiomeGenBase b = world.getBiomeGenForCoords(x, z);
+
+		if (b instanceof BiomeRainbowForest) {
+			if (DyeOptions.COLORSLIMES.getState()) {
+				if (e instanceof EntitySlime) {
 					int dmg = e.entityId%16;
 					int size = 1+rand.nextInt(3);
 					ItemStack dye = new ItemStack(Item.dyePowder.itemID, size, dmg);
 					ReikaItemHelper.dropItem(world, e.posX, e.posY, e.posZ, dye);
+				}
+			}
+
+			int spawn = DyeOptions.ANIMALSPAWN.getValue();
+			int def = DyeOptions.ANIMALSPAWN.getDefaultValue();
+			if (spawn < def) {
+				int mult = def-spawn;
+				if (e instanceof EntityAnimal) {
+					for (int i = 0; i < mult; i++) {
+						for (int k = 0; k < drops.size(); k++)
+							ReikaItemHelper.dropItem(world, e.posX, e.posY, e.posZ, drops.get(k).getEntityItem());
+					}
 				}
 			}
 		}
