@@ -25,6 +25,7 @@ import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.oredict.OreDictionary;
+import thaumcraft.api.aspects.Aspect;
 import ttftcuts.atg.api.ATGBiomes;
 import ttftcuts.atg.api.ATGBiomes.BiomeType;
 import Reika.DragonAPI.DragonAPICore;
@@ -36,6 +37,7 @@ import Reika.DragonAPI.Instantiable.IO.ModLogger;
 import Reika.DragonAPI.Libraries.ReikaRegistryHelper;
 import Reika.DragonAPI.Libraries.Java.ReikaObfuscationHelper;
 import Reika.DragonAPI.Libraries.Registry.ReikaDyeHelper;
+import Reika.DragonAPI.ModInteract.ReikaThaumHelper;
 import Reika.DyeTrees.Registry.DyeBlocks;
 import Reika.DyeTrees.Registry.DyeItems;
 import Reika.DyeTrees.Registry.DyeOptions;
@@ -218,6 +220,16 @@ public class DyeTrees extends DragonAPIMod {
 			catch (Exception e) {
 				e.printStackTrace();
 			}
+		}
+
+		if (ModList.THAUMCRAFT.isLoaded()) {
+			Object[] asp = new Object[]{
+					Aspect.AURA, 10, Aspect.AIR, 3, Aspect.CROP, 4, Aspect.CRYSTAL, 1, Aspect.EARTH, 4, Aspect.TREE, 10,
+					Aspect.EXCHANGE, 5, Aspect.HEAL, 10, Aspect.LIFE, 10, Aspect.LIGHT, 2, Aspect.MAGIC, 10, Aspect.ORDER, 10,
+					Aspect.PLANT, 10, Aspect.SEED, 2, Aspect.VOID, 1
+			};
+			ReikaThaumHelper.addAspects(DyeBlocks.RAINBOW.getBlockInstance(), asp);
+			ReikaThaumHelper.addAspects(DyeBlocks.RAINBOWSAPLING.getBlockInstance(), asp);
 		}
 	}
 

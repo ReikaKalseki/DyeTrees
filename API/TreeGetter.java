@@ -45,6 +45,10 @@ public class TreeGetter {
 		return dyeBlocks[2].blockID;
 	}
 
+	public static int getRainbowLeafID() {
+		return dyeBlocks[4].blockID;
+	}
+
 	public static int getSaplingID() {
 		return dyeBlocks[1].blockID;
 	}
