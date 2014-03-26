@@ -19,7 +19,7 @@ import net.minecraft.util.Icon;
 import Reika.DragonAPI.Libraries.Registry.ReikaDyeHelper;
 import Reika.DyeTrees.DyeTrees;
 
-public class ItemTreeDye extends Item {
+public class ItemTreeDye extends Item { //ore dict and usages!!
 
 	public ItemTreeDye(int par1) {
 		super(par1);
