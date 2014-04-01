@@ -278,4 +278,8 @@ public class DyeTrees extends DragonAPIMod {
 		return logger;
 	}
 
+	public static boolean isRainbowForest(BiomeGenBase b) {
+		return b instanceof BiomeRainbowForest || b.biomeName.equals("Rainbow Forest");
+	}
+
 }

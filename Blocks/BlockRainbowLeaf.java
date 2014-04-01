@@ -62,6 +62,11 @@ public class BlockRainbowLeaf extends BlockCustomLeaf {
 	}
 
 	@Override
+	public boolean allowModDecayControl() {
+		return false;
+	}
+
+	@Override
 	public CreativeTabs getCreativeTab() {
 		return DyeTrees.dyeTreeTab;
 	}
@@ -236,6 +241,8 @@ public class BlockRainbowLeaf extends BlockCustomLeaf {
 					this.fightTaint(world, x, y, z);
 				if (rand.nextInt(20) == 0)
 					this.fightEerie(world, x, y, z);
+				if (rand.nextInt(10) == 0)
+					this.convertPureNodeMagic(world, x, y, z);
 			}
 			if (ModList.MYSTCRAFT.isLoaded() && ReikaMystcraftHelper.isMystAge(world)) {
 				if (rand.nextInt(20) == 0)
@@ -271,23 +278,46 @@ public class BlockRainbowLeaf extends BlockCustomLeaf {
 		}
 	}
 
+	private void convertPureNodeMagic(World world, int x, int y, int z) {
+		int rx = ReikaRandomHelper.getRandomPlusMinus(x, 64);
+		int rz = ReikaRandomHelper.getRandomPlusMinus(z, 64);
+
+		if (world.checkChunksExist(rx, 0, rz, rx, 255, rz)) {
+			int r = 3;
+			for (int i = -r; i <= r; i++) {
+				for (int k = -r; k <= r; k++) {
+					int dx = rx+i;
+					int dz = rz+k;
+					BiomeGenBase biome = world.getBiomeGenForCoords(dx, dz);
+					int id = biome.biomeID;
+					if (id == ThaumBlockHandler.getInstance().magicBiomeID) {
+						BiomeGenBase natural = ReikaWorldHelper.getNaturalGennedBiomeAt(world, dx, dz);
+						if (natural != null && DyeTrees.isRainbowForest(natural)) {
+							ReikaWorldHelper.setBiomeForXZ(world, dx, dz, natural);
+						}
+					}
+				}
+			}
+		}
+	}
+
 	private void fightEerie(World world, int x, int y, int z) {
 		int rx = ReikaRandomHelper.getRandomPlusMinus(x, 32);
 		int rz = ReikaRandomHelper.getRandomPlusMinus(z, 32);
 
-		int r = 3;
-		for (int i = -r; i <= r; i++) {
-			for (int k = -r; k <= r; k++) {
-				int dx = rx+i;
-				int dz = rz+k;
-				BiomeGenBase biome = world.getBiomeGenForCoords(dx, dz);
-				int id = biome.biomeID;
-				if (id == ThaumBlockHandler.getInstance().eerieBiomeID) {
-					BiomeGenBase[] biomes = new BiomeGenBase[1];
-					biomes = world.getWorldChunkManager().loadBlockGeneratorData(biomes, dx, dz, 1, 1);
-					BiomeGenBase natural = biomes != null && biomes.length > 0 ? biomes[0] : null;
-					if (natural != null) {
-						ReikaWorldHelper.setBiomeForXZ(world, dx, dz, natural);
+		if (world.checkChunksExist(rx, 0, rz, rx, 255, rz)) {
+			int r = 3;
+			for (int i = -r; i <= r; i++) {
+				for (int k = -r; k <= r; k++) {
+					int dx = rx+i;
+					int dz = rz+k;
+					BiomeGenBase biome = world.getBiomeGenForCoords(dx, dz);
+					int id = biome.biomeID;
+					if (id == ThaumBlockHandler.getInstance().eerieBiomeID) {
+						BiomeGenBase natural = ReikaWorldHelper.getNaturalGennedBiomeAt(world, dx, dz);
+						if (natural != null) {
+							ReikaWorldHelper.setBiomeForXZ(world, dx, dz, natural);
+						}
 					}
 				}
 			}
@@ -298,20 +328,20 @@ public class BlockRainbowLeaf extends BlockCustomLeaf {
 		int rx = ReikaRandomHelper.getRandomPlusMinus(x, 32);
 		int rz = ReikaRandomHelper.getRandomPlusMinus(z, 32);
 
-		int r = 3;
-		for (int i = -r; i <= r; i++) {
-			for (int k = -r; k <= r; k++) {
-				int dx = rx+i;
-				int dz = rz+k;
-				BiomeGenBase biome = world.getBiomeGenForCoords(dx, dz);
-				int id = biome.biomeID;
-				if (id == ThaumBlockHandler.getInstance().taintBiomeID) {
-					//ReikaJavaLibrary.pConsole(dx+", "+dz, Side.CLIENT);
-					BiomeGenBase[] biomes = new BiomeGenBase[1];
-					biomes = world.getWorldChunkManager().loadBlockGeneratorData(biomes, dx, dz, 1, 1);
-					BiomeGenBase natural = biomes != null && biomes.length > 0 ? biomes[0] : null;
-					if (natural != null) {
-						ReikaWorldHelper.setBiomeForXZ(world, dx, dz, natural);
+		if (world.checkChunksExist(rx, 0, rz, rx, 255, rz)) {
+			int r = 3;
+			for (int i = -r; i <= r; i++) {
+				for (int k = -r; k <= r; k++) {
+					int dx = rx+i;
+					int dz = rz+k;
+					BiomeGenBase biome = world.getBiomeGenForCoords(dx, dz);
+					int id = biome.biomeID;
+					if (id == ThaumBlockHandler.getInstance().taintBiomeID) {
+						//ReikaJavaLibrary.pConsole(dx+", "+dz, Side.CLIENT);
+						BiomeGenBase natural = ReikaWorldHelper.getNaturalGennedBiomeAt(world, dx, dz);
+						if (natural != null) {
+							ReikaWorldHelper.setBiomeForXZ(world, dx, dz, natural);
+						}
 					}
 				}
 			}

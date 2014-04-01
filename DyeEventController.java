@@ -15,7 +15,6 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntitySheep;
@@ -25,19 +24,20 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.event.Event;
 import net.minecraftforge.event.Event.Result;
+import net.minecraftforge.event.EventPriority;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent.CheckSpawn;
 import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
+import Reika.DragonAPI.Libraries.ReikaEntityHelper;
 import Reika.DragonAPI.Libraries.Java.ReikaRandomHelper;
 import Reika.DragonAPI.Libraries.Registry.ReikaItemHelper;
 import Reika.DyeTrees.Blocks.BlockDyeSapling;
 import Reika.DyeTrees.Blocks.BlockRainbowSapling;
 import Reika.DyeTrees.Registry.DyeBlocks;
 import Reika.DyeTrees.Registry.DyeOptions;
-import Reika.DyeTrees.World.BiomeRainbowForest;
 
 public class DyeEventController {
 
@@ -59,7 +59,7 @@ public class DyeEventController {
 				int x = event.X;
 				int y = event.Y;
 				int z = event.Z;
-				if (sap.canGrowAt(world, x, y, z)) {
+				if (sap.canGrowAt(world, x, y, z, true)) {
 					sap.growTree(world, x, y, z, rand);
 					event.setResult(Event.Result.ALLOW);
 				}
@@ -88,7 +88,7 @@ public class DyeEventController {
 		int z = (int)Math.floor(ev.z);
 		EntityLivingBase e = ev.entityLiving;
 		BiomeGenBase b = world.getBiomeGenForCoords(x, z);
-		if (b instanceof BiomeRainbowForest) {
+		if (DyeTrees.isRainbowForest(b)) {
 			if (e instanceof EntitySheep) {
 				EntitySheep es = (EntitySheep)e;
 				es.setFleeceColor(rand.nextInt(16));
@@ -116,7 +116,7 @@ public class DyeEventController {
 		}
 	}
 
-	@ForgeSubscribe
+	@ForgeSubscribe(priority=EventPriority.LOWEST)
 	public void controlSlimes(CheckSpawn ev) {
 		World world = ev.world;
 		if (world.isRemote)
@@ -126,15 +126,16 @@ public class DyeEventController {
 		int z = (int)Math.floor(ev.z);
 		EntityLivingBase e = ev.entityLiving;
 		BiomeGenBase b = world.getBiomeGenForCoords(x, z);
-		if (b instanceof BiomeRainbowForest) {
+		if (DyeTrees.isRainbowForest(b)) {
 			if (e instanceof EntitySlime) {
 				EntitySlime es = (EntitySlime)e;
 				ev.setResult(es.getSlimeSize() > 1 ? Result.DENY : Result.DEFAULT);
 			}
-			else if (e instanceof EntityMob) {
+			else if (ReikaEntityHelper.isHostile(e)) {
 				ev.setResult(Result.DENY);
 			}
 		}
+		//ReikaJavaLibrary.pConsole(b.biomeName+":"+e.getEntityName()+":"+ReikaEntityHelper.isHostile(e)+":"+ev.getResult());
 	}
 
 	@ForgeSubscribe
@@ -147,7 +148,7 @@ public class DyeEventController {
 		World world = e.worldObj;
 		BiomeGenBase b = world.getBiomeGenForCoords(x, z);
 
-		if (b instanceof BiomeRainbowForest) {
+		if (DyeTrees.isRainbowForest(b)) {
 			if (DyeOptions.COLORSLIMES.getState()) {
 				if (e instanceof EntitySlime) {
 					int dmg = e.entityId%16;

@@ -42,7 +42,7 @@ public class BlockDyeSapling extends BlockSapling {
 
 	@Override
 	public void growTree(World world, int x, int y, int z, Random r) {
-		if (this.canGrowAt(world, x, y, z))
+		if (this.canGrowAt(world, x, y, z, false))
 			this.growTree(world, x, y, z, this.getGrowthHeight());
 	}
 
@@ -66,7 +66,7 @@ public class BlockDyeSapling extends BlockSapling {
 		if (!ReikaItemHelper.matchStacks(is, ReikaDyeHelper.WHITE.getStackOf()))
 			return false;
 		int color = world.getBlockMetadata(x, y, z);
-		if (this.canGrowAt(world, x, y, z))
+		if (this.canGrowAt(world, x, y, z, true))
 			this.growTree(world, x, y, z, ep.isSneaking() ? 7 : this.getGrowthHeight());
 		else
 			world.spawnParticle("happyVillager", x+r.nextDouble(), y+r.nextDouble(), z+r.nextDouble(), 0, 0, 0);
@@ -100,7 +100,7 @@ public class BlockDyeSapling extends BlockSapling {
 		return ReikaDyeHelper.dyes[dmg].getJavaColor().brighter().getRGB();
 	}
 
-	public static boolean canGrowAt(World world, int x, int y, int z) {
+	public static boolean canGrowAt(World world, int x, int y, int z, boolean ignoreLight) {
 		int id = world.getBlockId(x, y, z);
 		Block b = Block.blocksList[id];
 		if (!ReikaPlantHelper.SAPLING.canPlantAt(world, x, y, z))
@@ -111,7 +111,7 @@ public class BlockDyeSapling extends BlockSapling {
 			if (!ReikaWorldHelper.softBlocks(world, x, y+i, z) && !(i == 0 && id == DyeBlocks.SAPLING.getBlockID()))
 				return false;
 		}
-		return world.getBlockLightValue(x, y, z) >= 9;
+		return ignoreLight || world.getBlockLightValue(x, y, z) >= 9;
 	}
 
 	@Override

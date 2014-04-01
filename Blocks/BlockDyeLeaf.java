@@ -162,4 +162,9 @@ public class BlockDyeLeaf extends BlockCustomLeaf {
 		return false;
 	}
 
+	@Override
+	public boolean allowModDecayControl() {
+		return true;
+	}
+
 }

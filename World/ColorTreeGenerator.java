@@ -124,13 +124,13 @@ public class ColorTreeGenerator implements IWorldGenerator {
 		BiomeDecorator dec = biome.theBiomeDecorator;
 		if (biome == BiomeGenBase.ocean || biome == BiomeGenBase.frozenOcean)
 			return false;
-		if (biome == BiomeGenBase.desert || biome == BiomeGenBase.desertHills)
+		if (biome == BiomeGenBase.desert || biome == BiomeGenBase.desertHills || BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.DESERT))
 			return false;
-		if (biome == BiomeGenBase.mushroomIsland || biome == BiomeGenBase.mushroomIslandShore)
+		if (biome == BiomeGenBase.mushroomIsland || biome == BiomeGenBase.mushroomIslandShore || BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.MUSHROOM))
 			return false;
 		int y = world.getTopSolidOrLiquidBlock(x, z);
 		//ReikaJavaLibrary.pConsole(world.getBlockId(x, y, z)+","+world.getBlockId(x, y-1, z)+","+world.getBlockId(x, y-2, z)+":"+BlockDyeSapling.canGrowAt(world, x, y, z));
-		return BlockDyeSapling.canGrowAt(world, x, y, z);
+		return BlockDyeSapling.canGrowAt(world, x, y, z, true);
 	}
 
 }

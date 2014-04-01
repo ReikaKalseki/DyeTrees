@@ -21,7 +21,6 @@ import org.lwjgl.opengl.GL11;
 import Reika.DragonAPI.DragonAPICore;
 import Reika.DragonAPI.Libraries.IO.ReikaTextureHelper;
 import Reika.DragonAPI.Libraries.Registry.ReikaDyeHelper;
-import Reika.DyeTrees.World.BiomeRainbowForest;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -47,7 +46,7 @@ public final class ColorizableSlimeModel extends ModelSlime
 		int x = MathHelper.floor_double(e.posX);
 		int z = MathHelper.floor_double(e.posZ);
 		World world = e.worldObj;
-		if (world.getBiomeGenForCoords(x, z) instanceof BiomeRainbowForest) {
+		if (DyeTrees.isRainbowForest(world.getBiomeGenForCoords(x, z))) {
 			ReikaTextureHelper.bindFinalTexture(DragonAPICore.class, texture);
 			int dmg = e.entityId%16;
 			Color c = ReikaDyeHelper.getColorFromDamage(dmg).getJavaColor();
