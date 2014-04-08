@@ -15,6 +15,7 @@ import java.util.Random;
 import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.passive.EntityCow;
+import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.passive.EntitySquid;
@@ -60,6 +61,7 @@ public class BiomeRainbowForest extends BiomeGenBase {
 		spawnableCreatureList.add(new SpawnListEntry(EntityPig.class, 10, 4, 4));
 		spawnableCreatureList.add(new SpawnListEntry(EntityChicken.class, 10, 4, 4));
 		spawnableCreatureList.add(new SpawnListEntry(EntityCow.class, 8, 4, 4));
+		spawnableCreatureList.add(new SpawnListEntry(EntityHorse.class, 2, 1, 3));
 
 		spawnableWaterCreatureList.add(new SpawnListEntry(EntitySquid.class, 10, 4, 4));
 

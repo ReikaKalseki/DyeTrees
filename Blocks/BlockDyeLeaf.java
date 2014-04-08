@@ -109,7 +109,7 @@ public class BlockDyeLeaf extends BlockCustomLeaf {
 
 	@Override
 	public final void randomDisplayTick(World world, int x, int y, int z, Random rand) {
-		if (rand.nextInt(12) > 0)
+		if (!DyeOptions.BLOCKPARTICLES.getState() || rand.nextInt(12) > 0)
 			return;
 		double offset = 0.125;
 		int meta = world.getBlockMetadata(x, y, z);
