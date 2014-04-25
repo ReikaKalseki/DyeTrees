@@ -10,6 +10,7 @@
 package Reika.DyeTrees.World;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Random;
 
 import net.minecraft.entity.monster.EntitySlime;
@@ -23,6 +24,8 @@ import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.world.biome.BiomeDecorator;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.SpawnListEntry;
+import Reika.DragonAPI.ModList;
+import Reika.DragonAPI.Instantiable.ModSpawnEntry;
 import Reika.DragonAPI.Libraries.IO.ReikaColorAPI;
 import Reika.DragonAPI.Libraries.Registry.ReikaDyeHelper;
 import Reika.DyeTrees.Registry.DyeOptions;
@@ -35,6 +38,9 @@ public class BiomeRainbowForest extends BiomeGenBase {
 
 	private final int waterColor = new Color(0, 255, 255).getRGB();
 	private final int skyColor = new Color(100, 140, 255).getRGB();
+
+	private static final ArrayList<ModSpawnEntry> classes = new ArrayList();
+	private static final ArrayList<ModSpawnEntry> caveClasses = new ArrayList();
 
 	public BiomeRainbowForest(int id) {
 		super(id);
@@ -57,15 +63,33 @@ public class BiomeRainbowForest extends BiomeGenBase {
 		spawnableMonsterList.add(new SpawnListEntry(EntitySlime.class, 1, 4, 4));
 
 		spawnableCreatureList.add(new SpawnListEntry(EntityWolf.class, 1, 4, 4));
-		spawnableCreatureList.add(new SpawnListEntry(EntitySheep.class, 12, 4, 4));
-		spawnableCreatureList.add(new SpawnListEntry(EntityPig.class, 10, 4, 4));
-		spawnableCreatureList.add(new SpawnListEntry(EntityChicken.class, 10, 4, 4));
-		spawnableCreatureList.add(new SpawnListEntry(EntityCow.class, 8, 4, 4));
+		spawnableCreatureList.add(new SpawnListEntry(EntitySheep.class, 6, 4, 4));
+		spawnableCreatureList.add(new SpawnListEntry(EntityPig.class, 7, 4, 4));
+		spawnableCreatureList.add(new SpawnListEntry(EntityChicken.class, 6, 4, 4));
+		spawnableCreatureList.add(new SpawnListEntry(EntityCow.class, 6, 4, 4));
 		spawnableCreatureList.add(new SpawnListEntry(EntityHorse.class, 2, 1, 3));
 
 		spawnableWaterCreatureList.add(new SpawnListEntry(EntitySquid.class, 10, 4, 4));
 
 		//spawnableCaveCreatureList.add(new SpawnListEntry(EntityBat.class, 10, 8, 8));
+
+		this.addModEntities();
+	}
+
+
+	private void addModEntities() {
+		for (int i = 0; i < classes.size(); i++) {
+			ModSpawnEntry mc = classes.get(i);
+			if (mc.isLoadable()) {
+				spawnableCreatureList.add(mc.getEntry());
+			}
+		}
+		for (int i = 0; i < caveClasses.size(); i++) {
+			ModSpawnEntry mc = caveClasses.get(i);
+			if (mc.isLoadable()) {
+				spawnableCaveCreatureList.add(mc.getEntry());
+			}
+		}
 	}
 
 	@Override
@@ -128,6 +152,18 @@ public class BiomeRainbowForest extends BiomeGenBase {
 	public int getWaterColorMultiplier()
 	{
 		return waterColor;
+	}
+
+	static {
+		classes.add(new ModSpawnEntry(ModList.TWILIGHT, "twilightforest.entity.passive.EntityTFBighorn", 3, 1, 3));
+		classes.add(new ModSpawnEntry(ModList.TWILIGHT, "twilightforest.entity.passive.EntityTFBunny", 4, 1, 2));
+		classes.add(new ModSpawnEntry(ModList.TWILIGHT, "twilightforest.entity.passive.EntityTFDeer", 1, 1, 8));
+		classes.add(new ModSpawnEntry(ModList.TWILIGHT, "twilightforest.entity.passive.EntityTFRaven", 3, 1, 1));
+		classes.add(new ModSpawnEntry(ModList.TWILIGHT, "twilightforest.entity.passive.EntityTFSquirrel", 5, 1, 2));
+		classes.add(new ModSpawnEntry(ModList.TWILIGHT, "twilightforest.entity.passive.EntityTFTinyBird", 10, 1, 4));
+
+		//caveClasses.add(new ModSpawnEntry(ModList.TWILIGHT, "twilightforest.entity.passive.EntityTFTinyFirefly", 4, 1, 1));
+		caveClasses.add(new ModSpawnEntry(ModList.TWILIGHT, "twilightforest.entity.passive.EntityTFMobileFirefly", 20, 1, 1));
 	}
 
 }
