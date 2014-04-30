@@ -89,4 +89,9 @@ public class TileEntityRainbowBeacon extends TileEntityBase {
 		return yCoord-26;
 	}
 
+	@Override
+	public int getRedstoneOverride() {
+		return 0;
+	}
+
 }
