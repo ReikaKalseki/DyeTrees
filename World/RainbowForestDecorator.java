@@ -27,6 +27,7 @@ import net.minecraftforge.event.terraingen.TerrainGen;
 import Reika.DragonAPI.ModList;
 import Reika.DragonAPI.Libraries.World.ReikaWorldHelper;
 import Reika.DragonAPI.ModInteract.ThaumBlockHandler;
+import Reika.DyeTrees.Registry.DyeBlocks;
 import Reika.DyeTrees.Registry.DyeOptions;
 
 public class RainbowForestDecorator extends BiomeDecorator {
@@ -48,6 +49,7 @@ public class RainbowForestDecorator extends BiomeDecorator {
 
 		if (ModList.THAUMCRAFT.isLoaded() && DyeOptions.ETHEREAL.getState() && randomGenerator.nextInt(3) == 0)
 			this.generateEtherealPlants();
+		this.generateDyeFlowers();
 
 		this.auxDeco();
 
@@ -73,6 +75,20 @@ public class RainbowForestDecorator extends BiomeDecorator {
 				}
 			}
 		}*/
+	}
+
+	private void generateDyeFlowers() {
+		int num = 8*(1+randomGenerator.nextInt(8));
+		for (int i = 0; i < num; i++) {
+			int x = chunk_X + randomGenerator.nextInt(16)+8;
+			int z = chunk_Z + randomGenerator.nextInt(16)+8;
+			int y = currentWorld.getTopSolidOrLiquidBlock(x, z);
+			if (ReikaWorldHelper.softBlocks(currentWorld, x, y, z)) {
+				if (y < 128 && randomGenerator.nextInt((128-y)/16) > 0)
+					if (DyeBlocks.FLOWER.getBlockInstance().canBlockStay(currentWorld, x, y, z))
+						currentWorld.setBlock(x, y, z, DyeBlocks.FLOWER.getBlockID(), randomGenerator.nextInt(16), 3);
+			}
+		}
 	}
 
 	private void generateEtherealPlants() {

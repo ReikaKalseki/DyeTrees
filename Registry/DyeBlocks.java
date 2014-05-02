@@ -16,15 +16,15 @@ import Reika.DragonAPI.Libraries.Java.ReikaStringParser;
 import Reika.DragonAPI.Libraries.Registry.ReikaDyeHelper;
 import Reika.DyeTrees.DyeTrees;
 import Reika.DyeTrees.Blocks.BlockDye;
+import Reika.DyeTrees.Blocks.BlockDyeFlower;
 import Reika.DyeTrees.Blocks.BlockDyeLeaf;
 import Reika.DyeTrees.Blocks.BlockDyeSapling;
 import Reika.DyeTrees.Blocks.BlockRainbowLeaf;
 import Reika.DyeTrees.Blocks.BlockRainbowSapling;
 import Reika.DyeTrees.Items.ItemBlockDyeBlock;
+import Reika.DyeTrees.Items.ItemBlockDyeFlower;
 import Reika.DyeTrees.Items.ItemBlockDyeLeaf;
 import Reika.DyeTrees.Items.ItemBlockDyeSapling;
-import Reika.DyeTrees.Items.ItemBlockRainbowLeaf;
-import Reika.DyeTrees.Items.ItemBlockRainbowSapling;
 import Reika.DyeTrees.Items.ItemBlockRainbowLeaf;
 import Reika.DyeTrees.Items.ItemBlockRainbowSapling;
 
@@ -35,14 +35,15 @@ public enum DyeBlocks implements RegistryEnum {
 	DECAY(BlockDyeLeaf.class, ItemBlockDyeLeaf.class, "Decaying Leaves"),
 	DYE(BlockDye.class, ItemBlockDyeBlock.class, "Dye Block"),
 	RAINBOW(BlockRainbowLeaf.class, ItemBlockRainbowLeaf.class, "Rainbow Leaves"),
-	RAINBOWSAPLING(BlockRainbowSapling.class, ItemBlockRainbowSapling.class, "Rainbow Sapling");
+	RAINBOWSAPLING(BlockRainbowSapling.class, ItemBlockRainbowSapling.class, "Rainbow Sapling"),
+	FLOWER(BlockDyeFlower.class, ItemBlockDyeFlower.class, "Rainbow Flower");
 	//GRASS(BlockDyeGrass.class, null, "Dye Grass");
 
 	private Class blockClass;
 	private String blockName;
 	private Class itemBlock;
 
-	public static final DyeBlocks[] blockList = DyeBlocks.values();
+	public static final DyeBlocks[] blockList = values();
 
 	private DyeBlocks(Class <? extends Block> cl, Class<? extends ItemBlock> ib, String n) {
 		blockClass = cl;

@@ -117,9 +117,14 @@ public class DyeTrees extends DragonAPIMod {
 		for (int i = 0; i < 16; i++) {
 			ReikaDyeHelper dye = ReikaDyeHelper.dyes[i];
 			ItemStack used = DyeOptions.isVanillaDyeMoreCommon() ? dye.getStackOf() : DyeItems.DYE.getStackOfMetadata(i);
+			ItemStack sapling = new ItemStack(DyeBlocks.SAPLING.getBlockID(), 1, i);
+			ItemStack flower = new ItemStack(DyeBlocks.FLOWER.getBlockID(), 1, i);
 			GameRegistry.addRecipe(new ItemStack(DyeBlocks.DYE.getBlockID(), 1, i), "ddd", "ddd", "ddd", 'd', used);
+			GameRegistry.addShapelessRecipe(used, flower);
 			OreDictionary.registerOre(dye.getOreDictName(), DyeItems.DYE.getStackOfMetadata(i));
-			OreDictionary.registerOre("treeSapling", new ItemStack(DyeBlocks.SAPLING.getBlockID(), 1, i));
+			OreDictionary.registerOre("treeSapling", sapling);
+			OreDictionary.registerOre("plant"+dye.colorNameNoSpaces, flower);
+			OreDictionary.registerOre("flower"+dye.colorNameNoSpaces, flower);
 		}
 
 		if (DyeOptions.doesVanillaDyeDrop()) {
