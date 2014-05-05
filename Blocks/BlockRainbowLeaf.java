@@ -105,41 +105,54 @@ public class BlockRainbowLeaf extends BlockCustomLeaf {
 	}
 
 	@Override
+	public final ArrayList<ItemStack> getBlockDropped(World world, int x, int y, int z, int meta, int fortune) {
+		ArrayList<ItemStack> li = new ArrayList();
+		float saplingChance = 0.0125F;
+		float appleChance = 0.1F;
+		float goldAppleChance = 0.025F;
+		float rareGoldAppleChance = 0.0025F;
+
+		saplingChance *= (1+fortune);
+		appleChance *= (1+fortune*5);
+		goldAppleChance *= (1+fortune*3);
+		rareGoldAppleChance *= (1+fortune*3);
+
+		if (ReikaRandomHelper.doWithChance(saplingChance))
+			li.add(new ItemStack(DyeBlocks.RAINBOWSAPLING.getBlockID(), 1, meta));
+		if (ReikaRandomHelper.doWithChance(appleChance))
+			li.add(new ItemStack(Item.appleRed, 1, 0));
+		if (ReikaRandomHelper.doWithChance(goldAppleChance))
+			li.add(new ItemStack(Item.appleGold, 1, 0));
+		if (ReikaRandomHelper.doWithChance(rareGoldAppleChance))
+			li.add(new ItemStack(Item.appleGold, 1, 1));
+		li.addAll(this.getDyes(world, x, y, z, fortune));
+		return li;
+	}
+
+	@Override
 	public final void dropBlockAsItemWithChance(World world, int x, int y, int z, int metadata, float chance, int fortune)
 	{
 		if (!world.isRemote) {
-			float saplingChance = 0.0125F;
-			float appleChance = 0.1F;
-			float goldAppleChance = 0.025F;
-			float rareGoldAppleChance = 0.0025F;
-
-			saplingChance *= (1+fortune);
-			appleChance *= (1+fortune*5);
-			goldAppleChance *= (1+fortune*3);
-			rareGoldAppleChance *= (1+fortune*3);
-
-			if (ReikaRandomHelper.doWithChance(saplingChance))
-				this.dropBlockAsItem_do(world, x, y, z, new ItemStack(DyeBlocks.RAINBOWSAPLING.getBlockID(), 1, metadata));
-			if (ReikaRandomHelper.doWithChance(appleChance))
-				this.dropBlockAsItem_do(world, x, y, z, new ItemStack(Item.appleRed, 1, 0));
-			if (ReikaRandomHelper.doWithChance(goldAppleChance))
-				this.dropBlockAsItem_do(world, x, y, z, new ItemStack(Item.appleGold, 1, 0));
-			if (ReikaRandomHelper.doWithChance(rareGoldAppleChance))
-				this.dropBlockAsItem_do(world, x, y, z, new ItemStack(Item.appleGold, 1, 1));
-			this.dropDye(world, x, y, z, fortune);
+			ArrayList<ItemStack> li = this.getBlockDropped(world, x, y, z, metadata, fortune);
+			for (int i = 0; i < li.size(); i++) {
+				if (chance >= 1 || ReikaRandomHelper.doWithChance(chance))
+					this.dropBlockAsItem_do(world, x, y, z, li.get(i));
+			}
 		}
 	}
 
-	private final void dropDye(World world, int x, int y, int z, int fortune) {
+	private final ArrayList<ItemStack> getDyes(World world, int x, int y, int z, int fortune) {
 		int drop = this.getDyeDropCount(fortune);
+		ArrayList<ItemStack> li = new ArrayList();
 		for (int i = 0; i < drop; i++) {
 			if (ReikaRandomHelper.doWithChance(DyeOptions.DYEFRAC.getValue())) {
-				this.dropBlockAsItem_do(world, x, y, z, new ItemStack(Item.dyePowder.itemID, 1, rand.nextInt(16)));
+				li.add(new ItemStack(Item.dyePowder.itemID, 1, rand.nextInt(16)));
 			}
 			else {
-				this.dropBlockAsItem_do(world, x, y, z, new ItemStack(DyeItems.DYE.getShiftedItemID(), 1, rand.nextInt(16)));
+				li.add(new ItemStack(DyeItems.DYE.getShiftedItemID(), 1, rand.nextInt(16)));
 			}
 		}
+		return li;
 	}
 
 	private int getDyeDropCount(int fortune) {
