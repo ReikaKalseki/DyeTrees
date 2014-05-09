@@ -9,6 +9,7 @@
  ******************************************************************************/
 package Reika.DyeTrees.Blocks;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockFlower;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.world.IBlockAccess;
@@ -22,6 +23,7 @@ public class BlockDyeFlower extends BlockFlower {
 	public BlockDyeFlower(int par1) {
 		super(par1);
 		this.setCreativeTab(DyeTrees.dyeTreeTab);
+		this.setStepSound(Block.soundGrassFootstep);
 	}
 
 	@Override

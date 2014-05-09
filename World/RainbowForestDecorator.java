@@ -17,6 +17,7 @@ import static net.minecraftforge.event.terraingen.DecorateBiomeEvent.Decorate.Ev
 import static net.minecraftforge.event.terraingen.DecorateBiomeEvent.Decorate.EventType.SAND;
 import static net.minecraftforge.event.terraingen.DecorateBiomeEvent.Decorate.EventType.SAND_PASS2;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockFluid;
 import net.minecraft.world.biome.BiomeDecorator;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.gen.feature.WorldGenLiquids;
@@ -24,6 +25,7 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
 import net.minecraftforge.event.terraingen.TerrainGen;
+import net.minecraftforge.fluids.BlockFluidBase;
 import Reika.DragonAPI.ModList;
 import Reika.DragonAPI.Libraries.World.ReikaWorldHelper;
 import Reika.DragonAPI.ModInteract.ThaumBlockHandler;
@@ -83,10 +85,14 @@ public class RainbowForestDecorator extends BiomeDecorator {
 			int x = chunk_X + randomGenerator.nextInt(16)+8;
 			int z = chunk_Z + randomGenerator.nextInt(16)+8;
 			int y = currentWorld.getTopSolidOrLiquidBlock(x, z);
-			if (ReikaWorldHelper.softBlocks(currentWorld, x, y, z)) {
-				if (y < 128 && randomGenerator.nextInt((128-y)/16) > 0)
-					if (DyeBlocks.FLOWER.getBlockInstance().canBlockStay(currentWorld, x, y, z))
-						currentWorld.setBlock(x, y, z, DyeBlocks.FLOWER.getBlockID(), randomGenerator.nextInt(16), 3);
+			int id = currentWorld.getBlockId(x, y, z);
+			Block b = Block.blocksList[id];
+			if (!(b instanceof BlockFluid || b instanceof BlockFluidBase)) {
+				if (ReikaWorldHelper.softBlocks(currentWorld, x, y, z)) {
+					if (y < 128 && randomGenerator.nextInt(1+(128-y)/16) > 0)
+						if (DyeBlocks.FLOWER.getBlockInstance().canBlockStay(currentWorld, x, y, z))
+							currentWorld.setBlock(x, y, z, DyeBlocks.FLOWER.getBlockID(), randomGenerator.nextInt(16), 3);
+				}
 			}
 		}
 	}
