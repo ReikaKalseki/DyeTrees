@@ -17,16 +17,21 @@ public class TreeGetter {
 	private static Class dyeTreeBlocks;
 	private static Block[] dyeBlocks;
 
+	public static final int LEAF_INDEX = 0;
+	public static final int SAPLING_INDEX = 1;
+	public static final int NATURAL_LEAF_INDEX = 2;
+	public static final int RAINBOW_LEAF_INDEX = 4;
+
 	public static boolean isDyeLeaf(ItemStack block) {
-		return block.itemID == dyeBlocks[0].blockID;
+		return block.itemID == dyeBlocks[LEAF_INDEX].blockID;
 	}
 
 	public static boolean isDyeSapling(ItemStack block) {
-		return block.itemID == dyeBlocks[1].blockID;
+		return block.itemID == dyeBlocks[SAPLING_INDEX].blockID;
 	}
 
 	public static ItemStack getDyeSapling(int dyeMeta) {
-		return new ItemStack(dyeBlocks[1].blockID, 1, dyeMeta);
+		return new ItemStack(dyeBlocks[SAPLING_INDEX].blockID, 1, dyeMeta);
 	}
 
 	public static ItemStack getHeldDyeLeaf(int dyeMeta) {
@@ -38,19 +43,19 @@ public class TreeGetter {
 	}
 
 	public static int getHeldDyeLeafID() {
-		return dyeBlocks[0].blockID;
+		return dyeBlocks[LEAF_INDEX].blockID;
 	}
 
 	public static int getNaturalDyeLeafID() {
-		return dyeBlocks[2].blockID;
+		return dyeBlocks[NATURAL_LEAF_INDEX].blockID;
 	}
 
 	public static int getRainbowLeafID() {
-		return dyeBlocks[4].blockID;
+		return dyeBlocks[RAINBOW_LEAF_INDEX].blockID;
 	}
 
 	public static int getSaplingID() {
-		return dyeBlocks[1].blockID;
+		return dyeBlocks[SAPLING_INDEX].blockID;
 	}
 
 	static {
