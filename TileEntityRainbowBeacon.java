@@ -94,4 +94,9 @@ public class TileEntityRainbowBeacon extends TileEntityBase {
 		return 0;
 	}
 
+	@Override
+	public final boolean hasModel() {
+		return false;
+	}
+
 }
