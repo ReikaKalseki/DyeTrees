@@ -32,6 +32,7 @@ import Reika.DragonAPI.DragonAPICore;
 import Reika.DragonAPI.ModList;
 import Reika.DragonAPI.Auxiliary.BiomeCollisionTracker;
 import Reika.DragonAPI.Auxiliary.RetroGenController;
+import Reika.DragonAPI.Auxiliary.SuggestedModsTracker;
 import Reika.DragonAPI.Base.DragonAPIMod;
 import Reika.DragonAPI.Instantiable.IO.ModLogger;
 import Reika.DragonAPI.Libraries.ReikaRegistryHelper;
@@ -150,6 +151,8 @@ public class DyeTrees extends DragonAPIMod {
 		this.addCompat();
 
 		ATGBiomes.addBiome(BiomeType.LAND, "Forest", forest, 1.0);
+
+		SuggestedModsTracker.instance.addSuggestedMod(instance, ModList.THAUMCRAFT, "Worldgen integration");
 	}
 
 	private Object[] getIntercraft(ReikaDyeHelper dye) {
