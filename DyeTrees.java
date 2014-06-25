@@ -31,6 +31,7 @@ import ttftcuts.atg.api.ATGBiomes.BiomeType;
 import Reika.DragonAPI.DragonAPICore;
 import Reika.DragonAPI.ModList;
 import Reika.DragonAPI.Auxiliary.BiomeCollisionTracker;
+import Reika.DragonAPI.Auxiliary.CommandableUpdateChecker;
 import Reika.DragonAPI.Auxiliary.RetroGenController;
 import Reika.DragonAPI.Auxiliary.SuggestedModsTracker;
 import Reika.DragonAPI.Base.DragonAPIMod;
@@ -87,10 +88,9 @@ public class DyeTrees extends DragonAPIMod {
 		config.initProps(evt);
 		logger = new ModLogger(instance, DyeOptions.LOGLOADING.getState(), DyeOptions.DEBUGMODE.getState(), false);
 
-		ReikaRegistryHelper.setupModData(instance, evt);
-		ReikaRegistryHelper.setupVersionChecking(evt);
-
 		BiomeCollisionTracker.instance.addBiomeID(instance, DyeOptions.BIOMEID.getValue(), BiomeRainbowForest.class);
+
+		this.basicSetup(evt);
 	}
 
 	@Override
@@ -258,27 +258,17 @@ public class DyeTrees extends DragonAPIMod {
 
 	@Override
 	public URL getDocumentationSite() {
-		return DragonAPICore.getReikaForumPage(instance);
+		return DragonAPICore.getReikaForumPage();
 	}
 
 	@Override
-	public boolean hasWiki() {
-		return false;
-	}
-
-	@Override
-	public URL getWiki() {
+	public String getWiki() {
 		return null;
 	}
 
 	@Override
-	public boolean hasVersion() {
-		return false;
-	}
-
-	@Override
-	public String getVersionName() {
-		return null;
+	public String getUpdateCheckURL() {
+		return CommandableUpdateChecker.reikaURL;
 	}
 
 	@Override
