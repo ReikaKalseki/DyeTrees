@@ -238,6 +238,27 @@ public class DyeTrees extends DragonAPIMod {
 			};
 			ReikaThaumHelper.addAspects(DyeBlocks.RAINBOW.getBlockInstance(), asp);
 			ReikaThaumHelper.addAspects(DyeBlocks.RAINBOWSAPLING.getBlockInstance(), asp);
+
+			Aspect[] flowers = {
+					Aspect.DARKNESS,
+					Aspect.EXCHANGE,
+					Aspect.SLIME,
+					Aspect.BEAST,
+					Aspect.WATER,
+					Aspect.TAINT,
+					Aspect.MOTION,
+					Aspect.SOUL,
+					Aspect.ENTROPY,
+					Aspect.FLESH,
+					Aspect.SLIME,
+					Aspect.GREED,
+					Aspect.ICE,
+					Aspect.MAGIC,
+					Aspect.FIRE,
+					Aspect.ORDER
+			};
+			for (int i = 0; i < 16; i++)
+				ReikaThaumHelper.addAspects(DyeBlocks.FLOWER.getBlockID(), i, flowers[i], 1, Aspect.PLANT, 2);
 		}
 	}
 
