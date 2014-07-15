@@ -31,13 +31,13 @@ import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent.CheckSpawn;
 import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
-import Reika.DragonAPI.Libraries.ReikaEntityHelper;
 import Reika.DragonAPI.Libraries.Java.ReikaRandomHelper;
 import Reika.DragonAPI.Libraries.Registry.ReikaItemHelper;
 import Reika.DyeTrees.Blocks.BlockDyeSapling;
 import Reika.DyeTrees.Blocks.BlockRainbowSapling;
 import Reika.DyeTrees.Registry.DyeBlocks;
 import Reika.DyeTrees.Registry.DyeOptions;
+import Reika.DyeTrees.World.BiomeRainbowForest;
 
 public class DyeEventController {
 
@@ -127,15 +127,26 @@ public class DyeEventController {
 		EntityLivingBase e = ev.entityLiving;
 		BiomeGenBase b = world.getBiomeGenForCoords(x, z);
 		if (DyeTrees.isRainbowForest(b)) {
-			if (e instanceof EntitySlime) {
-				EntitySlime es = (EntitySlime)e;
-				ev.setResult(es.getSlimeSize() > 1 ? Result.DENY : Result.DEFAULT);
-			}
-			else if (ReikaEntityHelper.isHostile(e)) {
-				ev.setResult(Result.DENY);
-			}
+			ev.setResult(BiomeRainbowForest.isMobAllowed(e) ? Result.DEFAULT : Result.DENY);
 		}
 		//ReikaJavaLibrary.pConsole(b.biomeName+":"+e.getEntityName()+":"+ReikaEntityHelper.isHostile(e)+":"+ev.getResult());
+	}
+
+	@ForgeSubscribe
+	public void killSpawns(LivingSpawnEvent ev) {
+		World world = ev.world;
+		if (world.isRemote)
+			return;
+		int x = (int)Math.floor(ev.x);
+		int y = (int)Math.floor(ev.y);
+		int z = (int)Math.floor(ev.z);
+		EntityLivingBase e = ev.entityLiving;
+		BiomeGenBase b = world.getBiomeGenForCoords(x, z);
+		if (DyeTrees.isRainbowForest(b)) {
+			if (!BiomeRainbowForest.isMobAllowed(e)) {
+				e.setDead();
+			}
+		}
 	}
 
 	@ForgeSubscribe

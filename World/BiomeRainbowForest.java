@@ -13,6 +13,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
 
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.passive.EntityCow;
@@ -26,6 +27,7 @@ import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.SpawnListEntry;
 import Reika.DragonAPI.ModList;
 import Reika.DragonAPI.Instantiable.ModSpawnEntry;
+import Reika.DragonAPI.Libraries.ReikaEntityHelper;
 import Reika.DragonAPI.Libraries.IO.ReikaColorAPI;
 import Reika.DragonAPI.Libraries.Registry.ReikaDyeHelper;
 import Reika.DyeTrees.Registry.DyeOptions;
@@ -75,7 +77,6 @@ public class BiomeRainbowForest extends BiomeGenBase {
 
 		this.addModEntities();
 	}
-
 
 	private void addModEntities() {
 		for (int i = 0; i < classes.size(); i++) {
@@ -152,6 +153,19 @@ public class BiomeRainbowForest extends BiomeGenBase {
 	public int getWaterColorMultiplier()
 	{
 		return waterColor;
+	}
+
+	public static boolean isMobAllowed(EntityLivingBase e) {
+		if (e instanceof EntitySlime) {
+			EntitySlime es = (EntitySlime)e;
+			return es.getSlimeSize() <= 1;
+		}
+		else if (ReikaEntityHelper.isHostile(e)) {
+			return false;
+		}
+		else {
+			return true;
+		}
 	}
 
 	static {

@@ -17,8 +17,6 @@ import Reika.DyeTrees.DyeTrees;
 
 public enum DyeOptions implements ConfigList {
 
-	LOGLOADING("Console Loading Info", true),
-	DEBUGMODE("Debug Mode", false),
 	NORMAL("Generate Dye Trees in Normal Biomes", true),
 	RETROGEN("Retrogen Trees", false),
 	BIOMEID("Rainbow Forest Biome ID", 48),
@@ -29,7 +27,8 @@ public enum DyeOptions implements ConfigList {
 	DENSITY("Dye Tree Density in Normal Biomes", 2),
 	GENRAINBOW("Generate Rainbow Trees", true),
 	DYEFRAC("Vanilla Dye Drop Percentage", 100),
-	ANIMALSPAWN("Rainbow Forest Animal Density", 6);
+	ANIMALSPAWN("Rainbow Forest Animal Density", 6),
+	RAINBOWSPREAD("Rainbow Trees Spead Rainbow Forests", true);
 
 	private String label;
 	private boolean defaultState;

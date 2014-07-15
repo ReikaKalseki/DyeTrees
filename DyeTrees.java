@@ -86,7 +86,7 @@ public class DyeTrees extends DragonAPIMod {
 
 		config.loadSubfolderedConfigFile(evt);
 		config.initProps(evt);
-		logger = new ModLogger(instance, DyeOptions.LOGLOADING.getState(), DyeOptions.DEBUGMODE.getState(), false);
+		logger = new ModLogger(instance, false);
 
 		BiomeCollisionTracker.instance.addBiomeID(instance, DyeOptions.BIOMEID.getValue(), BiomeRainbowForest.class);
 

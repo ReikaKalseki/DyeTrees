@@ -263,6 +263,8 @@ public class BlockRainbowLeaf extends BlockCustomLeaf {
 				if (rand.nextInt(10) == 0)
 					this.fightDecay(world, x, y, z);
 			}
+			if (DyeOptions.RAINBOWSPREAD.getState() && rand.nextInt(50) == 0)
+				this.convertToRainbowForest(world, x, y, z);
 		}
 	}
 
@@ -355,6 +357,26 @@ public class BlockRainbowLeaf extends BlockCustomLeaf {
 						if (natural != null) {
 							ReikaWorldHelper.setBiomeForXZ(world, dx, dz, natural);
 						}
+					}
+				}
+			}
+		}
+	}
+
+	private void convertToRainbowForest(World world, int x, int y, int z) {
+		int rx = ReikaRandomHelper.getRandomPlusMinus(x, 32);
+		int rz = ReikaRandomHelper.getRandomPlusMinus(z, 32);
+
+		if (world.checkChunksExist(rx, 0, rz, rx, 255, rz)) {
+			int r = 3;
+			for (int i = -r; i <= r; i++) {
+				for (int k = -r; k <= r; k++) {
+					int dx = rx+i;
+					int dz = rz+k;
+					BiomeGenBase biome = world.getBiomeGenForCoords(dx, dz);
+					int id = biome.biomeID;
+					if (id != DyeTrees.forest.biomeID) {
+						ReikaWorldHelper.setBiomeForXZ(world, dx, dz, DyeTrees.forest);
 					}
 				}
 			}
