@@ -46,6 +46,8 @@ import Reika.DyeTrees.Registry.DyeOptions;
 import Reika.DyeTrees.World.BiomeRainbowForest;
 import Reika.DyeTrees.World.ColorTreeGenerator;
 import Reika.DyeTrees.World.RetroDyeTreeGen;
+import Reika.GeoStrata.Registry.RockShapes;
+import Reika.GeoStrata.Registry.RockTypes;
 import Reika.RotaryCraft.API.BlockColorInterface;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
@@ -209,6 +211,11 @@ public class DyeTrees extends DragonAPIMod {
 				BlockColorInterface.addGPRBlockColor(DyeBlocks.DYE.getBlockID(), i, dye.color);
 				BlockColorInterface.addGPRBlockColor(DyeBlocks.SAPLING.getBlockID(), i, dye.color);
 			}
+		}
+
+		for (int i = 0; i < ReikaDyeHelper.dyes.length; i++) {
+			ItemStack is = new ItemStack(DyeBlocks.DYE.getBlockID(), 1, i);
+			FMLInterModComms.sendMessage("ForgeMicroblock", "microMaterial", is);
 		}
 	}
 

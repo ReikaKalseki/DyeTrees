@@ -42,13 +42,13 @@ public class ItemBlockDyeSapling extends ItemBlock {
 	@SideOnly(Side.CLIENT)
 	public int getColorFromItemStack(ItemStack is, int par2)
 	{
-		return ReikaDyeHelper.getColorFromItem(is).getJavaColor().brighter().getRGB();
+		return ReikaDyeHelper.getColorFromDamage(is.getItemDamage()).getJavaColor().brighter().getRGB();
 	}
 
 	@Override
 	public String getItemDisplayName(ItemStack is)
 	{
-		return ReikaDyeHelper.getColorFromItem(is).colorName+" Sapling";
+		return ReikaDyeHelper.getColorFromDamage(is.getItemDamage()).colorName+" Sapling";
 	}
 
 }

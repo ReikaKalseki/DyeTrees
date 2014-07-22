@@ -41,14 +41,14 @@ public class ItemBlockDyeFlower extends ItemBlock {
 	@Override
 	public String getItemDisplayName(ItemStack is)
 	{
-		return ReikaDyeHelper.getColorFromItem(is).colorName+" Flower";
+		return ReikaDyeHelper.getColorFromDamage(is.getItemDamage()).colorName+" Flower";
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public int getColorFromItemStack(ItemStack is, int par2)
 	{
-		return ReikaDyeHelper.dyes[is.getItemDamage()].getJavaColor().brighter().getRGB();
+		return ReikaDyeHelper.getColorFromDamage(is.getItemDamage()).getJavaColor().brighter().getRGB();
 	}
 
 }

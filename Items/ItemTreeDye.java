@@ -44,7 +44,7 @@ public class ItemTreeDye extends Item { //ore dict and usages!!
 	@Override
 	public int getColorFromItemStack(ItemStack is, int par2)
 	{
-		return ReikaDyeHelper.getColorFromItem(is).getJavaColor().brighter().getRGB();
+		return ReikaDyeHelper.getColorFromDamage(is.getItemDamage()).getJavaColor().brighter().getRGB();
 	}
 
 	@Override
@@ -56,7 +56,7 @@ public class ItemTreeDye extends Item { //ore dict and usages!!
 	@Override
 	public String getItemDisplayName(ItemStack is)
 	{
-		return ReikaDyeHelper.getColorFromItem(is).colorName+" Tree Dye";
+		return ReikaDyeHelper.getColorFromDamage(is.getItemDamage()).colorName+" Tree Dye";
 	}
 
 }

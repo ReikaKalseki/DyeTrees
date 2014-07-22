@@ -39,7 +39,7 @@ public class ItemBlockDyeBlock extends ItemBlock {
 	@Override
 	public String getItemDisplayName(ItemStack is)
 	{
-		return ReikaDyeHelper.getColorFromItem(is).colorName+" Dye Block";
+		return ReikaDyeHelper.getColorFromDamage(is.getItemDamage()).colorName+" Dye Block";
 	}
 
 }
