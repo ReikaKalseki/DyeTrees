@@ -46,8 +46,6 @@ import Reika.DyeTrees.Registry.DyeOptions;
 import Reika.DyeTrees.World.BiomeRainbowForest;
 import Reika.DyeTrees.World.ColorTreeGenerator;
 import Reika.DyeTrees.World.RetroDyeTreeGen;
-import Reika.GeoStrata.Registry.RockShapes;
-import Reika.GeoStrata.Registry.RockTypes;
 import Reika.RotaryCraft.API.BlockColorInterface;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
@@ -248,8 +246,8 @@ public class DyeTrees extends DragonAPIMod {
 
 			Aspect[] flowers = {
 					Aspect.DARKNESS,
-					Aspect.EXCHANGE,
-					Aspect.SLIME,
+					Aspect.LIFE,
+					Aspect.POISON,
 					Aspect.BEAST,
 					Aspect.WATER,
 					Aspect.TAINT,
