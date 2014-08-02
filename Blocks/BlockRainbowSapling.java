@@ -23,6 +23,7 @@ import net.minecraft.world.World;
 import Reika.DragonAPI.Libraries.Registry.ReikaDyeHelper;
 import Reika.DragonAPI.Libraries.Registry.ReikaItemHelper;
 import Reika.DragonAPI.Libraries.Registry.ReikaPlantHelper;
+import Reika.DragonAPI.Libraries.World.ReikaWorldHelper;
 import Reika.DyeTrees.DyeTrees;
 import Reika.DyeTrees.Registry.DyeBlocks;
 import Reika.DyeTrees.World.RainbowTreeGenerator;
@@ -94,7 +95,7 @@ public class BlockRainbowSapling extends BlockSapling {
 		return 0xffffff;
 	}
 
-	public static boolean canGrowAt(World world, int x, int y, int z) {
+	public boolean canGrowAt(World world, int x, int y, int z) {
 		if (y < 4)
 			return false;
 
@@ -115,6 +116,9 @@ public class BlockRainbowSapling extends BlockSapling {
 				break;
 		}
 		if (!flag)
+			return false;
+
+		if (ReikaWorldHelper.countAdjacentBlocks(world, x, y, z, blockID, true) != 3)
 			return false;
 
 		Block b = Block.blocksList[id];
